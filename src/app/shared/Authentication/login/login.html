@@ -1,0 +1,74 @@
+ <main className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+      {/* Left Side: Khaki background with illustration */}
+      <div className="hidden lg:flex bg-khaki items-center justify-center">
+       
+      </div>
+
+      {/* Right Side: White background with Login Form */}
+      <div className="flex items-center justify-center p-8 bg-white">
+        <div className="w-full max-w-md space-y-8">
+          {/* Logo Section */}
+          <div className="flex flex-col items-center text-center">
+            <div className="relative w-24 h-24 mb-4">
+              {/* Simulated Angkor E6 Logo */}
+              <div className="absolute inset-0 border-4 border-khaki rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-khaki/10 rounded-full flex items-center justify-center">
+                  <span className="text-khaki font-bold text-xs">ANGKOR</span>
+                </div>
+              </div>
+            </div>
+            <h1 className="text-khaki font-bold text-2xl tracking-wide">ANGKOR E6</h1>
+          </div>
+
+          {/* Title Section */}
+          <div className="text-center space-y-2">
+            <h2 className="text-3xl font-bold text-gray-800 leading-tight">ប្រព័ន្ធគ្រប់គ្រងការលក់ផលិតផលខ្មែរ</h2>
+            <p className="text-gray-500 font-medium">សូមស្វាគមន៍!</p>
+          </div>
+
+          {/* Form Section */}
+          <form className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-gray-700 font-medium">
+                ឈ្មោះគណនី <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="បញ្ចូលឈ្មោះគណនី"
+                className="h-12 border-khaki/40 focus-visible:ring-khaki"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-gray-700 font-medium">
+                ពាក្យសម្ងាត់ <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="បញ្ចូលពាក្យសម្ងាត់"
+                className="h-12 border-khaki/40 focus-visible:ring-khaki"
+                required
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-12 bg-khaki hover:bg-khaki-dark text-white text-lg font-medium flex items-center justify-center gap-2 transition-colors"
+            >
+              <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                <ArrowRightIcon className="w-4 h-4" />
+              </div>
+              ចូលប្រើប្រាស់
+            </Button>
+          </form>
+
+          {/* Footer Copyright (Optional but matches standard login patterns) */}
+          <div className="text-center pt-8 text-gray-400 text-sm">
+            © {new Date().getFullYear()} Angkor E6 Management System
+          </div>
+        </div>
+      </div>
+    </main>
