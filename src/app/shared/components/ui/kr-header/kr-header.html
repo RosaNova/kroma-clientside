@@ -1,0 +1,35 @@
+<header class="header bg-gray-100 p-4 border-b">
+  <div class="header-container flex justify-between items-center">
+
+    <!-- Title -->
+    <div class="header-title">
+      <h1 class="text-lg font-bold">{{ title }}</h1>
+      <p class="text-sm text-gray-600">{{ subtitle }}</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="header-actions flex items-center space-x-4">
+
+      <!-- Search -->
+      <div class="search-box flex items-center border rounded p-1 px-2 bg-white">
+        <lucide-angular [img]="Search" class="w-5 h-5 text-gray-400"></lucide-angular>
+        <input type="text" placeholder="ស្វែងរក..." class="ml-2 outline-none text-sm"/>
+      </div>
+
+      <!-- Date -->
+      <div class="date-box flex items-center space-x-1 text-sm text-gray-700">
+        <lucide-angular [img]="Calendar" class="w-5 h-5"></lucide-angular>
+        <span>{{ date }}</span>
+      </div>
+
+      <!-- Notifications -->
+      <button class="notification-btn relative p-2 bg-white rounded border hover:bg-gray-50">
+        <lucide-angular [img]="Bell" class="w-5 h-5"></lucide-angular>
+        <span *ngIf="notificationCount > 0" class="badge absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+          {{ notificationCount }}
+        </span>
+      </button>
+
+    </div>
+  </div>
+</header>

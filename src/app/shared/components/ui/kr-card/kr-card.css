@@ -1,0 +1,3 @@
+.kr-card{ background:#fff; border-radius:8px; padding:1rem; box-shadow:0 1px 4px rgba(0,0,0,.06) }
+.kr-card__title{ font-weight:700; margin-bottom:.5rem }
+.kr-card__body{ color:#374151 }
