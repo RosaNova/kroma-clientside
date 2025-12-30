@@ -1,34 +1,48 @@
-import { DashboardComponent } from '@/app/shared/components/dashboard-component/dashboard-component';
+import { CategoryChart } from '@/app/shared/components/category-chart/category-chart';
+import { KrCard } from '@/app/shared/components/kr-card/kr-card';
+import { RecentOrder } from '@/app/shared/components/recent-order/recent-order';
+import { SaleChart } from '@/app/shared/components/sale-chart/sale-chart';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card';
 import { Component  } from '@angular/core';
-import { LayoutDashboard, Package, ShoppingCart, Users, FileText, Settings, LogOut, ChevronDown, LucideAngularModule } from 'lucide-angular';
-
-interface NavItem {
-  icon: any; 
-  label: string;
-  active?: boolean;
-  hasDropdown?: boolean;
-}
 
 @Component({
   selector: 'app-dashboard',
-  imports: [DashboardComponent , LucideAngularModule],
+  imports: [StatCard , SaleChart , CategoryChart , KrCard , RecentOrder],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
+
 export class Dashboard {
-   navItems: NavItem[] = [
-    { icon: LayoutDashboard, label: 'ផ្ទាំងគ្រប់គ្រង', active: true },
-    { icon: Package, label: 'ផលិតផល', hasDropdown: true },
-    { icon: ShoppingCart, label: 'ការបញ្ជាទិញ', hasDropdown: true },
-    { icon: Users, label: 'អតិថិជន' },
-    { icon: FileText, label: 'របាយការណ៍', hasDropdown: true },
-    { icon: Settings, label: 'ការកំណត់' },
+
+
+  products = [
+    {
+      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30e?w=300&h=300&fit=crop',
+      name: 'នាឡិកាឆ្លាតវៃ',
+      category: 'អេឡិចត្រូនិក',
+      price: '$299.00',
+      stock: 24
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
+      name: 'កាសស្តាប់ត្រចៀក',
+      category: 'អេឡិចត្រូនិក',
+      price: '$199.00',
+      stock: 8
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop',
+      name: 'ស្បែកជើងកីឡា',
+      category: 'សម្លៀកបំពាក់',
+      price: '$129.00',
+      stock: 35
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&h=300&fit=crop',
+      name: 'កាមេរ៉ាឌីជីថល',
+      category: 'អេឡិចត្រូនិក',
+      price: '$599.00',
+      stock: 0
+    }
   ];
- ChevronDown = ChevronDown
- LogOut = LogOut
-user = {
-    name: 'សុខ វណ្ណា',
-    role: 'អ្នកគ្រប់គ្រង',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
-  };
 } 
