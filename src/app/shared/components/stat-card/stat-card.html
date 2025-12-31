@@ -1,1 +1,39 @@
-<p>stat-card works!</p>
+<div
+  class="rounded-xl p-5 relative overflow-hidden"
+  [ngClass]="styles.bg"
+>
+  <div class="flex items-start justify-between">
+    <div>
+      <p class="text-muted-foreground text-sm font-medium mb-1">
+        {{ title }}
+      </p>
+
+      <p class="text-2xl font-bold text-foreground">
+        {{ value }}
+      </p>
+
+      <p
+        class="text-sm mt-2"
+        [ngClass]="isPositive ? 'text-stat-green' : 'text-destructive'"
+      >
+        {{ isPositive ? '↑' : '↓' }} {{ change }}
+      </p>
+    </div>
+
+    <div
+      class="p-3 rounded-xl"
+      [ngClass]="styles.iconBg"
+    >
+      <lucide-angular
+        [img]=icon
+        class="w-6 h-6 text-primary-foreground"
+      />
+    </div>
+  </div>
+
+  <!-- Decorative circle -->
+  <div
+    class="absolute -bottom-8 -right-8 w-24 h-24 opacity-20 rounded-full"
+    [ngClass]="styles.iconBg"
+  ></div>
+</div>

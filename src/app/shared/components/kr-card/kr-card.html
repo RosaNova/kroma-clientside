@@ -1,6 +1,38 @@
-<div class="kr-card">
-  <div *ngIf="title" class="kr-card__title">{{ title }}</div>
-  <div class="kr-card__body">
-    <ng-content></ng-content>
+<div
+  class="bg-card rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
+>
+  <div
+    class="aspect-square rounded-lg overflow-hidden mb-3 bg-secondary"
+  >
+    <img
+      [src]="image"
+      [alt]="name"
+      class="w-full h-full object-cover"
+    />
+  </div>
+
+  <h4
+    class="font-semibold text-card-foreground mb-1 truncate"
+  >
+    {{ name }}
+  </h4>
+
+  <p
+    class="text-sm text-muted-foreground mb-2"
+  >
+    {{ category }}
+  </p>
+
+  <div class="flex items-center justify-between">
+    <span class="font-bold text-primary">
+      {{ price }}
+    </span>
+
+    <span
+      class="text-xs px-2 py-1 rounded-full"
+      [ngClass]="stockClass"
+    >
+      {{ stockLabel }}
+    </span>
   </div>
 </div>

@@ -1,11 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
+
+type ChangeType = 'positive' | 'negative';
+type Variant = 'pink' | 'yellow' | 'green' | 'blue';
 
 @Component({
   selector: 'app-stat-card',
-  imports: [],
+  imports: [LucideAngularModule , CommonModule],
   templateUrl: './stat-card.html',
   styleUrl: './stat-card.css',
 })
 export class StatCard {
+@Input({ required: true }) title!: string;
+  @Input({ required: true }) value!: string;
+  @Input({ required: true }) change!: string;
+  @Input({ required: true }) changeType!: ChangeType;
+  @Input({ required: true }) icon!: any; // Lucide icon reference
+  @Input({ required: true }) variant!: Variant;
 
+  variantStyles: Record<Variant, any> = {
+    pink: {
+      bg: 'bg-stat-pink-light',
+      iconBg: 'bg-stat-pink',
+      text: 'text-stat-pink',
+    },
+    yellow: {
+      bg: 'bg-stat-yellow-light',
+      iconBg: 'bg-stat-yellow',
+      text: 'text-stat-yellow',
+    },
+    green: {
+      bg: 'bg-stat-green-light',
+      iconBg: 'bg-stat-green',
+      text: 'text-stat-green',
+    },
+    blue: {
+      bg: 'bg-stat-blue-light',
+      iconBg: 'bg-stat-blue',
+      text: 'text-stat-blue',
+    },
+  };
+
+  get styles() {
+    return this.variantStyles[this.variant];
+  }
+
+  get isPositive() {
+    return this.changeType === 'positive';
+  }
 }

@@ -1,5 +1,4 @@
 <div class="p-6 space-y-6">
-
       <!-- Stats -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <app-stat-card
@@ -7,7 +6,7 @@
           value="$45,231"
           change="12.5% ពីខែមុន"
           changeType="positive"
-          icon="DollarSign"
+          [icon]="DollarSign"
           variant="pink"
         />
 
@@ -16,7 +15,7 @@
           value="1,234"
           change="8.2% ពីខែមុន"
           changeType="positive"
-          icon="ShoppingBag"
+          [icon]="ShoppingBag"
           variant="yellow"
         />
 
@@ -25,7 +24,7 @@
           value="5,678"
           change="3.1% ពីខែមុន"
           changeType="positive"
-          icon="Users"
+          [icon]="Users"
           variant="green"
         />
 
@@ -34,7 +33,7 @@
           value="23.5%"
           change="2.4% ពីខែមុន"
           changeType="negative"
-          icon="TrendingUp"
+          [icon]="TrendingUp"
           variant="blue"
         />
       </div>
@@ -56,12 +55,17 @@
           </button>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        
           <kr-card
-            *ngFor="let product of products"
-            [product]="product"
-          />
-        </div>
+        *ngFor="let product of products"
+        [image]="product.image"
+        [name]="product.name"
+        [category]="product.category"
+        [price]="product.price"
+        [stock]="product.stock"
+      />
+    </div>
       </div>
 
       <!-- Orders -->
