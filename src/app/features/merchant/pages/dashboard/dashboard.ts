@@ -3,19 +3,22 @@ import { KrCard } from '@/app/shared/components/kr-card/kr-card';
 import { RecentOrder } from '@/app/shared/components/recent-order/recent-order';
 import { SaleChart } from '@/app/shared/components/sale-chart/sale-chart';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card';
+import { CommonModule } from '@angular/common';
 import { Component  } from '@angular/core';
-
+import { LucideAngularModule,DollarSign ,Users, ShoppingBag ,TrendingUp} from 'lucide-angular';
 @Component({
   selector: 'app-dashboard',
-  imports: [StatCard , SaleChart , CategoryChart , KrCard , RecentOrder],
+  imports: [LucideAngularModule,CommonModule,StatCard , SaleChart , CategoryChart , KrCard , RecentOrder],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
 
 export class Dashboard {
-
-
-  products = [
+DollarSign = DollarSign;
+ShoppingBag = ShoppingBag;
+Users = Users;
+TrendingUp = TrendingUp;
+ products  = [
     {
       image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30e?w=300&h=300&fit=crop',
       name: 'នាឡិកាឆ្លាតវៃ',
