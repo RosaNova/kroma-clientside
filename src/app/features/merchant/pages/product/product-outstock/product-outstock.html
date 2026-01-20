@@ -1,0 +1,167 @@
+<div class="p-6">
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div
+      *ngFor="let card of statCards"
+      class="border-2 rounded-2xl p-5 flex items-center gap-4 hover:shadow-md"
+      [ngClass]="variantClass(card.variant)"
+    >
+      <lucide-icon [img]="card.icon" class="w-10 h-10"></lucide-icon>
+
+      <div>
+        <div class="leading-tight text-foreground/80 font-medium">
+          <div>{{ card.title }}</div>
+          <div>{{ card.subtitle }}</div>
+        </div>
+        <div class="font-bold text-xl mt-1 text-foreground">
+          {{ card.value }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="bg-card border-gray-300 rounded-2xl border shadow-sm overflow-hidden">
+
+    <!-- Header -->
+    <div class="p-5 border-b  flex flex-col sm:flex-row justify-between gap-4">
+      <h2 class="text-lg text-black font-bold">តារាងបង្ហាញពីផលិតផលអស់ស្តុក</h2>
+
+      <div class="flex gap-3">
+        <div class="relative">
+          <lucide-icon
+            [img]="icons.Search"
+            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+          ></lucide-icon>
+
+          <input
+            type="text"
+            class="pl-9 h-9 w-48 rounded-lg bg-muted/50 border"
+            placeholder="ស្វែងរកទិន្នន័យ..."
+            (input)="searchTerm.set($any($event.target).value)"
+          />
+        </div>
+
+        <button class="h-9 px-4 rounded-lg bg-primary text-white flex items-center gap-2">
+          <lucide-icon [img]="icons.Plus" class="w-4 h-4"></lucide-icon>
+          បន្ថែមថ្មី
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto ">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-200/30 text-black border-y border-gray-400/50">
+          <tr>
+            <th class="p-4 text-left">លេខសម្គាល់</th>
+            <th class="p-4 text-left">រូបភាព</th>
+            <th class="p-4 text-left">ប្រភេទផលិតផល</th>
+            <th class="p-4 text-left">ស្តុកផលិតផល</th>
+            <th class="p-4 text-left">បច្ចុប្បន្នភាព</th>
+            <th class="p-4 text-left">ស្ថានភាព</th>
+            <th class="p-4 text-right">សកម្មភាព</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let product of filteredProducts()"
+            class="border-b text-gray-600 hover:bg-muted/20"
+          >
+            <td class="p-4 font-medium">{{ product.id }}</td>
+
+            <td class="p-4">
+              <img
+                [src]="product.image"
+                class="w-12 h-12 rounded-lg object-cover border"
+              />
+            </td>
+
+            <td class="p-4">{{ product.category }}</td>
+            <td class="p-4">{{ product.location }}</td>
+            <td class="p-4">{{ product.lastUpdated }}</td>
+
+            <td class="p-4">
+              <span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-xs">
+                {{ product.status }}
+              </span>
+            </td>
+
+            <td class="p-4 text-right space-x-2">
+              <button class="h-7 px-2 text-xs bg-rose-50 text-rose-600 rounded">
+                បន្ថែមស្តុក
+              </button>
+              <button class="h-7 px-3 text-xs bg-emerald-500 text-white rounded">
+                កែសម្រួល
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <!-- Pagination -->
+<div class="p-4 text-black  flex items-center justify-end gap-4">
+
+  <!-- First / Previous -->
+  <div class="flex  items-center gap-2">
+    <button
+      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+      (click)="goToFirst()"
+      [disabled]="currentPage() === 1"
+    >
+      <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
+    </button>
+
+    <button
+      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+      (click)="prev()"
+      [disabled]="currentPage() === 1"
+    >
+      <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
+    </button>
+  </div>
+
+  <!-- Page info -->
+  <div class="flex items-center gap-3">
+    <select class="select select-neutral  bg-white border "
+    [value]="itemsPerPage()"
+      (change)="changeItemsPerPage($any($event.target).value)"
+    >
+     <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+   </select>
+
+    <span class="text-sm text-muted-foreground">
+      {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
+    </span>
+  </div>
+
+  <!-- Next / Last -->
+  <div class="flex items-center gap-2">
+    <button
+      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+      (click)="next()"
+      [disabled]="currentPage() === totalPages()"
+    >
+      <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
+    </button>
+
+    <button
+      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+      (click)="goToLast()"
+      [disabled]="currentPage() === totalPages()"
+    >
+      <lucide-angular  [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
+    </button>
+  </div>
+
+</div>
+
+
+  </div>
+</div>

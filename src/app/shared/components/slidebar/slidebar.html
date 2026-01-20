@@ -13,21 +13,48 @@
   </div>
 
   <!-- Navigation -->
-  <nav class="flex-1 px-4 space-y-1">
-    <div 
-      *ngFor="let item of navbar"
-      class="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-colors"
-      [ngClass]="{
-        'bg-sidebar-primary text-sidebar-primary-foreground': item.active,
-        'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground': !item.active
-      }"
-    >
-      <lucide-angular [img]="item.icon"></lucide-angular>
-      <span class="flex-1 font-medium">{{ item.label }}</span>
-      <ng-container *ngIf="item.hasDropdown">
-        <lucide-angular [img]="ChevronDown"></lucide-angular>
-      </ng-container>
-    </div>
+  <nav class="flex-1 px-4 space-y-1 ">
+ <div *ngFor="let item of navbar">
+  <!-- Parent item -->
+  <div
+   [routerLink]="item.route"
+   class="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
+  [class.active]="isParentActive(item)"
+   routerLinkActive = "bg-sidebar-primary text-sidebar-primary-foreground"
+  (click)="onParentClick(item)"
+>
+  <lucide-angular *ngIf="item.icon" [img]="item.icon"></lucide-angular>
+
+  <span class="flex-1 font-medium">{{ item.label }}</span>
+
+  <lucide-angular
+    *ngIf="item.children"
+    [img]="item.isOpen ? ChevronDown : ChevronRight"
+    class="w-4 h-4"
+  ></lucide-angular>
+</div>
+
+  <!-- Sub menu -->
+  <div
+    *ngIf="item.children && item.isOpen"
+    class="ml-6 bg-gray-800  rounded-[10px] mt-1 space-y-1"
+  >
+   <a
+  *ngFor="let child of item.children"
+  [routerLink]="child.route"
+  routerLinkActive="active bg-sidebar-primary text-sidebar-foreground"
+  [routerLinkActiveOptions]="{ exact: true }"
+  class="flex rounded-xl duration-300 items-center gap-2 px-4 py-2 text-sm
+         text-sidebar-foreground/60 hover:text-sidebar-foreground
+         cursor-pointer hover:bg-sidebar-accent transition-colors"
+>
+  <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+  <span>{{ child.label }}</span>
+</a>
+
+  </div>
+</div>
+
   </nav>
 
   <!-- User Profile -->

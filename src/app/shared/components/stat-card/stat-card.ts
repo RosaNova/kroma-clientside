@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 
 type ChangeType = 'positive' | 'negative';
-type Variant = 'pink' | 'yellow' | 'green' | 'blue';
+type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
 
 @Component({
   selector: 'app-stat-card',
@@ -14,8 +14,8 @@ type Variant = 'pink' | 'yellow' | 'green' | 'blue';
 export class StatCard {
 @Input({ required: true }) title!: string;
   @Input({ required: true }) value!: string;
-  @Input({ required: true }) change!: string;
-  @Input({ required: true }) changeType!: ChangeType;
+  @Input({ required: false }) change!: string;
+  @Input({ required: false }) changeType!: ChangeType;
   @Input({ required: true }) icon!: any; // Lucide icon reference
   @Input({ required: true }) variant!: Variant;
 
@@ -40,6 +40,11 @@ export class StatCard {
       iconBg: 'bg-stat-blue',
       text: 'text-stat-blue',
     },
+    purple :{
+       bg: 'bg-green-300',
+      iconBg: 'bg-green-600',
+      text: 'text-green-700',
+    }
   };
 
   get styles() {

@@ -1,4 +1,4 @@
-<header class="header bg-gray-100 p-4 border-b border-gray-200">
+<header class="header bg-gray-100 p-4 text-black border-b border-gray-200">
   <div class="header-container flex justify-between items-center">
 
     <!-- Title -->
@@ -11,9 +11,9 @@
     <div class="header-actions flex items-center space-x-4">
 
       <!-- Search -->
-      <div class="search-box flex items-center  px-5 bg-gray-300 py-2 rounded-2xl">
-        <lucide-angular [img]="Search" class="w-5 h-5 text-gray-400"></lucide-angular>
-        <input type="text" placeholder="ស្វែងរក..." class="ml-2  outline-none text-sm"/>
+      <div class="relative">
+        <lucide-angular [img]="Search" class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-angular>
+        <input type="text" placeholder="ស្វែងរក..." class="bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"/>
       </div>
 
       <!-- Date -->

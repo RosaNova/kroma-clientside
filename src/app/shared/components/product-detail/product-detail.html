@@ -1,0 +1,107 @@
+<div class="p-6">
+  <!-- Header -->
+  <div class="flex text-black items-center pb-5 gap-4">
+    <button
+      type="button"
+      (click)="handleBack()"
+      class="rounded-full p-2 hover:bg-gray-200 cursor-pointer"
+    >
+      <lucide-angular [img]="ArrowLeft" class=" text-black h-5 w-5"></lucide-angular>
+    </button>
+
+    <h1 class="text-2xl font-bold text-foreground">
+      ព័ត៌មានលម្អិតរបស់ទំនិញ
+    </h1>
+  </div>
+
+  <!-- Main Content -->
+  <div class="bg-card rounded-2xl border border-gray-300 overflow-hidden">
+    <div class="grid md:grid-cols-2">
+      <!-- Product Image -->
+      <div
+        class="relative p-10 bg-gray-200   flex items-center justify-center "
+      >
+        
+          <img
+            [src]="product.image"
+            [alt]="product.name"
+            class="relative  w-full aspect-square object-cover rounded-2xl shadow-2xl"
+          />
+       
+      </div>
+
+      <!-- Product Info -->
+      <div class="px-8 flex gap-4 flex-col justify-center">
+        <!-- Badge + Name -->
+        <div class="">
+          <span
+            class="inline-flex bg-gray-600/10 text-red-400 px-3 py-1 rounded-[10px] text-sm font-medium "
+          >
+            ផលិតផល
+          </span>
+          <h2 class="text-5xl font-bold text-black">
+            {{ product.name }}
+          </h2>
+        </div>
+
+        <!-- Details -->
+        <div class="py-4 flex flex-col gap-5">
+          <app-detail-row
+            [icon]="Tag"
+            label="តម្លៃ"
+            [value]="product.price"
+            valueClass="text-red-400 font-bold text-3xl"
+          />
+
+          <app-detail-row
+            [icon]="Layers"
+            label="ប្រភេទទំនិញ"
+            [value]="product.category"
+          />
+
+          <app-detail-row
+            [icon]="Package"
+            label="ចំនួនស្តុក"
+            [value]="product.stock.toString()"
+          />
+
+          <app-detail-row
+            [icon]="Percent"
+            label="បញ្ចុះតម្លៃ"
+            [value]="product.discount"
+            valueClass="text-stat-green"
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="space-y-2 text-gray-600 pt-2">
+          <div class="flex items-center gap-2 text-muted-foreground">
+            <lucide-angular [img]="FileText" class="h-5 w-5"></lucide-angular>
+            <span class="font-medium">ការពិពណ៌នា :</span>
+          </div>
+
+          <p class="text-muted-foreground leading-relaxed pl-7">
+            {{ product.description }}
+          </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4 pt-4">
+          <button
+            (click)="edit.emit()"
+            class="flex-1 bg-stat-green cursor-pointer hover:bg-stat-green/90 text-white h-12 rounded-xl font-semibold shadow-lg"
+          >
+            កែប្រែ
+          </button>
+
+          <button
+            (click)="remove.emit()"
+            class="flex-1 bg-destructive cursor-pointer hover:bg-destructive/90 text-white h-12 rounded-xl font-semibold shadow-lg"
+          >
+            លុប
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

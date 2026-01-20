@@ -1,0 +1,36 @@
+<div
+  class="relative w-full rounded-lg border-2 border-dashed transition-all duration-300 cursor-pointer
+         bg-dropzone border-dropzone-border hover:border-dropzone-border-hover"
+  [class.border-foreground]="isDragOver()"
+  [class.bg-accent]="isDragOver()"
+  [class.scale-105]="isDragOver()"
+>
+  <input
+    type="file"
+    multiple
+    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+    (change)="onFileInput($event)"
+  />
+
+  <div class="flex flex-col items-center justify-center py-12 px-6">
+    <div
+      class="w-14 h-14 rounded-xl bg-card border border-border
+             flex items-center justify-center mb-4 transition-transform duration-300"
+      [class.scale-110]="isDragOver()"
+    >
+      <lucide-icon
+        [img]="UploadIcon"
+        class="w-6 h-6 text-muted-foreground"
+      />
+    </div>
+
+    <p class="text-foreground font-medium mb-1">
+      Drop your files here or
+      <span class="underline underline-offset-2">browse</span>
+    </p>
+
+    <p class="text-muted-foreground text-sm">
+      Max file size up to {{ formatSize(maxSize) }}
+    </p>
+  </div>
+</div>

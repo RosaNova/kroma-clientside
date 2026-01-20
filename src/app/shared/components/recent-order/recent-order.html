@@ -1,1 +1,58 @@
-<p>recent-order works!</p>
+<div class="bg-card rounded-xl text-black p-6 shadow-sm">
+  <div class="flex items-center justify-between mb-6">
+    <h3 class="text-lg font-semibold text-card-foreground">
+      ការបញ្ជាទិញថ្មីៗ
+    </h3>
+
+    <button
+      class="text-primary cursor-pointer text-sm font-bold hover:underline"
+      type="button"
+    >
+      មើលទាំងអស់
+    </button>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead>
+        <tr class="border-b border-black">
+          <th class="text-left py-3 text-muted-foreground font-medium text-sm">លេខកូដ</th>
+          <th class="text-left py-3 text-muted-foreground font-medium text-sm">អតិថិជន</th>
+          <th class="text-left py-3 text-muted-foreground font-medium text-sm">កាលបរិច្ឆេទ</th>
+          <th class="text-left py-3 text-muted-foreground font-medium text-sm">ចំនួនទឹកប្រាក់</th>
+          <th class="text-left py-3 text-muted-foreground font-medium text-sm">ស្ថានភាព</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let order of orders; trackBy: trackById"
+          class="border-b border-border last:border-0"
+        >
+          <td class="py-3 text-card-foreground font-medium">
+            {{ order.id }}
+          </td>
+
+          <td class="py-3 text-card-foreground">
+            {{ order.customer }}
+          </td>
+
+          <td class="py-3 text-muted-foreground">
+            {{ order.date }}
+          </td>
+
+          <td class="py-3 text-card-foreground font-semibold">
+            {{ order.amount }}
+          </td>
+
+          <td class="py-3">
+            <span
+              class="px-3 py-1 rounded-full text-xs font-medium"
+              [ngClass]="statusStyles[order.status]"
+            >
+              {{ statusLabels[order.status] }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

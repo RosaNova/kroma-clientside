@@ -1,1 +1,32 @@
-<p>product works!</p>
+<div class="p-7">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">        
+              <app-stat-card
+                title="ចំនួនផលិតផលសរុប"
+                value="20"
+                [icon]="Package"
+                variant="blue"
+              />
+              <app-stat-card
+                title="ប្រាក់ចំណូលសរុប"
+                value="50000"
+                [icon]="Wallet"
+                variant="purple"
+              />
+              <app-stat-card
+                title="ការបញ្ជាទិញសរុប"
+                value="8"
+                [icon]="ShoppingCart"
+                variant="yellow"
+              />
+              <app-stat-card
+                title="ប្រភេទផលិតផលសរុប"
+                value="20"
+                [icon]="Box"
+                variant="pink"
+              />
+            </div>
+       
+            <app-product-section title="ប្រភេទគ្រឿងទេស" [products]="spiceProducts" />
+            <app-product-section title="ប្រភេទបន្លែ" [products]="vegetableProducts" />
+            <app-product-section title="ប្រភេទវត្ថុអនុសាវរីយ៍" [products]="souvenirProducts" />
+  </div>
