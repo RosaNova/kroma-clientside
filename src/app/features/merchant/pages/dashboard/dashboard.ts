@@ -30,7 +30,7 @@ TrendingUp = TrendingUp;
       image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
       name: 'កាសស្តាប់ត្រចៀក',
       category: 'អេឡិចត្រូនិក',
-      price: '$199.00',
+      price: '$250.00',
       stock: 8
     },
     {
