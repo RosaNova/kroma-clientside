@@ -39,7 +39,7 @@ FileText = FileText;
     description:
       'ស្នាប់រូបភ្នែក្តីវារស្វប់ជង់ជ្រោយដីងលាលាបទម្លាប់ម្តងមួយពេសស្នាការនន្តុខណេលា មីញ្ញាលម្បាការម្តាជោជយម៉ំងយាមាវាតិការជួរត្រូតក្ដែងម្កីក៏មិកម្មាយម្រល់ពា។',
     image:
-      'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&h=300&fit=crop',
   };
 
   handleBack() {

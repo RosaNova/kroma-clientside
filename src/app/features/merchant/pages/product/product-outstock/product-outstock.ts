@@ -12,18 +12,22 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsRight,
+  Users,
   ChevronsLeft
 } from 'lucide-angular';
 
 
+type ChangeType = 'positive' | 'negative';
+type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
+
 interface StatCardType {
   title: string;
-  subtitle: string;
   value: string;
+  change: string;
+  changeType: ChangeType;
   icon: any;
-  variant: 'purple' | 'yellow' | 'coral' | 'pink';
+  variant: Variant;
 }
-export type StatVariant = 'purple' | 'yellow' | 'coral' | 'pink';
 
 interface OutStockProduct {
   id: number;
@@ -35,10 +39,9 @@ interface OutStockProduct {
 }
 
 
-
 @Component({
   selector: 'app-product-outstock',
-  imports: [ CommonModule,  LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule ,  StatCard],
   templateUrl: './product-outstock.html',
   styleUrl: './product-outstock.css',
 })
@@ -61,28 +64,58 @@ export class ProductOutstock {
   ChevronsRight = ChevronsRight;
   ChevronLeft = ChevronLeft;
   ChevronsLeft = ChevronsLeft;
+  Package  = Package;
+  Users = Users;
+  Search = Search;
 
-   statCards: StatCardType[] = [
-    { title: 'ចំនួនផលិត', subtitle: 'ផលសរុប', value: 'សរុប : ២០', icon: Package, variant: 'purple' },
-    { title: 'ប្រាក់ចំណួល', subtitle: 'សរុប', value: '៥០០០ រៀល', icon: Wallet, variant: 'yellow' },
-    { title: 'ការបញ្ជាទិញ', subtitle: 'សរុប', value: 'សរុប: ៨', icon: ShoppingCart, variant: 'coral' },
-    { title: 'ប្រភេទផលិត', subtitle: 'ផលសរុប', value: 'សរុប : ២០', icon: Box, variant: 'pink' },
-     
+  statCards: StatCardType[] = [
+    {
+      title: 'ចំនួនផលិតផលសរុប',
+      value: 'សរុប: ២០',
+      change: '2% ពីមុន',
+      changeType: 'positive',
+      icon: Package,
+      variant: 'purple'
+    },
+    {
+      title: 'ប្រាក់ចំណួលផលសរុប',
+      value: '៥០០០ រៀល',
+      change: '5% ពីខែមុន',
+      changeType: 'positive',
+      icon: Wallet,
+      variant: 'yellow'
+    },
+    {
+      title: 'ការបញ្ជាទិញផលសរុប',
+      value: 'សរុប: ៨',
+      change: '1% ពីខែមុន',
+      changeType: 'negative',
+      icon: ShoppingCart,
+      variant: 'pink'
+    },
+    {
+      title: 'ប្រភេទផលិតផលសរុប',
+      value: 'សរុប: ២០',
+      change: '0% ពីខែមុន',
+      changeType: 'negative',
+      icon: Box,
+      variant: 'pink'
+    }
   ];
 
   products: OutStockProduct[] = [
-    { id: 101, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 102, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 103, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 104, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 105, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 106, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 107, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 108, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
-    { id: 109, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 101, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 102, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 103, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 104, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 105, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 106, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 107, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 108, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 109, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
   ];
 
-   filteredProducts = computed(() => {
+  filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase();
     return this.products.filter(p =>
       p.category.toLowerCase().includes(term) ||
@@ -91,15 +124,15 @@ export class ProductOutstock {
     );
   });
 
- VARIANT_CLASSES: Record<StatVariant, string> = {
-  purple: 'bg-violet-100 border-violet-200 text-violet-600',
-  yellow: 'bg-amber-100 border-amber-200 text-amber-600',
-  coral: 'bg-rose-100 border-rose-200 text-rose-600',
-  pink: 'bg-pink-100 border-pink-200 text-pink-600',
-};
- variantClass(variant: StatVariant): string {
-  return this.VARIANT_CLASSES[variant];
-}
+  // VARIANT_CLASSES: Record<Variant, string> = {
+  //   purple: 'bg-violet-100 border-violet-200 text-violet-600',
+  //   yellow: 'bg-amber-100 border-amber-200 text-amber-600',
+  //   coral: 'bg-rose-100 border-rose-200 text-rose-600',
+  //   pink: 'bg-pink-100 border-pink-200 text-pink-600',
+  // };
+  // variantClass(variant: StatVariant): string {
+  //   return this.VARIANT_CLASSES[variant];
+  // }
 
 
   // State
@@ -115,7 +148,7 @@ export class ProductOutstock {
     )
   );
 
-// Pagination
+  // Pagination
   totalPages = computed(() =>
     Math.max(
       Math.ceil(this.filtered().length / this.itemsPerPage()),
@@ -160,4 +193,6 @@ export class ProductOutstock {
     this.currentPage.set(1);
   }
 
+
+  
 }
