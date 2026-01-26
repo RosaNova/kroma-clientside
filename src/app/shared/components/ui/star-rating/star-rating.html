@@ -1,0 +1,8 @@
+<div class="flex justify-center items-center gap-0.5">
+      <ng-container *ngFor="let star of [1,2,3,4,5]">
+        <svg [ngClass]="star <= rating ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-200 text-gray-200'" 
+             xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <path d="M12 .587l3.668 7.431 8.214 1.196-5.941 5.787 1.402 8.181L12 18.896l-7.343 3.857 1.402-8.181-5.941-5.787 8.214-1.196z"/>
+        </svg>
+      </ng-container>
+    </div>

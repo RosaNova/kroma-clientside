@@ -26,6 +26,7 @@ export type ChartOptions = {
   styleUrl: './sale-chart.css',
 })
 export class SaleChart {
+  
  public chartOptions: ChartOptions = {
     series: [
       {

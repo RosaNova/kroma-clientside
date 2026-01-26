@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 
-type ChangeType = 'positive' | 'negative';
-type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
+export type ChangeType = 'positive' | 'negative';
+export type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
 
 @Component({
   selector: 'app-stat-card',

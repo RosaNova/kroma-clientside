@@ -1,0 +1,113 @@
+<div class="space-y-6 m-6">
+
+  <!-- Header -->
+  <div>
+    <h1 class="text-2xl font-bold text-black">ការងារបង្ហាញអំពី Feedback របស់អតិថិជន</h1>
+    <p class="text-gray-500 mt-1">គ្រប់គ្រងនិងពិនិត្យមើល feedback ពីអតិថិជន</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+    <app-stat-card
+     *ngFor="let item of feedbackStats"
+     [title]="item.title"
+     [value]="item.value"
+     [icon]="item.icon"
+     [variant]="item.variant"
+     [changeType]="item.changeType"
+      [change]="item.change"
+    >
+
+
+    </app-stat-card>
+
+
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="bg-card rounded-xl border border-white p-3 shadow-sm">
+    <div class="flex flex-col sm:flex-row gap-4">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="ស្វែងរកតាមឈ្មោះ ឬមតិយោបល់..." class="px-3 text-[15px] py-2 outline-gray-300 outline-0 border border-gray-200 text-gray-400 rounded-[10px] flex-1"/>
+      <select [(ngModel)]="ratingFilter" class="w-36 select bg-white border rounded-[10px] border-gray-300 text-black">
+        <option value="all">ទាំងអស់</option>
+        <option value="5">⭐ ៥ ផ្កាយ</option>
+        <option value="4">⭐ ៤ ផ្កាយ</option>
+        <option value="3">⭐ ៣ ផ្កាយ</option>
+        <option value="2">⭐ ២ ផ្កាយ</option>
+        <option value="1">⭐ ១ ផ្កាយ</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="bg-card rounded-xl border border-gray-300 shadow-sm overflow-hidden">
+    <table class="w-full">
+      <thead class="bg-gray-300/50 text-black ">
+        <tr class="border-b border-gray-300">
+          <th class="p-3">លេខរៀប</th>
+          <th>ឈ្មោះអតិថិជន</th>
+          <th>មតិយោបល់</th>
+          <th>ប្រភេទ</th>
+          <th>ចំនួនផ្កាយ</th>
+          <th>កាលបរិច្ឆេទ</th>
+          <th class="text-center">សកម្មភាព</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let feedback of paginatedData" class="hover:bg-muted/30 border-b border-gray-300  transition-colors">
+          <td class="text-center text-gray-700 font-bold">{{ feedback.id }}</td>
+          <td class="p-4 text-center">
+            <div class="flex items-center justify-center text-black gap-2">
+              <div class="w-8 h-8 rounded-full bg-linear-to-br from-violet-500 to-purple-500 flex items-center justify-center text-white text-xs font-medium">
+                {{ feedback.customer.charAt(0) }}
+              </div>
+              {{ feedback.customer }}
+            </div>
+          </td>
+          <td class="max-w-50 text-gray-500 truncate">{{ feedback.comment }}</td>
+          <td>
+            <span class="bg-blue-100 cursor-text text-[13px] text-blue-700 px-2 py-0.5 rounded-xl">{{ feedback.category }}</span>
+          </td>
+          <td class="flex justify-center items-start "><app-star-rating [rating]="feedback.rating"></app-star-rating></td>
+          <td class="text-center text-gray-500">{{ feedback.date }}</td>
+          <td class="flex justify-center items-center  gap-2">
+            <button class="h-8 px-3 border cursor-pointer flex mt-3 justify-center items-center gap-2 bg-blue-100 rounded-xl text-blue-600"> 
+                <lucide-angular class="w-4" [img]="Eye" ></lucide-angular>
+                 មើល</button>
+            <button class="h-8 px-3 border cursor-pointer mt-3 flex gap-2 justify-center items-center bg-red-100 rounded-xl text-red-600">
+                 <lucide-angular class="w-4" [img]="Trash2" ></lucide-angular>
+                លុប</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-between px-4 py-3 border-t border-gray-300 bg-gray-100 text-black">
+      <div class="flex gap-3 items-center">
+        <span>បង្ហាញ</span>
+        <select [(ngModel)]="itemsPerPage" class="w-16 select bg-white  ">
+          <option *ngFor="let i of [5,10,20,50]" [value]="i">{{ i }}</option>
+        </select>
+        <span>ក្នុងមួយទំព័រ</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <span>{{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage * itemsPerPage, filteredData.length) }} នៃ {{ filteredData.length }}</span>
+        <button class="bg-gray-200 cursor-pointer flex justify-center items-center rounded-xl p-3 w-9 h-9" (click)="setPage(1)" [disabled]="currentPage===1">«</button>
+        <button class="bg-gray-200 cursor-pointer flex justify-center items-center rounded-xl p-3 w-9 h-9" (click)="setPage(currentPage-1)" [disabled]="currentPage===1">‹</button>
+        <button class="bg-gray-200 cursor-pointer flex justify-center items-center rounded-xl p-3 w-9 h-9" (click)="setPage(currentPage+1)" [disabled]="currentPage===totalPages">›</button>
+        <button class="bg-gray-200 cursor-pointer flex justify-center items-center rounded-xl p-3 w-9 h-9" (click)="setPage(totalPages)" [disabled]="currentPage===totalPages">»</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Template icons -->
+<ng-template #viewIcon>
+  <svg class="w-6 h-6" ...></svg>
+</ng-template>
+<ng-template #starIcon>
+  <svg class="w-6 h-6" ...></svg>
+</ng-template>

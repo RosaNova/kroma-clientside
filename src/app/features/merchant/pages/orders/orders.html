@@ -1,0 +1,170 @@
+<div class="space-y-6 ">
+
+  <!-- Header -->
+  <div class="flex m-6 items-center justify-between">
+    <div class="">
+      <h1 class="text-2xl font-bold text-black ">ការបញ្ជាទិញ</h1>
+      <p class="text-sm text-gray-500" >គ្រប់គ្រងការបញ្ជាទិញរបស់អ្នក</p>
+    </div>
+    <button class="flex items-center gap-2 px-4 py-2 rounded-xl cursor-pointer hover:bg-primary/80 duration-200 bg-primary text-white">
+      <lucide-icon [name]="Download" class="w-4 h-4" />
+      នាំចេញ
+    </button>
+  </div>
+
+
+ <!-- Stats Cards -->
+  <div class="grid grid-cols-1 m-6 md:grid-cols-2 pb-10 lg:grid-cols-4 gap-4">
+   
+<app-stat-card *ngFor="let card of statCards"
+    [title]="card.title"
+    [value]="card.value"
+    [change]="card.change"
+    [changeType]="card.changeType"
+    [icon]="card.icon"
+    [variant]="card.variant">
+  </app-stat-card>
+
+  </div>
+
+
+  <!-- Table -->
+  <div class="bg-card rounded-2xl m-6 border overflow-x-auto">
+     <!-- Search & Filter -->
+  <div class="flex gap-3 m-6 text-black ">
+
+    <div class="relative">
+                    <lucide-angular [img]="Search" class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground " ></lucide-angular>
+                <input type="text" class=" bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700" placeholder="ស្វែងរក..."
+                   [(ngModel)]="searchTerm" />
+                </div>
+
+    <select
+      [(ngModel)]="statusFilter"
+      class="select bg-gray-200 w-32 rounded-xl outline-primary"
+    >
+      <option value="all">ទាំងអស់</option>
+      <option value="completed">បានបញ្ចប់</option>
+      <option value="processing">កំពុងដំណើរការ</option>
+      <option value="pending">រង់ចាំ</option>
+      <option value="shipped">បានដឹកជញ្ជូន</option>
+      <option value="cancelled">បានលុបចោល</option>
+    </select>
+  </div>
+
+    <table class="w-full text-gray-500">
+      <thead class="text-gray-500">
+        <tr class="border-b text-muted-foreground text-md">
+          <th class="p-3 text-center">លេខបញ្ជាទិញ</th>
+          <th class="p-3 text-center">អតិថិជន</th>
+          <th class="p-3 text-center">កាលបរិច្ឆេទ</th>
+          <th class="p-3 text-center">ផលិតផល</th>
+          <th class="p-3 text-center" >ចំនួន</th>
+          <th class="p-3 text-center">ការបង់ប្រាក់</th>
+          <th class="p-3 text-center">ស្ថានភាព</th>
+          <th class="p-3 text-center">សកម្មភាព</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let order of paginatedOrders" class="border-t text-center hover:bg-muted/30">
+          <td class="p-3 font-semibold text-primary">{{ order.id }}</td>
+
+          <td class="p-3">
+            <div>
+              <p class="font-medium">{{ order.customer }}</p>
+              <p class="text-xs text-muted-foreground">{{ order.email }}</p>
+            </div>
+          </td>
+
+          <td class="p-3 text-muted-foreground">{{ order.date }}</td>
+
+          <td class="p-3 text-center">
+            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-gray-100">
+              {{ order.items }}
+            </span>
+          </td>
+
+          <td class="p-3  font-semibold">{{ order.amount }}</td>
+
+          <td class="p-3">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs"
+              [ngClass]="paymentConfig[order.payment].className"
+            >
+              {{ paymentConfig[order.payment].label }}
+            </span>
+          </td>
+
+          <td class="p-3">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs border"
+              [ngClass]="statusConfig[order.status].className"
+            >
+              {{ statusConfig[order.status].label }}
+            </span>
+          </td>
+
+          <td class="p-3 text-center">
+            <div class="flex justify-center gap-1">
+              <button class="cursor-pointer"><lucide-angular [img]="Eye" class="w-4 h-4" /></button>
+              <button class="cursor-pointer"><lucide-angular [img]="Edit" class="w-4 h-4" /></button>
+              <button class="cursor-pointer"><lucide-angular [img]="Trash2" class="w-4 h-4 text-red-500" /></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+<div class="p-5 border-t border-gray-500/50">
+  <div class="flex items-center justify-between">
+    <p class="text-sm text-gray-500">
+      បង្ហាញ
+      {{ (currentPage - 1) * itemsPerPage + 1 }}
+      ដល់
+      {{paginatedEndIndex}}
+      នៃ
+      {{ filteredOrders.length }}
+      លទ្ធផល
+    </p>
+
+    <div class="flex items-center gap-2">
+
+      <!-- Previous -->
+      <button
+        class="px-3 py-1.5 text-black cursor-pointer rounded-xl bg-gray-200 border border-gray-500/50 text-sm"
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+      >
+        មុន
+      </button>
+
+      <!-- Page Numbers -->
+      <button
+        *ngFor="let page of pages"
+        class="px-3 py-1.5 rounded-xl text-black text-sm border"
+        [class.bg-primary]="currentPage === page"
+        [class.text-white]="currentPage === page"
+        [class.border-border/50]="currentPage !== page"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+
+      <!-- Next -->
+      <button
+        class="px-3 py-1.5 cursor-pointer rounded-xl bg-gray-200 border border-gray-500/50 text-black text-sm"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+      >
+        បន្ទាប់
+      </button>
+
+    </div>
+  </div>
+</div>
+
+  </div>
+
+</div>

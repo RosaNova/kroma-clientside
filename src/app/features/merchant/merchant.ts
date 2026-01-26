@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LayoutDashboard,LucideAngularModule ,Package, ShoppingCart, Users, FileText, Settings } from 'lucide-angular';
+import { LayoutDashboard,LucideAngularModule ,Package, ShoppingCart, MessageSquareText , FileText, Settings } from 'lucide-angular';
 import { Slidebar } from '@/app/shared/components/slidebar/slidebar';
 import { KrHeader } from '@/app/shared/components/kr-header/kr-header';
 interface NavItem {
@@ -30,18 +30,12 @@ export class Merchant {
       { label: 'បន្ថែមផលិតផល', route: '/merchant/product/addproduct' ,icon: "" },
       { label: 'ប្រភេទផលិតផល', route: '/merchant/product/productcategory' ,icon: "" },
       { label: 'អស់ស្តុក', route: '/merchant/product/productoutstock' , icon: "" },
-      { label: 'បញ្ចុះតម្លៃ & គូប៉ុង', route: '/merchant/product/discount' , icon: "" },
+      { label: 'បញ្ចុះតម្លៃ & គូប៉ុង', route: '/merchant/product/productdiscount' , icon: "" },
     ]
      },
-    { icon: ShoppingCart, label: 'ការបញ្ជាទិញ'},
-    { icon: Users, label: 'អតិថិជន' },
-    { icon: FileText, label: 'របាយការណ៍' ,
-         children: [
-      { label: 'របាយការណ៍លក់', route: '/merchant' , icon: ""},
-      { label: 'របាយការណ៍ផលិតផល', route: '/merchant' ,icon: "" },
-      { label: 'របាយការណ៍អតិថិជន', route: '/merchant' ,icon: "" },
-    ]
-     },
+    { icon: ShoppingCart, label: 'ការបញ្ជាទិញ' , route :"order"},
+    { icon: FileText, label: 'របាយការណ៍' , route : "report"},
+    { icon: MessageSquareText, label: 'មតិកែលម្អ' , route : "feedback"},
     { icon: Settings, label: 'ការកំណត់' ,   route: '/merchant/setting'  },
   ];
     user = {
