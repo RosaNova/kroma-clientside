@@ -9,7 +9,7 @@
   </div>
 
   <!-- Profile Card -->
-  <div class="bg-card border rounded-xl  shadow-lg">
+  <div class="bg-card border border-gray-300 rounded-xl  shadow-lg">
     <div class="border-b border-gray-300 text-black p-4 flex items-center gap-2 font-semibold">
       <lucide-angular [img]="User" class="w-5 h-5 text-primary" />
       ព័ត៌មានរបស់អ្នក
@@ -30,7 +30,7 @@
             <lucide-angular [img]="Camera" class="w-5 h-5 text-white" />
           </button>
         </div>
-        <button class="border border-gray-300  text-gray-500 bg-gray-100 cursor-pointer rounded px-4 py-2 text-sm">ផ្លាស់ប្ដូររូបភាព</button>
+        <button class="border border-gray-300  text-gray-500 bg-gray-100 cursor-pointer rounded-xl px-4 py-2 text-sm">ផ្លាស់ប្ដូររូបភាព</button>
         <p class="text-xs text-gray-400">JPG, PNG អតិបរមា 5MB</p>
       </div>
 
@@ -38,25 +38,40 @@
       <div class="flex-1 space-y-4">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="flex flex-col justify-start ">
-            <label for="" class="text-black pb-2">នាមត្រកូល</label>
-          <input class="input bg-gray-200 text-black" [(ngModel)]="profileData.firstName" placeholder="នាមត្រកូល" />
+          <div class="flex flex-col w-full justify-start ">
+            <label for="" class="text-gray-500 pb-2">
+              
+              នាមត្រកូល</label>
+          <input class="input bg-gray-200 w-full rounded-xl text-black" [(ngModel)]="profileData.firstName" placeholder="នាមត្រកូល" />
           </div>
           <div class="flex flex-col justify-start">
-             <label for="" class="text-black pb-2" >នាមខ្លួន</label>
-          <input class="input bg-gray-200 text-black" [(ngModel)]="profileData.lastName" placeholder="នាមខ្លួន" />
+             <label for="" class="text-gray-500 pb-2" >នាមខ្លួន</label>
+          <input class="input bg-gray-200 w-full rounded-xl text-black" [(ngModel)]="profileData.lastName" placeholder="នាមខ្លួន" />
         </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input class="input bg-gray-200 text-black" [(ngModel)]="profileData.dateOfBirth" placeholder="ថ្ងៃខែឆ្នាំកំណើត" />
-          <input class="input bg-gray-200 text-black " [(ngModel)]="profileData.phone" placeholder="លេខទូរសព្ទ" />
+           <div class="flex flex-col justify-start">
+             <label for="" class="text-gray-500 flex gap-2 pb-2" >
+               <lucide-angular [img]="Calendar" class="text-gray-500 w-5"  ></lucide-angular>
+              ថ្ងៃខែឆ្នាំកំណើត</label>
+          <input class="input rounded-xl w-full bg-gray-200 text-black" [(ngModel)]="profileData.dateOfBirth" placeholder="ថ្ងៃខែឆ្នាំកំណើត" />
+          </div>
+         <div class="flex flex-col justify-start">
+             <label for="" class="text-gray-500 flex gap-2 pb-2" >
+              <lucide-angular [img]="Phone" class="text-gray-500 w-5"  ></lucide-angular>
+              លេខទូរសព្ទ័</label>
+          <input class="input rounded-xl w-full bg-gray-200 text-black " [(ngModel)]="profileData.phone" placeholder="លេខទូរសព្ទ" />
+         </div>
         </div>
-
-        <input class="input bg-gray-200 text-black" [(ngModel)]="profileData.address" placeholder="ទីកន្លែងកំណើត" />
-
+         <div class="flex flex-col justify-start">
+             <label for="" class="text-gray-500 flex gap-2 pb-2" >
+               <lucide-angular [img]="MapPin" class="text-gray-500 w-5"  ></lucide-angular>
+              ទីកន្លែងកំណើត</label>
+        <input class="input rounded-xl w-full bg-gray-200 text-black" [(ngModel)]="profileData.address" placeholder="ទីកន្លែងកំណើត" />
+         </div>
         <div class="flex justify-end">
-          <button class="btn border-0 bg-blue-700 flex gap-2" (click)="saveProfile()">
+          <button class="btn border-0 rounded-xl bg-blue-700 flex gap-2" (click)="saveProfile()">
             <lucide-angular [img]="User" class="w-4 h-4" />
             រក្សាទុក
           </button>
@@ -70,23 +85,31 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
     <!-- Account Security -->
-    <div class="bg-card border rounded-xl shadow-lg p-6 space-y-4">
-      <h3 class="font-semibold text-black flex gap-2">
+    <div class="bg-card border pb-6 border-gray-300 rounded-xl shadow-lg  space-y-4">
+      <div class="border-b border-gray-300 text-black p-4 flex items-center gap-2 font-semibold">
         <lucide-angular [img]="Lock" class="w-5 h-5 text-primary" />
         គណនី និងសុវត្ថិភាព
-      </h3>
-
-      <input class="input bg-gray-200 text-black" [(ngModel)]="accountData.email" placeholder="អ៊ីមែល" />
-
-      <div class="relative">
+      </div>
+     <div class="px-6 flex flex-col gap-5">
+      <label for="" class="flex mb-[-10px]  gap-2 text-gray-500" >
+         <lucide-angular [img]="Mail" class=" w-5"  ></lucide-angular>
+          អ៊ីមែល
+      </label>
+      <input class="input w-full rounded-xl bg-gray-200 text-black" [(ngModel)]="accountData.email" placeholder="អ៊ីមែល" />
+ 
+      <label for="" class="flex gap-2 mb-[-10px] text-gray-500" >
+         <lucide-angular [img]="Lock" class=" w-5"  ></lucide-angular>
+         ពាក្យសម្ងាត់បច្ចុប្បន្ន
+      </label>
+      <div class="relative rounded-xl w-full">
         <input
-          class="input pr-10 bg-gray-200 text-black"
+          class="input rounded-xl pr-10 w-full bg-gray-200 text-black"
           [type]="showOldPassword ? 'text' : 'password'"
           [(ngModel)]="accountData.oldPassword"
           placeholder="ពាក្យសម្ងាត់បច្ចុប្បន្ន"
         />
         <button
-          class="absolute right-3 top-1/2 -translate-y-1/2"
+          class="absolute text-gray-500 right-3 top-1/2 -translate-y-1/2"
           (click)="showOldPassword = !showOldPassword"
         >
           <lucide-angular [img]="Eye" *ngIf="!showOldPassword" />
@@ -94,9 +117,13 @@
         </button>
       </div>
 
+      <label for="" class="flex mb-[-10px]  gap-2 text-gray-500" >
+         <lucide-angular [img]="Lock" class=" w-5"  ></lucide-angular>
+          ពាក្យសម្ងាត់ថ្មី
+      </label>
       <div class="relative">
         <input
-          class="input pr-10 bg-gray-200 text-black"
+          class="input  w-full rounded-xl pr-10 bg-gray-200 text-black"
           [type]="showNewPassword ? 'text' : 'password'"
           [(ngModel)]="accountData.newPassword"
           placeholder="ពាក្យសម្ងាត់ថ្មី"
@@ -123,6 +150,7 @@
           <lucide-angular [img]="Save" class="w-4 h-4" />
           រក្សាទុក
         </button>
+      </div>
       </div>
     </div>
 

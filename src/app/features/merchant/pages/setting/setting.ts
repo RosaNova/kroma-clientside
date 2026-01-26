@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   Camera, Save, User, Lock, Mail, Phone, MapPin, Calendar,
-  Bell, Globe, Moon, Sun, Shield, Smartphone, Eye, EyeOff,
+  Bell, Globe, Moon, Shield, Smartphone, Eye, EyeOff,
   Languages, Check,
   LucideAngularModule
 } from 'lucide-angular';
@@ -33,19 +33,18 @@ Camera = Camera;
     EyeOff = EyeOff;
   Languages = Languages ;
    Check = Check;
-  
-
+   
 
   profileData = {
-    firstName: 'សុខ',
-    lastName: 'ដារ៉ា',
-    dateOfBirth: '20/05/2025',
-    phone: '099 888 777',
-    address: 'រាជធានីភ្នំពេញ, កម្ពុជា'
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    phone: '',
+    address: ''
   };
 
   accountData = {
-    email: 'abc.2333@gmail.com',
+    email: '',
     oldPassword: '',
     newPassword: ''
   };
