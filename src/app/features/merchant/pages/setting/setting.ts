@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   Camera, Save, User, Lock, Mail, Phone, MapPin, Calendar,
-  Bell, Globe, Moon, Shield, Smartphone, Eye, EyeOff,
+  Bell, Globe, Moon, Shield, Smartphone, Eye, EyeOff, Sun,
   Languages, Check,
   LucideAngularModule
 } from 'lucide-angular';
@@ -27,13 +27,14 @@ Camera = Camera;
   Bell = Bell;
    Globe = Globe;
      Moon = Moon;
-    Sun =  Shield;
+    Shield =  Shield;
     Smartphone = Smartphone;
      Eye = Eye;
     EyeOff = EyeOff;
   Languages = Languages ;
    Check = Check;
-   
+ Sun = Sun;
+
 
   profileData = {
     firstName: '',
