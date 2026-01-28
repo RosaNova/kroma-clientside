@@ -22,13 +22,12 @@
         <span>{{ date }}</span>
       </div>
 
-      <!-- Notifications -->
-      <button class="notification-btn relative p-2 bg-gray-300 rounded-xl cursor-pointer  ">
-        <lucide-angular [img]="Bell" class="w-5 h-5"></lucide-angular>
-        <span class="badge absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full px-1 flex items-center justify-center">
-           {{notificationCount}}
-        </span>
-      </button>
+    
+     <!-- Notifications -->
+<app-notifications
+  (unreadChange)="updateCount($event)"
+></app-notifications>
+
 
     </div>
   </div>

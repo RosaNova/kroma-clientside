@@ -1,12 +1,12 @@
 <div class="flex  min-h-screen bg-background">
   <app-slidebar [user]="user" [navbar]="navItems" ></app-slidebar>
   <main class="flex-1 ml-64">
-     <kr-header 
-      [title]="title"
-      [subtitle]="subtitle"
-      [date]="date"
-      [notificationCount]= "notificationCount"
-      ></kr-header>
+    <kr-header
+    [title]="title"
+    [subtitle]="subtitle"
+    [date]="date"
+     ></kr-header>
+
     <router-outlet></router-outlet>
   </main>
 </div>
