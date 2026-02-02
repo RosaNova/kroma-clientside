@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailRow } from '../ui/detail-row/detail-row';
 import { FileText, LucideAngularModule } from 'lucide-angular';
+import { Location } from '@angular/common';
 import {
   Tag,
   Layers,
@@ -12,23 +13,25 @@ import {
 
 
 @Component({
-  standalone : true,
+  standalone: true,
   selector: 'app-product-detail',
-  imports: [CommonModule , DetailRow ,LucideAngularModule  ],
+  imports: [CommonModule, DetailRow, LucideAngularModule],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
 })
 export class ProductDetail {
-   @Input() onBack?: () => void;
+  @Input() onBack?: () => void;
   @Output() edit = new EventEmitter<void>();
   @Output() remove = new EventEmitter<void>();
+
+  constructor(private location: Location) { }
 
   Tag = Tag;
   Layers = Layers;
   Package = PackageIcon;
   Percent = Percent;
-ArrowLeft = ArrowLeft;
-FileText = FileText;
+  ArrowLeft = ArrowLeft;
+  FileText = FileText;
 
   product = {
     name: 'ប្រហុកខ្មែរត្បាសាន',
@@ -43,6 +46,7 @@ FileText = FileText;
   };
 
   handleBack() {
-    this.onBack?.();
+    this.location.back();
   }
+
 }

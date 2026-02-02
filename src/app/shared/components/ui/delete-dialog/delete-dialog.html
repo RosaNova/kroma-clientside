@@ -1,0 +1,33 @@
+<!-- Overlay -->
+<div *ngIf="open" class="fixed  inset-0 z-50 flex items-center justify-center bg-black/80">
+    <!-- Dialog -->
+    <div class="bg-background duration-300 rounded-xl shadow-lg max-w-md w-full">
+          <div class="border-b pl-5 pt-5 pb-3 items-start justify-start gap-3 flex border-gray-300">
+        <div class="bg-red-100 rounded-[15px] p-2 border border-red-200">
+                <lucide-angular class="text-red-500 w-7 h-7" [img]="Trash2" ></lucide-angular>
+            </div>
+            <!-- Header -->
+            <h2 class="text-xl  font-semibold text-black ">
+                បញ្ជាក់ការលុប
+                <span class="block text-gray-500 text-[15px]">ទិន្នន័យដែលបានលុប នឹងត្រូវបានដកចេញជាអចិន្ត្រៃយ៍</span>
+            </h2>
+            </div> 
+
+        <p class="text-gray-500 p-6 text-[15px] pt-2 pb-5">
+            តើអ្នកពិតជាចង់លុប "<span class="font-medium">{{ name }}</span>" មែនទេ?
+            សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
+        </p>
+
+        <!-- Footer -->
+        <div class="flex w-full p-6 justify-end gap-2">
+            <button (click)="close()"
+                class="px-4 w-full py-2 bg-gray-100 text-black border border-gray-300 rounded-[15px] cursor-pointer hover:bg-gray-200/80">
+                បោះបង់
+            </button>
+            <button (click)="delete()"
+                class="px-4 py-2 w-full rounded-xl cursor-pointer bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+                លុប
+            </button>
+        </div>
+    </div>
+</div>
