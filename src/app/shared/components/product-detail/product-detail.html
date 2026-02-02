@@ -1,4 +1,4 @@
-<div class="p-6">
+<div class="p-10">
   <!-- Header -->
   <div class="flex text-black items-center pb-5 gap-4">
     <button
@@ -15,23 +15,19 @@
   </div>
 
   <!-- Main Content -->
-  <div class="bg-card rounded-2xl border border-gray-300 overflow-hidden">
-    <div class="grid md:grid-cols-2">
+  <div class="bg-transparent  overflow-hidden">
+    <div class="grid md:grid-cols-2 items-start  gap-10">
       <!-- Product Image -->
-      <div
-        class="relative  bg-transparent  p-13   flex items-center justify-center "
-      >
-        
+      <div class="relative  h-full bg-transparent flex items-center justify-center ">
           <img
             [src]="product.image"
             [alt]="product.name"
-            class="relative  w-full aspect-square shadow rounded-2xl object-cover  "
+            class="relative w-full h-full aspect-square shadow  object-cover  "
           />
-       
       </div>
 
       <!-- Product Info -->
-      <div class="px-8 flex font-battambang gap-4 flex-col justify-center">
+      <div class="px-8 h-full items-start flex font-battambang gap-4 flex-col justify-start">
         <!-- Badge + Name -->
         <div class="">
           <span
@@ -39,7 +35,7 @@
           >
             ផលិតផល
           </span>
-          <h2 class="text-5xl mt-5 font-bold text-black">
+          <h2 class="text-3xl font-battambang mt-5 font-bold text-black">
             {{ product.name }}
           </h2>
         </div>
@@ -83,23 +79,6 @@
           <p class="text-muted-foreground leading-relaxed pl-7">
             {{ product.description }}
           </p>
-        </div>
-
-        <!-- Actions -->
-        <div class="flex gap-4 pt-4">
-          <button
-            (click)="edit.emit()"
-            class="flex-1 bg-stat-green cursor-pointer hover:bg-stat-green/90 text-white h-12 rounded-xl font-semibold shadow-lg"
-          >
-            កែប្រែ
-          </button>
-
-          <button
-            (click)="remove.emit()"
-            class="flex-1 bg-destructive cursor-pointer hover:bg-destructive/90 text-white h-12 rounded-xl font-semibold shadow-lg"
-          >
-            លុប
-          </button>
         </div>
       </div>
     </div>
