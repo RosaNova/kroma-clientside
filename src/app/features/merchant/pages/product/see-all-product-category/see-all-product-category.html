@@ -1,0 +1,25 @@
+<div class="p-6">
+ <button
+      type="button"
+      (click)="handleBack()"
+      class="rounded-full p-2 hover:bg-gray-200 cursor-pointer"
+    >
+      <lucide-angular [img]="ArrowLeft" class=" text-black h-5 w-5"></lucide-angular>
+    </button>
+
+    <div class="flex bg-white shadow p-4 rounded-xl justify-between items-center mb-4">
+        <h2 class="text-lg font-bold">ប្រភេទគ្រឿងទេស</h2>
+
+        <div class="relative">
+            <lucide-angular [img]="Search"
+                class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground "></lucide-angular>
+            <input type="text"
+                class=" bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+                placeholder="ស្វែងរក..." [(ngModel)]="searchTerm" />
+        </div>
+    </div>
+    <div class="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <app-product-card *ngFor="let item of categories" [image]="item.image" [name]="item.name" [price]="item.price"
+            [stock]="item.stock" />
+    </div>
+</div>

@@ -24,6 +24,12 @@ export const MERCHANT_ROUTES: Routes = [
             .then(c => c.Product)
       },
       {
+        path: 'product/seemoreProduct',
+        loadComponent: () =>
+          import('./pages/product/see-all-product-category/see-all-product-category')
+            .then(c => c.SeeAllProductCategory)
+      },
+      {
         path: 'product/addproduct',
         loadComponent: () =>
           import('./pages/product/create-product/create-product')
@@ -67,7 +73,7 @@ export const MERCHANT_ROUTES: Routes = [
           import('./pages/report/report')
             .then(c => c.Report)
       },
-        {
+      {
         path: 'feedback',
         loadComponent: () =>
           import('./pages/feedback/feedback')
