@@ -30,11 +30,10 @@
             {{ product.name }}
           </h2>
         </div>
-
         <!-- Details -->
         <div class="py-4 flex flex-col gap-2">
-          <app-detail-row [icon]="Ban" label="ម៉ាក" [value]="product.brand" />
-          <app-detail-row [icon]="Tag" label="តម្លៃ" [value]="product.price"
+          <app-detail-row [icon]="Tag" label="ម៉ាក" [value]="product.brand" />
+          <app-detail-row [icon]="BadgeDollarSign" label="តម្លៃ" [value]="product.price"
             valueClass="text-red-400 font-bold text-3xl" />
 
           <app-detail-row [icon]="Layers" label="ប្រភេទទំនិញ" [value]="product.category" />
