@@ -6,20 +6,21 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'kr-header',
   standalone: true,
-  imports: [CommonModule,LucideAngularModule ,Notifications],
+  imports: [CommonModule, LucideAngularModule, Notifications],
   templateUrl: './kr-header.html',
   styleUrls: ['./kr-header.css'],
 })
 export class KrHeader {
   @Input() title!: string;
   @Input() subtitle!: string;
-  @Input() date!: string;
+  @Input() date!: Date;
   @Input() notificationCount!: number;
+
   Search = Search;
   Calendar = Calendar;
   Bell = Bell;
 
-   updateCount(count: number) {
+  updateCount(count: number) {
     this.notificationCount = count;
   }
 }

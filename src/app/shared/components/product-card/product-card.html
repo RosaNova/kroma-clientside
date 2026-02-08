@@ -1,19 +1,19 @@
 <div
   class="bg-card text-black border border-gray-400 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-  <div class="aspect-4/3 overflow-hidden bg-secondary">
-    <img [src]="image" [alt]="name" class="w-full h-full object-cover" />
+  <div class="aspect-4/3 p-1 overflow-hidden bg-transparent">
+    <img [src]="image" [alt]="name" class="w-full rounded-[10px] h-full object-cover" />
   </div>
 
   <div class="p-4">
     <div class="flex items-start justify-between mb-2">
       <h4 class="font-semibold text-card-foreground text-sm">{{ name }}</h4>
       <span class="font-bold text-destructive text-sm whitespace-nowrap">
-        {{ price }}
+        {{ price | khmerNumber}} រៀល
       </span>
     </div>
 
     <p class="text-xs text-muted-foreground mb-4">
-      ចំនួនក្នុងស្តុក: {{ stock }} {{ stockUnit }}
+      ចំនួនក្នុងស្តុក: {{ stock | khmerNumber}}
     </p>
 
     <div class="flex gap-2">

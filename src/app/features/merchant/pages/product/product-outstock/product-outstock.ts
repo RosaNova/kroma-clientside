@@ -70,15 +70,15 @@ export class ProductOutstock {
 
   statCards: StatCardType[] = [
     {
-      title: 'ចំនួនផលិតផលសរុប',
-      value: 'សរុប: ២០',
+      title: 'ចំនួនផលិតផល',
+      value: '២០',
       change: '2% ពីមុន',
       changeType: 'positive',
       icon: Package,
       variant: 'purple'
     },
     {
-      title: 'ប្រាក់ចំណួលផលសរុប',
+      title: 'ប្រាក់ចំណួលផល',
       value: '៥០០០ រៀល',
       change: '5% ពីខែមុន',
       changeType: 'positive',
@@ -86,16 +86,16 @@ export class ProductOutstock {
       variant: 'yellow'
     },
     {
-      title: 'ការបញ្ជាទិញផលសរុប',
-      value: 'សរុប: ៨',
+      title: 'ការបញ្ជាទិញផល',
+      value: '៨',
       change: '1% ពីខែមុន',
       changeType: 'negative',
       icon: ShoppingCart,
       variant: 'pink'
     },
     {
-      title: 'ប្រភេទផលិតផលសរុប',
-      value: 'សរុប: ២០',
+      title: 'ប្រភេទផលិតផល',
+      value: '២០',
       change: '0% ពីខែមុន',
       changeType: 'negative',
       icon: Box,
@@ -123,17 +123,6 @@ export class ProductOutstock {
       p.id.toString().includes(term)
     );
   });
-
-  // VARIANT_CLASSES: Record<Variant, string> = {
-  //   purple: 'bg-violet-100 border-violet-200 text-violet-600',
-  //   yellow: 'bg-amber-100 border-amber-200 text-amber-600',
-  //   coral: 'bg-rose-100 border-rose-200 text-rose-600',
-  //   pink: 'bg-pink-100 border-pink-200 text-pink-600',
-  // };
-  // variantClass(variant: StatVariant): string {
-  //   return this.VARIANT_CLASSES[variant];
-  // }
-
 
   // State
   // searchTerm = signal('');
@@ -193,6 +182,4 @@ export class ProductOutstock {
     this.currentPage.set(1);
   }
 
-
-  
 }

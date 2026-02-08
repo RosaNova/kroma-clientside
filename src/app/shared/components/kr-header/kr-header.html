@@ -17,18 +17,14 @@
       </div> -->
 
       <!-- Date -->
-      <div class="date-box flex bg-gray-300 rounded-2xl items-center py-2 px-3 text-sm text-gray-700">
+      <!-- <div class="date-box gap-2 flex bg-gray-300 rounded-2xl items-center py-2 px-3 text-sm text-gray-700">
         <lucide-angular [img]="Calendar" class="w-5 h-5"></lucide-angular>
-        <span>{{ date }}</span>
-      </div>
-
-    
-     <!-- Notifications -->
-<app-notifications
-  (unreadChange)="updateCount($event)"
-></app-notifications>
+        <span>{{ date | date:'fullDate':'':'km' }}</span>
+      </div> -->
 
 
+      <!-- Notifications -->
+      <app-notifications (unreadChange)="updateCount($event)"></app-notifications>
     </div>
   </div>
 </header>

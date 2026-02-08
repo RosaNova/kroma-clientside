@@ -1,7 +1,4 @@
-<div
-  class="rounded-xl p-5 relative text-black shadow overflow-hidden"
-  [ngClass]="styles.bg"
->
+<div class="rounded-xl p-5 relative text-black shadow overflow-hidden" [ngClass]="styles.bg">
   <div class="flex items-start justify-between">
     <div>
       <p class="text-muted-foreground  text-xl font-bold mb-1">
@@ -9,32 +6,20 @@
       </p>
 
       <p class="text-2xl font-bold text-foreground">
-        សរុប:{{ value }}
+        សរុប:{{ value | khmerNumber}}
+        <span *ngIf="khmerUnit" class="ml-2">{{khmerUnit}}</span>
       </p>
 
-      <p
-        class="text-sm mt-2"
-        *ngIf="change"
-        [ngClass]="isPositive ? 'text-stat-green' : 'text-destructive'"
-      >
+      <p class="text-sm mt-2" *ngIf="change" [ngClass]="isPositive ? 'text-stat-green' : 'text-destructive'">
         {{ isPositive ? '↑' : '↓' }} {{ change }}
       </p>
     </div>
 
-    <div
-      class="p-3 rounded-xl"
-      [ngClass]="styles.iconBg"
-    >
-      <lucide-angular
-        [img]=icon
-        class="w-6 h-6 text-primary-foreground"
-      />
+    <div class="p-3 rounded-xl" [ngClass]="styles.iconBg">
+      <lucide-angular [img]=icon class="w-6 h-6 text-primary-foreground" />
     </div>
   </div>
 
   <!-- Decorative circle -->
-  <div
-    class="absolute -bottom-8 -right-8 w-24 h-24 opacity-20 rounded-full"
-    [ngClass]="styles.iconBg"
-  ></div>
+  <div class="absolute -bottom-8 -right-8 w-24 h-24 opacity-20 rounded-full" [ngClass]="styles.iconBg"></div>
 </div>

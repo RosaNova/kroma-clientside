@@ -3,11 +3,12 @@ import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DeleteDialog } from '../ui/delete-dialog/delete-dialog';
 import { FormsModule } from '@angular/forms';
+import { KhmerNumberPipe } from '@/app/pipes/khmer-number.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-product-card',
-  imports: [CommonModule, RouterLink, DeleteDialog , CommonModule , FormsModule ],
+  imports: [CommonModule, RouterLink, DeleteDialog , FormsModule ,KhmerNumberPipe ],
   templateUrl: './product-card.html',
   styleUrls: ['./product-card.css'], // fixed
 })
@@ -15,9 +16,8 @@ export class ProductCard {
 
   @Input() image!: string;
   @Input() name!: string;
-  @Input() price!: string;
+  @Input() price!: number;
   @Input() stock!: number;
-  @Input() stockUnit!: string;
 
   showDeleteDialog = false;
   selectedName = '';
