@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DeleteDialog } from '../ui/delete-dialog/delete-dialog';
+import { EditDialogComponent } from '../ui/edit-dialog/edit-dialog';
 import { FormsModule } from '@angular/forms';
 import { KhmerNumberPipe } from '@/app/pipes/khmer-number.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-product-card',
-  imports: [CommonModule, RouterLink, DeleteDialog , FormsModule ,KhmerNumberPipe ],
+  imports: [CommonModule, RouterLink, DeleteDialog, EditDialogComponent, FormsModule, KhmerNumberPipe],
   templateUrl: './product-card.html',
-  styleUrls: ['./product-card.css'], // fixed
+  styleUrls: ['./product-card.css'],
 })
 export class ProductCard {
 
@@ -38,7 +39,7 @@ export class ProductCard {
   }
 
   /* ---------- Edit ---------- */
-  @ViewChild('editDialog') editDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild(EditDialogComponent) editDialog!: EditDialogComponent;
 
   form = {
     firstName: 'Felicia',
@@ -51,11 +52,11 @@ export class ProductCard {
   };
 
   open() {
-    this.editDialog.nativeElement.showModal(); // corrected
+    this.editDialog.openModal();
   }
 
   close() {
-    this.editDialog.nativeElement.close(); // corrected
+    this.editDialog.closeModal();
   }
 
   update() {

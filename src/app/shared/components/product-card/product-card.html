@@ -43,77 +43,66 @@
   (confirm)="handleDelete()"></app-delete-dialog>
 
 <!-- ✅ Edit Dialog -->
-<dialog #editDialog class="modal">
-  <div class="modal-box max-w-4xl p-0">
-    <!-- Header -->
-    <div class="flex items-center justify-between px-6 py-4 border-b">
-      <h3 class="text-lg text-white font-semibold">កែសម្រួលផលិតផល</h3>
-      <button class="btn btn-sm btn-circle text-white btn-ghost" (click)="close()">✕</button>
-    </div>
-
-    <div class="flex">
-      <!-- Content -->
-      <div class="flex-1 p-6 border-b border-white space-y-6">
-        <!-- Profile -->
-        <div class="flex gap-6">
-          <label for="file" class="relative w-32 h-32 rounded-xl overflow-hidden bg-gray-200">
-            <img src="https://i.pravatar.cc/300" class="w-full h-full object-cover" />
-            <div
-              class="bg-black/50 top-0 text-center text-[12px] text-white cursor-pointer font-bold flex justify-center items-center left-0 opacity-0 hover:opacity-100 duration-300 absolute h-full w-full">
-              Update Image</div>
-            <input type="file" id="file"
-              class="absolute hidden inset-0 bg-black/40  items-center justify-center text-white text-xs cursor-pointer" />
-          </label>
+<app-edit-dialog title="កែសម្រួលផលិតផល" (close)="close()">
+  <!-- Profile -->
+  <div class="flex gap-6">
+    <label for="file" class="relative w-32 h-32 rounded-xl overflow-hidden bg-gray-200">
+      <img src="https://i.pravatar.cc/300" class="w-full h-full object-cover" />
+      <div
+        class="bg-black/50 top-0 text-center text-[12px] text-white cursor-pointer font-bold flex justify-center items-center left-0 opacity-0 hover:opacity-100 duration-300 absolute h-full w-full">
+        Update Image</div>
+      <input type="file" id="file"
+        class="absolute hidden inset-0 bg-black/40  items-center justify-center text-white text-xs cursor-pointer" />
+    </label>
 
 
-          <!-- Form -->
-          <div class="grid grid-cols-2 text-white gap-4 flex-1">
-            <div class="flex flex-col gap-3">
-              <label class="label-text">ឈ្មោះផលិតផល <span class="text-red-700">*</span></label>
-              <input placeholder="ឈ្មោះទំនិញ" class="input bg-white placeholder:text-black text-black input-bordered w-full"
-                [(ngModel)]="form.firstName">
-            </div>
+    <!-- Form -->
+    <div class="grid grid-cols-2 text-card-foreground gap-4 flex-1">
+      <div class="flex flex-col gap-3">
+        <label class="label-text text-card-foreground">ឈ្មោះផលិតផល <span class="text-destructive">*</span></label>
+        <input placeholder="ឈ្មោះទំនិញ"
+          class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full"
+          [(ngModel)]="form.firstName">
+      </div>
 
-            <div class="flex flex-col gap-3">
-              <label class="label-text">តម្លៃ <span class="text-red-700">*</span></label>
-              <input placeholder="$" class="input bg-white placeholder:text-black text-black input-bordered w-full"
-                [(ngModel)]="form.lastName">
-            </div>
+      <div class="flex flex-col gap-3">
+        <label class="label-text text-card-foreground">តម្លៃ <span class="text-destructive">*</span></label>
+        <input placeholder="$"
+          class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full"
+          [(ngModel)]="form.lastName">
+      </div>
 
-            <div class="flex flex-col gap-3">
-              <label class="label-text">ប្រភេទ <span class="text-red-700">*</span></label>
-              <select name="" class="select w-full bg-white text-black" id="">
-                <option value="clothes">សម្លៀកបំពាក់</option>
-                <option value="accessories">គ្រឿងអលង្ការ</option>
-                <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option>
-              </select>
-            </div>
+      <div class="flex flex-col gap-3">
+        <label class="label-text text-card-foreground">ប្រភេទ <span class="text-destructive">*</span></label>
+        <select name="" class="select w-full bg-input/10 text-foreground" id="">
+          <option value="clothes">សម្លៀកបំពាក់</option>
+          <option value="accessories">គ្រឿងអលង្ការ</option>
+          <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option>
+        </select>
+      </div>
 
-            
-            <div class="flex flex-col gap-3">
-              <label class="label-text">ចំនួនស្តុក <span class="text-red-700">*</span></label>
-              <input type="number" name="" placeholder="0" class="input bg-white text-black w-full" id="">
-            </div>
 
-            <!-- Gender -->
-            <div class="flex flex-col gap-3 ">
-              <label class="label-text">បញ្ចុះតម្លៃ <span class="text-red-700">*</span></label>
-              <input type="number" placeholder="%" name="" class="input bg-white w-full text-black" id="">
-            </div>
-            <div class="flex flex-col gap-3">
-              <label for="" class="text-white">ពិពណ៌នា <span class="text-red-700">*</span></label>
-              <textarea name="" class="textarea bg-white text-black w-full" placeholder="ការពិពណ៌នា..." id="">
+      <div class="flex flex-col gap-3">
+        <label class="label-text text-card-foreground">ចំនួនស្តុក <span class="text-destructive">*</span></label>
+        <input type="number" name="" placeholder="0" class="input bg-input/10 text-foreground w-full" id="">
+      </div>
+
+      <!-- Gender -->
+      <div class="flex flex-col gap-3 ">
+        <label class="label-text text-card-foreground">បញ្ចុះតម្លៃ <span class="text-destructive">*</span></label>
+        <input type="number" placeholder="%" name="" class="input bg-input/10 w-full text-foreground" id="">
+      </div>
+      <div class="flex flex-col gap-3">
+        <label for="" class="text-card-foreground">ពិពណ៌នា <span class="text-destructive">*</span></label>
+        <textarea name="" class="textarea bg-input/10 text-foreground w-full" placeholder="ការពិពណ៌នា..." id="">
 
               </textarea>
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="flex justify-end">
-          <button class="btn btn-primary rounded-2xl" (click)="update()">Update</button>
-        </div>
       </div>
     </div>
   </div>
-</dialog>
+
+  <!-- Footer -->
+  <div class="flex justify-end">
+    <button class="btn btn-primary rounded-2xl" (click)="update()">Update</button>
+  </div>
+</app-edit-dialog>

@@ -1,5 +1,7 @@
 import { StatCard } from '@/app/shared/components/stat-card/stat-card';
-import { Component, computed, signal } from '@angular/core';
+import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog';
+import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog';
+import { Component, computed, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   LucideAngularModule,
@@ -13,7 +15,9 @@ import {
   ChevronRight,
   ChevronsRight,
   Users,
-  ChevronsLeft
+  ChevronsLeft,
+  Edit,
+  Trash2
 } from 'lucide-angular';
 
 
@@ -41,7 +45,7 @@ interface OutStockProduct {
 
 @Component({
   selector: 'app-product-outstock',
-  imports: [CommonModule, LucideAngularModule ,  StatCard],
+  imports: [CommonModule, LucideAngularModule, StatCard, DeleteDialog, EditDialogComponent],
   templateUrl: './product-outstock.html',
   styleUrl: './product-outstock.css',
 })
@@ -64,9 +68,11 @@ export class ProductOutstock {
   ChevronsRight = ChevronsRight;
   ChevronLeft = ChevronLeft;
   ChevronsLeft = ChevronsLeft;
-  Package  = Package;
+  Package = Package;
   Users = Users;
   Search = Search;
+  Edit = Edit;
+  Trash2 = Trash2;
 
   statCards: StatCardType[] = [
     {
@@ -180,6 +186,41 @@ export class ProductOutstock {
   changeItemsPerPage(value: number) {
     this.itemsPerPage.set(value);
     this.currentPage.set(1);
+  }
+
+  /* ---------- Delete ---------- */
+  showDeleteDialog = false;
+  selectedName = '';
+
+  openDelete(name: string) {
+    this.selectedName = name;
+    this.showDeleteDialog = true;
+  }
+
+  handleCancel() {
+    this.showDeleteDialog = false;
+  }
+
+  handleDelete() {
+    this.showDeleteDialog = false;
+    console.log('Deleted:', this.selectedName);
+  }
+
+  /* ---------- Edit ---------- */
+  @ViewChild(EditDialogComponent) editDialog!: EditDialogComponent;
+
+  openEdit() {
+    this.editDialog.openModal();
+  }
+
+
+  closeEdit() {
+    this.editDialog.closeModal();
+  }
+
+  updateProduct() {
+    console.log('Product updated');
+    this.closeEdit();
   }
 
 }

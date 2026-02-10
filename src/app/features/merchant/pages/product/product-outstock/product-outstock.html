@@ -2,17 +2,12 @@
 
   <!-- Stats Cards -->
   <div class="grid grid-cols-1 md:grid-cols-2 pb-10 lg:grid-cols-4 gap-4">
-   
-   <app-stat-card *ngFor="let card of statCards"
-    [title]="card.title"
-    [value]="card.value"
-    [change]="card.change"
-    [changeType]="card.changeType"
-    [icon]="card.icon"
-    [variant]="card.variant">
-  </app-stat-card>
 
-      
+    <app-stat-card *ngFor="let card of statCards" [title]="card.title" [value]="card.value" [change]="card.change"
+      [changeType]="card.changeType" [icon]="card.icon" [variant]="card.variant">
+    </app-stat-card>
+
+
   </div>
 
   <!-- Table Card -->
@@ -23,10 +18,13 @@
       <h2 class="text-lg text-black font-bold">តារាងបង្ហាញពីផលិតផលអស់ស្តុក</h2>
 
       <div class="flex gap-3 ">
-         <div class="relative">
-        <lucide-angular [img]="Search" class="absolute left-2 top-1/2 text-black -translate-y-1/2 w-4 h-4 "></lucide-angular>
-        <input type="text" placeholder="ស្វែងរក..." class="bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"/>
-      </div> 
+        <div class="relative">
+          <lucide-angular [img]="Search"
+            class="absolute left-2 top-1/2 text-black -translate-y-1/2 w-4 h-4 "></lucide-angular>
+          <input type="text" placeholder="ស្វែងរក..."
+            class="bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+            [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
+        </div>
 
         <button class="h-9 px-4 rounded-xl cursor-pointer bg-primary text-white flex items-center gap-2">
           <lucide-icon [img]="icons.Plus" class="w-4 h-4"></lucide-icon>
@@ -51,17 +49,11 @@
         </thead>
 
         <tbody>
-          <tr
-            *ngFor="let product of filteredProducts()"
-            class="border-b text-gray-600 hover:bg-muted/20"
-          >
+          <tr *ngFor="let product of paginated()" class="border-b text-gray-600 hover:bg-muted/20">
             <td class="p-2 text-center font-medium">{{ product.id }}</td>
 
             <td class="p-2 flex justify-center items-center">
-              <img
-                [src]="product.image"
-                class="w-12 h-12 rounded-lg object-cover border"
-              />
+              <img [src]="product.image" class="w-12 h-12 rounded-lg object-cover border" />
             </td>
 
             <td class="p-4 text-center">{{ product.category }}</td>
@@ -74,11 +66,15 @@
               </span>
             </td>
 
-            <td class="p-4 text-center space-x-2">
-              <button class="h-7 px-2 text-xs bg-rose-50 cursor-pointer text-rose-600 rounded-2xl border">
-                បន្ថែមស្តុក
+            <td class="p-4 text-center flex justify-center items-center space-x-2">
+              <button (click)="openDelete(product.category)"
+                class="h-7 px-2 text-xs bg-red-50 cursor-pointer text-red-600 rounded-2xl border flex items-center gap-1">
+                <lucide-angular [img]="Trash2" class="w-3 h-3"></lucide-angular>
+                លុប
               </button>
-              <button class="h-7 px-3 text-xs cursor-pointer bg-emerald-50 text-emerald-600 rounded-2xl border">
+              <button (click)="openEdit()"
+                class="h-7 px-3 text-xs cursor-pointer bg-emerald-50 text-emerald-600 rounded-2xl border flex items-center gap-1">
+                <lucide-angular [img]="Edit" class="w-3 h-3"></lucide-angular>
                 កែសម្រួល
               </button>
             </td>
@@ -89,64 +85,87 @@
 
 
     <!-- Pagination -->
-<div class="p-4 text-black  flex items-center justify-end gap-4">
+    <div class="p-4 text-black  flex items-center justify-end gap-4">
 
-  <!-- First / Previous -->
-  <div class="flex  items-center gap-2">
-    <button
-      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-      (click)="goToFirst()"
-      [disabled]="currentPage() === 1"
-    >
-      <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
-    </button>
+      <!-- First / Previous -->
+      <div class="flex  items-center gap-2">
+        <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="goToFirst()" [disabled]="currentPage() === 1">
+          <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
+        </button>
 
-    <button
-      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-      (click)="prev()"
-      [disabled]="currentPage() === 1"
-    >
-      <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
-    </button>
-  </div>
+        <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="prev()" [disabled]="currentPage() === 1">
+          <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
+        </button>
+      </div>
 
-  <!-- Page info -->
-  <div class="flex items-center gap-3">
-    <select class="select select-neutral  bg-white border "
-    [value]="itemsPerPage()"
-      (change)="changeItemsPerPage($any($event.target).value)"
-    >
-     <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-   </select>
+      <!-- Page info -->
+      <div class="flex items-center gap-3">
+        <select class="select select-neutral  bg-white border " [value]="itemsPerPage()"
+          (change)="changeItemsPerPage($any($event.target).value)">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
 
-    <span class="text-sm text-muted-foreground">
-      {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
-    </span>
-  </div>
+        <span class="text-sm text-muted-foreground">
+          {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
+        </span>
+      </div>
 
-  <!-- Next / Last -->
-  <div class="flex items-center gap-2">
-    <button
-      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-      (click)="next()"
-      [disabled]="currentPage() === totalPages()"
-    >
-      <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
-    </button>
+      <!-- Next / Last -->
+      <div class="flex items-center gap-2">
+        <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="next()" [disabled]="currentPage() === totalPages()">
+          <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
+        </button>
 
-    <button
-      class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-      (click)="goToLast()"
-      [disabled]="currentPage() === totalPages()"
-    >
-      <lucide-angular  [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
-    </button>
-  </div>
+        <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="goToLast()" [disabled]="currentPage() === totalPages()">
+          <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
+        </button>
+      </div>
 
-</div>
+    </div>
 
 
   </div>
 </div>
+
+<!-- Delete Dialog -->
+<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
+  (confirm)="handleDelete()"></app-delete-dialog>
+
+<!-- Edit Dialog -->
+<app-edit-dialog title="កែសម្រួលផលិតផល" (close)="closeEdit()">
+  <div class="space-y-4">
+    <!-- Product Category -->
+    <div class="flex flex-col gap-2">
+      <label class="text-card-foreground font-medium">ប្រភេទផលិតផល <span class="text-destructive">*</span></label>
+      <input type="text" placeholder="ប្រភេទផលិតផល"
+        class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
+    </div>
+
+    <!-- Location -->
+    <div class="flex flex-col gap-2">
+      <label class="text-card-foreground font-medium">ស្តុកផលិតផល <span class="text-destructive">*</span></label>
+      <input type="text" placeholder="ឃ្លាំង"
+        class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
+    </div>
+
+    <!-- Status -->
+    <div class="flex flex-col gap-2">
+      <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
+      <select class="select w-full bg-input/10 text-foreground">
+        <option value="អស់ស្តុក">អស់ស្តុក</option>
+        <option value="មានស្តុក">មានស្តុក</option>
+      </select>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end pt-2">
+      <button class="btn btn-primary rounded-2xl" (click)="updateProduct()">រក្សាទុក</button>
+    </div>
+  </div>
+</app-edit-dialog>

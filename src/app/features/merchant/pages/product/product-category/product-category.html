@@ -1,15 +1,211 @@
 <div class="space-y-6 p-7">
     <!-- Stat Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <app-stat-card [icon]="PackageIcon" variant="pink" value="30" title="ចំនួនផលិតផលសរុប" >
+        <app-stat-card [icon]="PackageIcon" variant="pink" value="30" title="ចំនួនផលិតផលសរុប">
         </app-stat-card>
-         <app-stat-card [icon]="WalletIcon" variant="yellow" value="80000" title="ប្រាក់ចំណូលសរុប" >
+        <app-stat-card [icon]="WalletIcon" variant="yellow" value="80000" title="ប្រាក់ចំណូលសរុប">
         </app-stat-card>
-        <app-stat-card [icon]="ShoppingCart" variant="blue" value="80" title="ការបញ្ជាទិញសរុប" >
+        <app-stat-card [icon]="ShoppingCart" variant="blue" value="80" title="ការបញ្ជាទិញសរុប">
         </app-stat-card>
-         <app-stat-card [icon]="BoxIcon" variant="purple" value="85" title="ប្រភេទផលិតផលសរុប" >
+        <app-stat-card [icon]="BoxIcon" variant="purple" value="85" title="ប្រភេទផលិតផលសរុប">
         </app-stat-card>
     </div>
 
-     <app-table-component></app-table-component>
+    <!-- Table  -->
+
+    <!-- Table -->
+    <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
+        <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
+            <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីប្រភេទផលិតផល ( Product Category )</h2>
+            <div class="flex gap-2">
+                <button type="button"
+                    class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
+                    <lucide-angular [img]="Plus" class="w-4 h-4" />
+                    បញ្ចូលឯកសារ
+                </button>
+                <button type="button"
+                    class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100">
+                    <lucide-angular [img]="FileUp"></lucide-angular>
+                    នាំចេញជាឯកសារ
+                </button>
+                <div class="relative">
+                    <lucide-angular [img]="Search"
+                        class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground "></lucide-angular>
+                    <input type="text"
+                        class=" bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+                        placeholder="ស្វែងរក..." [value]="searchTerm()"
+                        (input)="searchTerm.set($any($event.target).value)" />
+                </div>
+                <button (click)="openAdd()"
+                    class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white">
+                    + បន្ថែមថ្មី
+                </button>
+            </div>
+        </div>
+        <table class="w-full   ">
+            <thead class="bg-muted/20 text-gray-500">
+                <tr>
+                    <th class="p-2 text-center">ID ▼</th>
+                    <th class="p-2 text-center">ឈ្មោះប្រភេទទំនិញ ▼</th>
+                    <th class="p-2 text-center">ពណ៌នា ▼</th>
+                    <th class="p-2 text-center">ចំនួនទំនិញ ▼</th>
+                    <th class="p-2 text-center">ស្ថានភាព ▼</th>
+                    <th class="p-2 text-center">សកម្មភាព ▼</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of paginated()" class="border-t border-b border-gray-300 text-center">
+                    <td class="p-2 ">{{ c.id }}</td>
+                    <td class="p-2 ">{{ c.name }}</td>
+                    <td class="p-2  text-muted-foreground">{{ c.description }}</td>
+                    <td class="p-2  text-muted-foreground">{{ c.productCount }}</td>
+                    <td class="p-2">
+                        <span class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
+                            [class.bg-green-100]="c.status === 'active'" [class.text-green-700]="c.status === 'active'"
+                            [class.bg-orange-100]="c.status === 'inactive'"
+                            [class.text-orange-500]="c.status === 'inactive'">
+                            <span class="w-1.5 h-1.5 rounded-full inline-block"
+                                [class.bg-green-700]="c.status === 'active'"
+                                [class.bg-orange-700]="c.status === 'inactive'"></span>
+                            <span class="text-[13px] font-bold">{{ c.status }}</span>
+                        </span>
+                    </td>
+
+                    <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
+                        <button (click)="openDelete(c.name)"
+                            class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
+                            <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
+                            លុប</button>
+                        <button (click)="openEdit()"
+                            class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center">
+                            <lucide-angular [img]="Edit" class="w-4 h-4 mr-1"></lucide-angular>
+                            កែសម្រួល</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="p-4   flex items-center justify-end gap-4">
+
+            <!-- First / Previous -->
+            <div class="flex  items-center gap-2">
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="goToFirst()" [disabled]="currentPage() === 1">
+                    <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
+                </button>
+
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="prev()" [disabled]="currentPage() === 1">
+                    <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
+                </button>
+            </div>
+
+            <!-- Page info -->
+            <div class="flex items-center gap-3">
+                <select class="select select-neutral  bg-white border " [value]="itemsPerPage()"
+                    (change)="changeItemsPerPage($any($event.target).value)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+
+                <span class="text-sm text-muted-foreground">
+                    {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
+                </span>
+            </div>
+
+            <!-- Next / Last -->
+            <div class="flex items-center gap-2">
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="next()" [disabled]="currentPage() === totalPages()">
+                    <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
+                </button>
+
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="goToLast()" [disabled]="currentPage() === totalPages()">
+                    <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
+                </button>
+            </div>
+
+        </div>
+
+
+    </div>
+
 </div>
+
+<!-- Delete Dialog -->
+<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
+    (confirm)="handleDelete()"></app-delete-dialog>
+
+<!-- Edit Dialog -->
+<app-edit-dialog title="កែសម្រួលប្រភេទផលិតផល" (close)="closeEdit()">
+    <div class="space-y-4">
+        <!-- Category Name -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ឈ្មោះប្រភេទទំនិញ <span
+                    class="text-destructive">*</span></label>
+            <input type="text" placeholder="ឈ្មោះប្រភេទទំនិញ"
+                class="input border border-gray-300 bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
+        </div>
+
+        <!-- Description -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ពណ៌នា <span class="text-destructive">*</span></label>
+            <textarea placeholder="ពណ៌នាអំពីប្រភេទទំនិញ"
+                class="textarea border border-gray-300 bg-input/10 placeholder:text-muted-foreground text-foreground w-full"
+                rows="3"></textarea>
+        </div>
+
+        <!-- Status -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
+            <select class="select border border-gray-300  w-full bg-input/10 text-foreground">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-end pt-2">
+            <button class="btn btn-primary rounded-2xl" (click)="updateCategory()">រក្សាទុក</button>
+        </div>
+    </div>
+</app-edit-dialog>
+
+
+<!-- Add Dialog -->
+<app-add-dialog title="បន្ថែមប្រភេទផលិតផល" (close)="closeAdd()">
+    <div class="space-y-4">
+        <!-- Category Name -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ឈ្មោះប្រភេទទំនិញ <span
+                    class="text-destructive">*</span></label>
+            <input type="text" placeholder="ឈ្មោះប្រភេទទំនិញ"
+                class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full">
+        </div>
+
+        <!-- Description -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ពណ៌នា <span class="text-destructive">*</span></label>
+            <textarea placeholder="ពណ៌នាអំពីប្រភេទទំនិញ"
+                class="textarea border border-gray-300 bg-input/10 placeholder:text-gray-400 text-foreground w-full"
+                rows="3"></textarea>
+        </div>
+
+        <!-- Status -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
+            <select class="select border border-gray-300 placeholder:text-gray-400  w-full bg-input/10 text-foreground">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-end pt-2">
+            <button class="btn btn-primary rounded-2xl" (click)="addCategory()">រក្សាទុក</button>
+        </div>
+    </div>
+</app-add-dialog>
