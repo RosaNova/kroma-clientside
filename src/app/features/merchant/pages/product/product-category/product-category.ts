@@ -78,7 +78,7 @@ const MOCK_CATEGORIES: Category[] = [
 
 @Component({
   selector: 'app-product-category',
-  imports: [TableComponent, StatCard, CommonModule, LucideAngularModule, DeleteDialog, EditDialogComponent, AddDialogComponent],
+  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, EditDialogComponent, AddDialogComponent],
   templateUrl: './product-category.html',
   styleUrl: './product-category.css',
 })
