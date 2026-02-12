@@ -10,4 +10,10 @@ export class ProductService {
   getProducts(data?: any) {
     return this.requestService.getJSON(this.path, { data });
   }
+  createProducts(data: any) {
+    return this.requestService.postJSON(this.path, data);
+  }
+  uploadFile(data: File) {
+    return this.requestService.postFile(this.path, { image: data });
+  }
 }

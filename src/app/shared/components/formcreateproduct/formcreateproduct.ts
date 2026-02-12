@@ -12,6 +12,7 @@ import {
 } from 'lucide-angular';
 import { DropZoneComponent } from '../ui/drop-zone-component/drop-zone-component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ProductService } from '@/app/features/merchant/pages/product/services/product-service';
 @Component({
   standalone: true,
   selector: 'app-formcreateproduct',
@@ -28,20 +29,35 @@ export class Formcreateproduct {
   Hash = Hash;
   Tag = Tag;
   FileText = FileText;
+  uploadFiles: any;
   form = new FormGroup({
     name: new FormControl('', Validators.required),
     price: new FormControl(''),
     description: new FormControl(''),
-    category: new FormControl(''),
+    category: new FormControl('dslfjl1l31231'),
     qty: new FormControl(''),
-    isActive: new FormControl(''),
+    isActive: new FormControl(true),
     discount: new FormControl(''),
-    store: new FormControl(''),
+    store: new FormControl('123sdlfjl13ll'),
   });
+  constructor(private productService: ProductService) {}
   handleFiles(files: File[]) {
-    console.log(files);
+    if (files!.length > 0) {
+      for (let index = 0; index < files!.length; index++) {
+        const file: File = files![index];
+        this.uploadFiles = file;
+        this.uploadFile();
+      }
+    }
+  }
+  uploadFile() {
+    this.productService.uploadFile(this.uploadFiles).subscribe({
+      next: (res) => {},
+    });
   }
   onCreateProduct() {
-    console.log(this.form.value);
+    this.productService.createProducts(this.form.value).subscribe({
+      next: (res) => {},
+    });
   }
 }
