@@ -1,8 +1,11 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Battambang:wght@100;300;400;700;900&family=Fasthand&display=swap');
+@import 'tailwindcss';
 @plugin "daisyui";
 @custom-variant dark (&:is(.dark *));
-
-:root{
+* {
+  font-family: 'Battambang', system-ui;
+}
+:root {
   --background: hsl(0, 0%, 95%);
   --foreground: oklch(0.985 0 0);
   --card: oklch(100% 0.00011 271.152);
@@ -37,17 +40,16 @@
   --sidebar-ring: oklch(0.439 0 0);
 
   /* Stat Color */
-   /* Dashboard specific colors */
-    --stat-pink: 340 82% 52%;
-    --stat-pink-light: 340 82% 95%;
-    --stat-yellow: 45 93% 47%;
-    --stat-yellow-light: 45 93% 92%;
-    --stat-green: 142 71% 45%;
-    --stat-green-light: 142 71% 92%;
-    --stat-blue: 217 91% 60%;
-    --stat-blue-light: 217 91% 95%;
+  /* Dashboard specific colors */
+  --stat-pink: 340 82% 52%;
+  --stat-pink-light: 340 82% 95%;
+  --stat-yellow: 45 93% 47%;
+  --stat-yellow-light: 45 93% 92%;
+  --stat-green: 142 71% 45%;
+  --stat-green-light: 142 71% 92%;
+  --stat-blue: 217 91% 60%;
+  --stat-blue-light: 217 91% 95%;
 }
-
 
 @layer base {
   * {
@@ -62,8 +64,8 @@
   /* ===============================
      Fonts
   =============================== */
-  --font-sans: "Kantumruy Pro", sans-serif;
-  --font-battambang: "Battambang", system-ui;
+  --font-sans: 'Kantumruy Pro', sans-serif;
+  --font-battambang: 'Battambang', system-ui;
   /* ===============================
      Radius
   =============================== */
@@ -79,7 +81,7 @@
   --color-ring: hsl(var(--ring));
   --color-background: var(--background);
   --color-foreground: hsl(var(--foreground));
-  --color-khaki : #a3946d;
+  --color-khaki: #a3946d;
 
   /* ===============================
      Primary

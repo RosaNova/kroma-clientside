@@ -1,96 +1,118 @@
 <div class="max-w-4xl mx-auto py-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-      <div class="pb-10">
-        <h2 class="text-2xl text-black pb-2 font-bold text-balance">
-          បញ្ចូលទំនិញថ្មី (សូមបំពេញព័ត៌មានឱ្យបានត្រឹមត្រូវ)
-        </h2>
-        <p class=" text-[15px] text-gray-500 max-w-2xl">
-          បន្ថែមផលិតផលថ្មីទៅក្នុងប្រព័ន្ធរបស់អ្នកដោយភាពងាយស្រួល និងប្រសិទ្ធភាពបំផុត។
-        </p>
-      </div>
+  <div class="pb-10">
+    <h2 class="text-2xl text-black pb-2 font-bold text-balance">
+      បញ្ចូលទំនិញថ្មី (សូមបំពេញព័ត៌មានឱ្យបានត្រឹមត្រូវ)
+    </h2>
+    <p class="text-[15px] text-gray-500 max-w-2xl">
+      បន្ថែមផលិតផលថ្មីទៅក្នុងប្រព័ន្ធរបស់អ្នកដោយភាពងាយស្រួល និងប្រសិទ្ធភាពបំផុត។
+    </p>
+  </div>
 
-      <div class="grid grid-cols-1 text-gray-700 lg:grid-cols-[1fr,300px] gap-8">
-        <div class="space-y-8 w-full">
-            <form class="p-8 space-y-8">
-              <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2.5">
-                  <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <lucide-angular [img]="Tag" class="h-3 w-3" /> ឈ្មោះទំនិញ (Product Name)
-                  </label>
-                  <input type="text" placeholder="ឈ្មោះផលិតផល" class="input w-full" />
-                </div>
-                <div class="space-y-2.5 w-full">
-                  <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <lucide-angular [img]="DollarSign" class="h-3 w-3" /> តម្លៃ (Price)
-                  </label>
-                    <Input
-                      placeholder="0.00$"
-                      class="input w-full"
-                    />
-                 
-                </div>
-              </div>
+  <div class="grid grid-cols-1 text-gray-700 lg:grid-cols-[1fr,300px] gap-8">
+    <div class="space-y-8 w-full">
+      <form class="p-8 space-y-8" [formGroup]="form">
+        <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2.5">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="Tag" class="h-3 w-3" /> ឈ្មោះទំនិញ (Product Name)
+            </label>
+            <input
+              type="text"
+              placeholder="ឈ្មោះផលិតផល"
+              class="input w-full"
+              formControlName="name"
+            />
+          </div>
+          <div class="space-y-2.5 w-full">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="DollarSign" class="h-3 w-3" /> តម្លៃ (Price)
+            </label>
+            <input placeholder="0.00$" class="input w-full" formControlName="price" />
+          </div>
+        </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="space-y-2.5">
-                  <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <lucide-angular [img]="Hash" class="h-3 w-3" /> ចំនួនស្តុក (Stock)
-                  </label>
-                  <Input type="number" placeholder="0" class="input" />
-                </div>
-                <div class="space-y-2.5">
-                  <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <lucide-angular [img]="ListTree"  class="h-3 w-3" /> ប្រភេទ (Category)
-                  </Label>
-                 
-                  <select class="select">
-                    <!-- <selectedcontent class="h-12 bg-muted/5 border-muted">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="space-y-2.5">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="Hash" class="h-3 w-3" /> ចំនួនស្តុក (Stock)
+            </label>
+            <input type="number" placeholder="0" class="input" formControlName="qty" />
+          </div>
+          <div class="space-y-2.5">
+            <Label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="ListTree" class="h-3 w-3" /> ប្រភេទ (Category)
+            </Label>
+
+            <select class="select" formControlName="category">
+              <!-- <selectedcontent class="h-12 bg-muted/5 border-muted">
                        placeholder="ជ្រើសរើសប្រភេទ" />
                     </selectedcontent> -->
-                   
-                      <option value="clothes">សម្លៀកបំពាក់</option>
-                      <option value="accessories">គ្រឿងអលង្ការ</option>
-                      <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option>
-                   
-                  </select>
-                </div>
-                <div class="space-y-2.5">
-                  <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <lucide-angular [img]="Package" class="h-3 w-3" /> ម៉ាក (Brand)
-                  </Label>
-                  <Input type="text" placeholder="Brand...." class="input" />
-                </div>
-              </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                <div class="space-y-2.5 w-full">
-                  <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <lucide-angular [img]="Hash" class="h-3 w-3" /> ការបញ្ចុះតម្លៃ (Discount) Optional
-                  </label>
-                  <Input type="number" placeholder="%" class="input" />
-                </div>
-                 <div class="space-y-2.5 w-full">
-                <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                  <lucide-angular  [img]="FileText" class="h-3 w-3" /> ការពិពណ៌នា (Description)
-                </label>
-                <textarea placeholder="រៀបរាប់អំពីផលិតផលរបស់អ្នកនៅទីនេះ..."
-                  class="textarea  w-full resize-none"
-                ></textarea>
-              </div>
-    
-              </div>
-
-
-              <div class="space-y-2.5 w-full">
-                  <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពផលិតផល (Product Image)
-                  </Label>
-                <app-drop-zone-component  class="w-full"  (filesAdded)="handleFiles($event)"></app-drop-zone-component>
-                </div>
-               <button class="w-32  cursor-pointer text-white flex justify-center items-center float-end h-10  bg-green-700 hover:bg-green-700/90 font-black text-[15px] rounded-[10px]">
-                បង្កើតទំនិញថ្មី
-                </button>
-            </form>
+              <option value="clothes">សម្លៀកបំពាក់</option>
+              <option value="accessories">គ្រឿងអលង្ការ</option>
+              <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option>
+            </select>
           </div>
+          <div class="space-y-2.5">
+            <Label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="Package" class="h-3 w-3" /> ម៉ាក (Brand)
+            </Label>
+            <input type="text" placeholder="Brand...." class="input" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div class="space-y-2.5 w-full">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="Hash" class="h-3 w-3" /> ការបញ្ចុះតម្លៃ (Discount) Optional
+            </label>
+            <input type="number" placeholder="%" class="input" formControlName="discount" />
+          </div>
+          <div class="space-y-2.5 w-full">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="FileText" class="h-3 w-3" /> ការពិពណ៌នា (Description)
+            </label>
+            <textarea
+              placeholder="រៀបរាប់អំពីផលិតផលរបស់អ្នកនៅទីនេះ..."
+              class="textarea w-full resize-none"
+              formControlName="description"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="space-y-2.5 w-full">
+          <Label
+            class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+          >
+            <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពផលិតផល (Product Image)
+          </Label>
+          <app-drop-zone-component
+            class="w-full"
+            (filesAdded)="handleFiles($event)"
+          ></app-drop-zone-component>
+        </div>
+        <button
+          class="w-32 cursor-pointer text-white flex justify-center items-center float-end h-10 bg-green-700 hover:bg-green-700/90 font-black text-[15px] rounded-[10px]"
+          (click)="onCreateProduct()"
+          type="button"
+        >
+          បង្កើតទំនិញថ្មី
+        </button>
+      </form>
     </div>
-     
+  </div>
 </div>
