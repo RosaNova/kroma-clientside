@@ -1,6 +1,15 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LayoutDashboard, LucideAngularModule, Package, ShoppingCart, MessageSquareText, FileText, Settings } from 'lucide-angular';
+import {
+  LayoutDashboard,
+  LucideAngularModule,
+  Package,
+  ShoppingCart,
+  MessageSquareText,
+  FileText,
+  Settings,
+  User,
+} from 'lucide-angular';
 import { Slidebar } from '@/app/shared/components/slidebar/slidebar';
 import { KrHeader } from '@/app/shared/components/kr-header/kr-header';
 import localeKm from '@angular/common/locales/km';
@@ -25,33 +34,37 @@ interface NavItem {
 export class Merchant {
   navItems: NavItem[] = [
     {
-      icon: LayoutDashboard, label: 'ផ្ទាំងគ្រប់គ្រង',
-      route: '/merchant/dashboard'
+      icon: LayoutDashboard,
+      label: 'ផ្ទាំងគ្រប់គ្រង',
+      route: '/merchant/dashboard',
     },
     {
-      icon: Package, label: 'ផលិតផល',
+      icon: Package,
+      label: 'ផលិតផល',
 
       children: [
-        { label: 'ផលិតផលទាំងអស់', route: '/merchant/product', icon: "" },
-        { label: 'បន្ថែមផលិតផល', route: '/merchant/product/addproduct', icon: "" },
-        { label: 'ប្រភេទផលិតផល', route: '/merchant/product/productcategory', icon: "" },
-        { label: 'អស់ស្តុក', route: '/merchant/product/productoutstock', icon: "" },
-        { label: 'បញ្ចុះតម្លៃ & គូប៉ុង', route: '/merchant/product/productdiscount', icon: "" },
-      ]
+        { label: 'ផលិតផលទាំងអស់', route: '/merchant/product', icon: '' },
+        { label: 'បន្ថែមផលិតផល', route: '/merchant/product/addproduct', icon: '' },
+        { label: 'ប្រភេទផលិតផល', route: '/merchant/product/productcategory', icon: '' },
+        { label: 'អស់ស្តុក', route: '/merchant/product/productoutstock', icon: '' },
+        { label: 'បញ្ចុះតម្លៃ & គូប៉ុង', route: '/merchant/product/productdiscount', icon: '' },
+      ],
     },
-    { icon: ShoppingCart, label: 'ការបញ្ជាទិញ', route: "order" },
-    { icon: FileText, label: 'របាយការណ៍', route: "report" },
-    { icon: MessageSquareText, label: 'មតិកែលម្អ', route: "feedback" },
+    { icon: ShoppingCart, label: 'ការបញ្ជាទិញ', route: 'order' },
+    { icon: FileText, label: 'របាយការណ៍', route: 'report' },
+    { icon: MessageSquareText, label: 'មតិកែលម្អ', route: 'feedback' },
+    { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
     { icon: Settings, label: 'ការកំណត់', route: '/merchant/setting' },
   ];
   user = {
     name: 'សុខ វណ្ណា',
     role: 'អ្នកគ្រប់គ្រង',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
+    avatar:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
   };
 
-  title = "ផ្ទាំងគ្រប់គ្រង";
-  subtitle = "សូមស្វាគមន៍មកកាន់ Krama Dashboard";
+  title = 'ផ្ទាំងគ្រប់គ្រង';
+  subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
   today = new Date();
   notificationCount = 10;
 }

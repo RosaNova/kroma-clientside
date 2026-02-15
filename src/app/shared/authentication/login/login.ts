@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';;
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth-service';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -14,14 +14,19 @@ export class Login {
   username = '';
   password = '';
   currentYear = new Date().getFullYear();
-  constructor(private router: Router) {}
+  form = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+  });
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+  ) {}
   onSubmit() {
-    if (!this.username || !this.password) return;
-
-    // TODO: replace with real auth API
-    localStorage.setItem('token', 'mock-token');
-    localStorage.setItem('role', 'MERCHANT');
-
-    this.router.navigate(['/merchant']);
+    this.authService.login(this.form.value).subscribe({
+      next: (res) => {
+        localStorage.setItem('role', res.role);
+      },
+    });
   }
 }

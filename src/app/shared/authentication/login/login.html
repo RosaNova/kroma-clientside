@@ -1,17 +1,16 @@
 <main class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-
   <!-- Left Side -->
-  <div class="hidden lg:flex bg-khaki items-center justify-center">
-  </div>
+  <div class="hidden lg:flex bg-khaki items-center justify-center"></div>
 
   <!-- Right Side -->
   <div class="flex items-center justify-center p-8 bg-white">
     <div class="w-full max-w-md space-y-8">
-
       <!-- Logo -->
       <div class="flex flex-col items-center text-center">
         <div class="relative w-24 h-24 mb-4">
-          <div class="absolute inset-0 border-4 border-khaki rounded-full flex items-center justify-center">
+          <div
+            class="absolute inset-0 border-4 border-khaki rounded-full flex items-center justify-center"
+          >
             <div class="w-16 h-16 bg-khaki/10 rounded-full flex items-center justify-center">
               <span class="text-khaki font-bold text-xs">ANGKOR</span>
             </div>
@@ -29,8 +28,7 @@
       </div>
 
       <!-- Form -->
-      <form class="space-y-6" (ngSubmit)="onSubmit()">
-
+      <form class="space-y-6" [formGroup]="form">
         <div class="space-y-2">
           <label for="username" class="text-gray-700 font-medium">
             ឈ្មោះគណនី <span class="text-red-500">*</span>
@@ -38,7 +36,7 @@
           <input
             id="username"
             type="text"
-            [(ngModel)]="username"
+            formControlName="email"
             name="username"
             required
             placeholder="បញ្ចូលឈ្មោះគណនី"
@@ -53,7 +51,7 @@
           <input
             id="password"
             type="password"
-            [(ngModel)]="password"
+            formControlName="password"
             name="password"
             required
             placeholder="បញ្ចូលពាក្យសម្ងាត់"
@@ -62,12 +60,11 @@
         </div>
 
         <button
-          type="submit"
+          (click)="onSubmit()"
+          type="button"
           class="w-full h-12 bg-khaki hover:bg-khaki-dark text-white text-lg font-medium flex items-center justify-center gap-2 transition-colors rounded-md"
         >
-          <span class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-            →
-          </span>
+          <span class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center"> → </span>
           ចូលប្រើប្រាស់
         </button>
       </form>

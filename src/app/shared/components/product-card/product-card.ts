@@ -5,20 +5,28 @@ import { DeleteDialog } from '../ui/delete-dialog/delete-dialog';
 import { EditDialogComponent } from '../ui/edit-dialog/edit-dialog';
 import { FormsModule } from '@angular/forms';
 import { KhmerNumberPipe } from '@/app/pipes/khmer-number.pipe';
+import { Product } from '@/app/features/merchant/pages/product/models/product';
 
 @Component({
   standalone: true,
   selector: 'app-product-card',
-  imports: [CommonModule, RouterLink, DeleteDialog, EditDialogComponent, FormsModule, KhmerNumberPipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    DeleteDialog,
+    EditDialogComponent,
+    FormsModule,
+    KhmerNumberPipe,
+  ],
   templateUrl: './product-card.html',
   styleUrls: ['./product-card.css'],
 })
 export class ProductCard {
-
   @Input() image!: string;
   @Input() name!: string;
   @Input() price!: number;
   @Input() stock!: number;
+  @Input() products: Product[] = [];
 
   showDeleteDialog = false;
   selectedName = '';

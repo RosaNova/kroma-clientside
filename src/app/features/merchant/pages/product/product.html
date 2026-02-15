@@ -1,11 +1,17 @@
 <div class="p-7">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
-    <app-stat-card *ngFor="let stat of statsValue" [title]="stat.title" [value]="stat.value" [icon]="stat.icon"
-      [variant]="stat.variant" [khmerUnit]="stat.khmerUnit" />
+    <app-stat-card
+      *ngFor="let stat of statsValue"
+      [title]="stat.title"
+      [value]="stat.value"
+      [icon]="stat.icon"
+      [variant]="stat.variant"
+      [khmerUnit]="stat.khmerUnit"
+    />
   </div>
   <div class="bg-transparent">
-    <app-product-section title="ប្រភេទគ្រឿងទេស" [products]="spiceProducts" />
-    <app-product-section title="ប្រភេទបន្លែ" [products]="vegetableProducts" />
-    <app-product-section title="ប្រភេទវត្ថុអនុសាវរីយ៍" [products]="souvenirProducts" />
+    <app-product-section title="ប្រភេទគ្រឿងទេស" [products]="products" />
+    <!-- <app-product-section title="ប្រភេទបន្លែ" [products]="vegetableProducts" />
+    <app-product-section title="ប្រភេទវត្ថុអនុសាវរីយ៍" [products]="souvenirProducts" /> -->
   </div>
 </div>

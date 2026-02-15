@@ -45,7 +45,7 @@ export class requestService {
     headers.append('Content-Type', 'application/json');
     return this.httpClient.patch<any>(url, data, { headers });
   }
-  postFile(path: string, data: any) {
+  postFormData(path: string, data: any) {
     const url = this.getUrl(path);
     const headers = this.getAuthHeader();
     headers.append('Content-Type', 'multipart/form-data;boundary=abc');

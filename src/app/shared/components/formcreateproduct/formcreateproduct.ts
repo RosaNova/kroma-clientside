@@ -34,11 +34,11 @@ export class Formcreateproduct {
     name: new FormControl('', Validators.required),
     price: new FormControl(''),
     description: new FormControl(''),
-    category: new FormControl('dslfjl1l31231'),
+    category: new FormControl('693ab7eda6eeb5e1cdb1a83f'),
     qty: new FormControl(''),
     isActive: new FormControl(true),
     discount: new FormControl(''),
-    store: new FormControl('123sdlfjl13ll'),
+    store: new FormControl('693ab7eda6eeb5e1cdb1a83f'),
   });
   constructor(private productService: ProductService) {}
   handleFiles(files: File[]) {
@@ -46,17 +46,15 @@ export class Formcreateproduct {
       for (let index = 0; index < files!.length; index++) {
         const file: File = files![index];
         this.uploadFiles = file;
-        this.uploadFile();
       }
     }
   }
-  uploadFile() {
-    this.productService.uploadFile(this.uploadFiles).subscribe({
-      next: (res) => {},
-    });
-  }
   onCreateProduct() {
-    this.productService.createProducts(this.form.value).subscribe({
+    const body = {
+      ...this.form.value,
+      image: this.uploadFiles,
+    };
+    this.productService.createProducts(body).subscribe({
       next: (res) => {},
     });
   }

@@ -1,46 +1,66 @@
-<div
-  class="bg-card text-black border border-gray-400 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-  <div class="aspect-4/3 p-1 overflow-hidden bg-transparent">
-    <img [src]="image" [alt]="name" class="w-full rounded-[10px] h-full object-cover" />
-  </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  @for (item of products; track $index) {
+    <div
+      class="bg-card text-black border border-gray-400 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div class="aspect-4/3 p-1 overflow-hidden bg-transparent">
+        <img
+          [src]="item.image_url"
+          [alt]="item.name"
+          class="w-full rounded-[10px] h-full object-cover"
+        />
+      </div>
 
-  <div class="p-4">
-    <div class="flex items-start justify-between mb-2">
-      <h4 class="font-semibold text-card-foreground text-sm">{{ name }}</h4>
-      <span class="font-bold text-destructive text-sm whitespace-nowrap">
-        {{ price | khmerNumber}} រៀល
-      </span>
+      <div class="p-4">
+        <div class="flex items-start justify-between mb-2">
+          <h4 class="font-semibold text-card-foreground text-sm">{{ item.name }}</h4>
+          <span class="font-bold text-destructive text-sm whitespace-nowrap">
+            {{ item.price | khmerNumber }} រៀល
+          </span>
+        </div>
+
+        <p class="text-xs text-muted-foreground mb-4">
+          ចំនួនក្នុងស្តុក: {{ item.qty | khmerNumber }}
+        </p>
+
+        <div class="flex gap-2">
+          <!-- Delete -->
+          <button
+            (click)="openDelete(item.name)"
+            type="button"
+            class="flex-1 cursor-pointer bg-destructive rounded-xl hover:bg-destructive/90 text-destructive-foreground text-xs h-8"
+          >
+            លុប
+          </button>
+
+          <!-- Edit -->
+          <button
+            type="button"
+            (click)="open()"
+            class="flex-1 cursor-pointer bg-stat-pink rounded-xl hover:bg-stat-pink/90 text-white text-xs h-8"
+          >
+            កែសម្រួល
+          </button>
+
+          <!-- Detail -->
+          <a
+            routerLink="/merchant/product/productdetail"
+            class="flex-1 bg-green-700 flex justify-center items-center rounded-xl text-white cursor-pointer text-xs h-8"
+          >
+            លម្អិត
+          </a>
+        </div>
+      </div>
     </div>
-
-    <p class="text-xs text-muted-foreground mb-4">
-      ចំនួនក្នុងស្តុក: {{ stock | khmerNumber}}
-    </p>
-
-    <div class="flex gap-2">
-      <!-- Delete -->
-      <button (click)="openDelete(name)" type="button"
-        class="flex-1 cursor-pointer bg-destructive rounded-xl hover:bg-destructive/90 text-destructive-foreground text-xs h-8">
-        លុប
-      </button>
-
-      <!-- Edit -->
-      <button type="button" (click)="open()"
-        class="flex-1 cursor-pointer bg-stat-pink rounded-xl hover:bg-stat-pink/90 text-white text-xs h-8">
-        កែសម្រួល
-      </button>
-
-      <!-- Detail -->
-      <a routerLink="/merchant/product/productdetail"
-        class="flex-1 bg-green-700 flex justify-center items-center rounded-xl text-white cursor-pointer text-xs h-8">
-        លម្អិត
-      </a>
-    </div>
-  </div>
+  }
 </div>
-
 <!-- Delete Dialog -->
-<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
-  (confirm)="handleDelete()"></app-delete-dialog>
+<app-delete-dialog
+  [open]="showDeleteDialog"
+  [name]="selectedName"
+  (cancel)="handleCancel()"
+  (confirm)="handleDelete()"
+></app-delete-dialog>
 
 <!-- ✅ Edit Dialog -->
 <app-edit-dialog title="កែសម្រួលផលិតផល" (close)="close()">
@@ -49,31 +69,45 @@
     <label for="file" class="relative w-32 h-32 rounded-xl overflow-hidden bg-gray-200">
       <img src="https://i.pravatar.cc/300" class="w-full h-full object-cover" />
       <div
-        class="bg-black/50 top-0 text-center text-[12px] text-white cursor-pointer font-bold flex justify-center items-center left-0 opacity-0 hover:opacity-100 duration-300 absolute h-full w-full">
-        Update Image</div>
-      <input type="file" id="file"
-        class="absolute hidden inset-0 bg-black/40  items-center justify-center text-white text-xs cursor-pointer" />
+        class="bg-black/50 top-0 text-center text-[12px] text-white cursor-pointer font-bold flex justify-center items-center left-0 opacity-0 hover:opacity-100 duration-300 absolute h-full w-full"
+      >
+        Update Image
+      </div>
+      <input
+        type="file"
+        id="file"
+        class="absolute hidden inset-0 bg-black/40 items-center justify-center text-white text-xs cursor-pointer"
+      />
     </label>
-
 
     <!-- Form -->
     <div class="grid grid-cols-2 text-card-foreground gap-4 flex-1">
       <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground">ឈ្មោះផលិតផល <span class="text-destructive">*</span></label>
-        <input placeholder="ឈ្មោះទំនិញ"
+        <label class="label-text text-card-foreground"
+          >ឈ្មោះផលិតផល <span class="text-destructive">*</span></label
+        >
+        <input
+          placeholder="ឈ្មោះទំនិញ"
           class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full"
-          [(ngModel)]="form.firstName">
+          [(ngModel)]="form.firstName"
+        />
       </div>
 
       <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground">តម្លៃ <span class="text-destructive">*</span></label>
-        <input placeholder="$"
+        <label class="label-text text-card-foreground"
+          >តម្លៃ <span class="text-destructive">*</span></label
+        >
+        <input
+          placeholder="$"
           class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full"
-          [(ngModel)]="form.lastName">
+          [(ngModel)]="form.lastName"
+        />
       </div>
 
       <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground">ប្រភេទ <span class="text-destructive">*</span></label>
+        <label class="label-text text-card-foreground"
+          >ប្រភេទ <span class="text-destructive">*</span></label
+        >
         <select name="" class="select w-full bg-input/10 text-foreground" id="">
           <option value="clothes">សម្លៀកបំពាក់</option>
           <option value="accessories">គ្រឿងអលង្ការ</option>
@@ -81,22 +115,43 @@
         </select>
       </div>
 
-
       <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground">ចំនួនស្តុក <span class="text-destructive">*</span></label>
-        <input type="number" name="" placeholder="0" class="input bg-input/10 text-foreground w-full" id="">
+        <label class="label-text text-card-foreground"
+          >ចំនួនស្តុក <span class="text-destructive">*</span></label
+        >
+        <input
+          type="number"
+          name=""
+          placeholder="0"
+          class="input bg-input/10 text-foreground w-full"
+          id=""
+        />
       </div>
 
       <!-- Gender -->
-      <div class="flex flex-col gap-3 ">
-        <label class="label-text text-card-foreground">បញ្ចុះតម្លៃ <span class="text-destructive">*</span></label>
-        <input type="number" placeholder="%" name="" class="input bg-input/10 w-full text-foreground" id="">
+      <div class="flex flex-col gap-3">
+        <label class="label-text text-card-foreground"
+          >បញ្ចុះតម្លៃ <span class="text-destructive">*</span></label
+        >
+        <input
+          type="number"
+          placeholder="%"
+          name=""
+          class="input bg-input/10 w-full text-foreground"
+          id=""
+        />
       </div>
       <div class="flex flex-col gap-3">
-        <label for="" class="text-card-foreground">ពិពណ៌នា <span class="text-destructive">*</span></label>
-        <textarea name="" class="textarea bg-input/10 text-foreground w-full" placeholder="ការពិពណ៌នា..." id="">
-
-              </textarea>
+        <label for="" class="text-card-foreground"
+          >ពិពណ៌នា <span class="text-destructive">*</span></label
+        >
+        <textarea
+          name=""
+          class="textarea bg-input/10 text-foreground w-full"
+          placeholder="ការពិពណ៌នា..."
+          id=""
+        >
+        </textarea>
       </div>
     </div>
   </div>

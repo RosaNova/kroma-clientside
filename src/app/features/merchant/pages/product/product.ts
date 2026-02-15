@@ -1,10 +1,11 @@
 import { ProductSection } from '@/app/shared/components/product-section/product-section';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, Inject, ChangeDetectorRef } from '@angular/core';
 import { LucideAngularModule, Package, Wallet, ShoppingCart, Box } from 'lucide-angular';
 import { ProductService } from './services/product-service';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ProductGrouped } from './models/product';
 interface StatType {
   title: string;
   value: string | number;
@@ -24,16 +25,30 @@ export class Product {
   Wallet = Wallet;
   ShoppingCart = ShoppingCart;
   Box = Box;
-  constructor(private productService: ProductService) {
+  products: ProductGrouped[] = [];
+  constructor(
+    private productService: ProductService,
+    private cdr: ChangeDetectorRef,
+  ) {}
+  ngOnInit(): void {
     this.getProducts();
   }
-  getProducts() {
-    this.productService.getProducts().subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-    });
+  async getProducts() {
+    try {
+      const res = await this.productService.getGroupedProduct();
+
+      if (res && res.list) {
+        this.products = res.list;
+        this.cdr.detectChanges(); // Manually trigger change detection
+      } else {
+        this.products = [];
+      }
+    } catch (e) {
+      console.error('API ERROR:', e);
+      this.products = [];
+    }
   }
+
   spiceProducts = [
     {
       id: 1,
@@ -68,62 +83,70 @@ export class Product {
   vegetableProducts = [
     {
       id: 5,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 40000,
-      stock: 50,
+      qty: 50,
     },
     {
       id: 6,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 20000,
-      stock: 50,
+      qty: 50,
     },
     {
       id: 7,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 25000,
-      stock: 50,
+      qty: 50,
     },
     {
       id: 8,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 35000,
-      stock: 50,
+      qty: 50,
     },
   ];
 
   souvenirProducts = [
     {
       id: 9,
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 34000,
-      stock: 50,
+      qty: 50,
     },
     {
       id: 10,
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 540000,
-      stock: 50,
+      qty: 50,
     },
     {
       id: 11,
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 560000,
-      stock: 50,
+      qty: 50,
     },
     {
       id: 12,
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
+      image_url:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
       name: 'ប្រហុកខ្មែរផ្សារភ្សារ',
       price: 750000,
-      stock: 50,
+      qty: 50,
     },
   ];
 

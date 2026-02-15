@@ -1,18 +1,14 @@
- <section class="my-8">
-      <div class="flex text-black items-center justify-between mb-4">
-        <h2 class="text-lg font-bold text-foreground">{{title}}</h2>
-        <a routerLink="/merchant/product/seemoreProduct" class="text-sm bg-gray-300 rounded-[10px] py-1 px-3 cursor-pointer text-muted-foreground hover:text-foreground transition-colors">
-          មើលទាំងអស់
-        </a>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <app-product-card
-           *ngFor="let item of products"
-            [image]="item.image"
-            [name]="item.name"
-            [price]="item.price"
-            [stock]="item.stock"
-          />
-        
-      </div>
-    </section>
+@for (item of products; track $index) {
+  <section class="my-8">
+    <div class="flex text-black items-center justify-between mb-4">
+      <h2 class="text-lg font-bold text-foreground">{{ item.name }}</h2>
+      <a
+        routerLink="/merchant/product/seemoreProduct/{{ item._id }}"
+        class="text-sm bg-gray-300 rounded-[10px] py-1 px-3 cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
+      >
+        មើលទាំងអស់
+      </a>
+    </div>
+    <app-product-card [products]="item.products" />
+  </section>
+}
