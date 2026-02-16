@@ -1,5 +1,5 @@
-import { ProductSection } from '@/app/shared/components/product-section/product-section';
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
+import { ProductSection } from '@/app/shared/components/product-section/product-section.component';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Inject, ChangeDetectorRef } from '@angular/core';
 import { LucideAngularModule, Package, Wallet, ShoppingCart, Box } from 'lucide-angular';

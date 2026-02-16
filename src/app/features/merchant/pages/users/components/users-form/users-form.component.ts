@@ -10,7 +10,7 @@ import {
   KeyRound,
 } from 'lucide-angular';
 import { ProductService } from '../../../product/services/product-service';
-import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone-component/drop-zone-component';
+import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zone.component';
 import { CommonModule } from '@angular/common';
 import { UserRole } from '../../models/user-role';
 import { UserService } from '../../service/user-service';

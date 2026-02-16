@@ -1,4 +1,4 @@
-import { ProductCard } from '@/app/shared/components/product-card/product-card';
+import { ProductCard } from '@/app/shared/components/product-card/product-card.component';
 import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';

@@ -1,12 +1,31 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
-import { TableComponent } from '@/app/shared/components/table-component/table-component';
-import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild } from '@angular/core';
 
-import { LucideAngularModule, Package, PackageIcon, CarIcon, WalletIcon, BoxIcon, Plus, Wallet, ShoppingCart, Box, Search, Eye, FileUp, Trash2, Edit, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-angular';
-import { EditDialogComponent } from "@/app/shared/components/ui/edit-dialog/edit-dialog";
-import { AddDialogComponent } from "@/app/shared/components/ui/add-dialog/add-dialog";
+import {
+  LucideAngularModule,
+  Package,
+  PackageIcon,
+  CarIcon,
+  WalletIcon,
+  BoxIcon,
+  Plus,
+  Wallet,
+  ShoppingCart,
+  Box,
+  Search,
+  Eye,
+  FileUp,
+  Trash2,
+  Edit,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from 'lucide-angular';
+import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
+import { AddDialogComponent } from '@/app/shared/components/ui/add-dialog/add-dialog.component';
 interface Category {
   id: number;
   name: string;
@@ -74,11 +93,16 @@ const MOCK_CATEGORIES: Category[] = [
   },
 ];
 
-
-
 @Component({
   selector: 'app-product-category',
-  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, EditDialogComponent, AddDialogComponent],
+  imports: [
+    StatCard,
+    CommonModule,
+    LucideAngularModule,
+    DeleteDialog,
+    EditDialogComponent,
+    AddDialogComponent,
+  ],
   templateUrl: './product-category.component.html',
   styleUrl: './product-category.component.css',
 })
@@ -88,7 +112,6 @@ export class ProductCategory {
   WalletIcon = WalletIcon;
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
-
 
   Plus = Plus;
   Eye = Eye;
@@ -109,34 +132,23 @@ export class ProductCategory {
 
   // Filter
   filtered = computed(() =>
-    MOCK_CATEGORIES.filter(c =>
-      c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-      c.id.toString().includes(this.searchTerm())
-    )
+    MOCK_CATEGORIES.filter(
+      (c) =>
+        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+        c.id.toString().includes(this.searchTerm()),
+    ),
   );
 
   // Pagination
-  totalPages = computed(() =>
-    Math.max(
-      Math.ceil(this.filtered().length / this.itemsPerPage()),
-      1
-    )
-  );
+  totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
 
-  startIndex = computed(() =>
-    (this.currentPage() - 1) * this.itemsPerPage()
-  );
+  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
   endIndex = computed(() =>
-    Math.min(
-      this.startIndex() + this.itemsPerPage(),
-      this.filtered().length
-    )
+    Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
   );
 
-  paginated = computed(() =>
-    this.filtered().slice(this.startIndex(), this.endIndex())
-  );
+  paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
 
   // Navigation
   goToFirst() {
@@ -148,11 +160,11 @@ export class ProductCategory {
   }
 
   prev() {
-    this.currentPage.update(p => Math.max(p - 1, 1));
+    this.currentPage.update((p) => Math.max(p - 1, 1));
   }
 
   next() {
-    this.currentPage.update(p => Math.min(p + 1, this.totalPages()));
+    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
   }
 
   changeItemsPerPage(value: number) {
@@ -163,7 +175,6 @@ export class ProductCategory {
   showDeleteDialog = false;
   selectedName = '';
   name?: string;
-
 
   /* ---------- Delete ---------- */
   openDelete(name: string) {

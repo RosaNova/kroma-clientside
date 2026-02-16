@@ -1,6 +1,4 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
-import { TableComponent } from '@/app/shared/components/table-component/table-component';
-import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild, ChangeDetectorRef } from '@angular/core';
 
@@ -25,8 +23,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-angular';
-import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog';
-import { AddDialogComponent } from '@/app/shared/components/ui/add-dialog/add-dialog';
+import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
+import { AddDialogComponent } from '@/app/shared/components/ui/add-dialog/add-dialog.component';
 import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../service/user-service';
 import { User } from '../../models/user';

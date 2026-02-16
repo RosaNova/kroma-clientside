@@ -12,17 +12,46 @@ interface Order {
 @Component({
   selector: 'app-recent-order',
   imports: [CommonModule],
-  templateUrl: './recent-order.component.html',
-  styleUrl: './recent-order.component.css',
+  templateUrl: './recent-order.html',
+  styleUrl: './recent-order.css',
 })
 export class RecentOrder {
-
   orders: Order[] = [
-    { id: '#KR001', customer: 'ចាន់ សុភា', date: '០៨ ធ្នូ ២០២៤', amount: '$125.00', status: 'completed' },
-    { id: '#KR002', customer: 'សុខ វិសាល', date: '០៧ ធ្នូ ២០២៤', amount: '$89.50', status: 'pending' },
-    { id: '#KR003', customer: 'រស្មី ពេជ្រ', date: '០៧ ធ្នូ ២០២៤', amount: '$234.00', status: 'completed' },
-    { id: '#KR004', customer: 'មុំ សារ៉ា', date: '០៦ ធ្នូ ២០២៤', amount: '$56.75', status: 'processing' },
-    { id: '#KR005', customer: 'គង់ ដារ៉ា', date: '០៦ ធ្នូ ២០២៤', amount: '$178.25', status: 'completed' },
+    {
+      id: '#KR001',
+      customer: 'ចាន់ សុភា',
+      date: '០៨ ធ្នូ ២០២៤',
+      amount: '$125.00',
+      status: 'completed',
+    },
+    {
+      id: '#KR002',
+      customer: 'សុខ វិសាល',
+      date: '០៧ ធ្នូ ២០២៤',
+      amount: '$89.50',
+      status: 'pending',
+    },
+    {
+      id: '#KR003',
+      customer: 'រស្មី ពេជ្រ',
+      date: '០៧ ធ្នូ ២០២៤',
+      amount: '$234.00',
+      status: 'completed',
+    },
+    {
+      id: '#KR004',
+      customer: 'មុំ សារ៉ា',
+      date: '០៦ ធ្នូ ២០២៤',
+      amount: '$56.75',
+      status: 'processing',
+    },
+    {
+      id: '#KR005',
+      customer: 'គង់ ដារ៉ា',
+      date: '០៦ ធ្នូ ២០២៤',
+      amount: '$178.25',
+      status: 'completed',
+    },
   ];
 
   statusStyles: Record<OrderStatus, string> = {
@@ -38,7 +67,6 @@ export class RecentOrder {
   };
 
   trackById(_: number, order: Order): string {
-  return order.id;
-}
-
+    return order.id;
+  }
 }

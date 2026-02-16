@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, LucideAngularModule, Notifications],
   templateUrl: './kr-header.component.html',
-  styleUrls: ['./kr-header.css'],
+  styleUrls: ['./kr-header.component.css'],
 })
 export class KrHeader {
   @Input() title!: string;

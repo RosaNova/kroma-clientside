@@ -1,9 +1,26 @@
 import { CategoryChart } from '@/app/shared/components/category-chart/category-chart';
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, Package, Calendar, Download, Filter, BarChart3, PieChart, FileText, ArrowUpRight, ArrowDownRight, LucideAngularModule, ChartPieIcon } from 'lucide-angular';
+import {
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  ShoppingCart,
+  Users,
+  Package,
+  Calendar,
+  Download,
+  Filter,
+  BarChart3,
+  PieChart,
+  FileText,
+  ArrowUpRight,
+  ArrowDownRight,
+  LucideAngularModule,
+  ChartPieIcon,
+} from 'lucide-angular';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -12,7 +29,7 @@ import {
   ApexGrid,
   ApexTooltip,
   ApexStroke,
-  ApexFill
+  ApexFill,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -23,7 +40,6 @@ export type ChartOptions = {
   plotOptions: ApexPlotOptions;
   colors: string[];
 };
-
 
 export type RevenueChartOptions = {
   series: ApexAxisChartSeries;
@@ -37,18 +53,15 @@ type ChangeType = 'positive' | 'negative';
 type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
 
 export type StatCardType = {
-  title: string;                
-  value: string;               
-  change: string;               
-  changeType: ChangeType; 
-  icon: any;             
-  variant: Variant ; 
+  title: string;
+  value: string;
+  change: string;
+  changeType: ChangeType;
+  icon: any;
+  variant: Variant;
 };
 
-
 import { NgApexchartsModule } from 'ng-apexcharts';
-
-
 
 interface ReportStatCard {
   title: string;
@@ -56,7 +69,7 @@ interface ReportStatCard {
   change: string;
   changeType: ChangeType;
   icon: any;
-  variant: Variant ; 
+  variant: Variant;
 }
 
 interface ProductCategory {
@@ -90,13 +103,12 @@ interface ProductPerformance {
     NgApexchartsModule,
     StatCard,
     CategoryChart,
-    LucideAngularModule
+    LucideAngularModule,
   ],
   templateUrl: './report.component.html',
   styleUrl: './report.component.css',
 })
 export class Report {
-  
   ArrowUpRight = ArrowUpRight;
   ArrowDownRight = ArrowDownRight;
   Filter = Filter;
@@ -104,28 +116,54 @@ export class Report {
   DollarSign = DollarSign;
   ShoppingCart = ShoppingCart;
   TrendingUp = TrendingUp;
-   TrendingDown =  TrendingDown;
-   Users = Users;
-   PieChart = PieChart;
-   FileText = FileText;
-   BarChart3 = BarChart3;
-   
+  TrendingDown = TrendingDown;
+  Users = Users;
+  PieChart = PieChart;
+  FileText = FileText;
+  BarChart3 = BarChart3;
+
   // Tabs
 
-    activeTab: 'sales' | 'products' | 'customers' = 'sales';
+  activeTab: 'sales' | 'products' | 'customers' = 'sales';
 
-  
   // Date Range
   dateRange: string = 'month';
 
-  // Stat Cards for Sale 
+  // Stat Cards for Sale
   SaleStats: StatCardType[] = [
-      { title: 'ប្រាក់ចំណូល', value: '១២៥,០០០,០០', change: '+12.5%', changeType: 'positive', icon: DollarSign, variant : "blue" },
-      { title: 'ការបញ្ជាទិញ', value: '១,២៣៤', change: '+8.2%', changeType: 'positive', icon: ShoppingCart, variant : "green"},
-      { title: 'តម្លៃមធ្យម/ការបញ្ជាទិញ', value: '101,300 រៀល', change: '+4.1%', changeType: 'positive', icon: TrendingUp, variant : "yellow"},
-      { title: 'អត្រាបញ្ជាទិញបរាជ័យ', value: '២.៣%', change: '-0.5%', changeType: 'negative', icon: TrendingDown, variant :"pink"  }
-    ]
-  
+    {
+      title: 'ប្រាក់ចំណូល',
+      value: '១២៥,០០០,០០',
+      change: '+12.5%',
+      changeType: 'positive',
+      icon: DollarSign,
+      variant: 'blue',
+    },
+    {
+      title: 'ការបញ្ជាទិញ',
+      value: '១,២៣៤',
+      change: '+8.2%',
+      changeType: 'positive',
+      icon: ShoppingCart,
+      variant: 'green',
+    },
+    {
+      title: 'តម្លៃមធ្យម/ការបញ្ជាទិញ',
+      value: '101,300 រៀល',
+      change: '+4.1%',
+      changeType: 'positive',
+      icon: TrendingUp,
+      variant: 'yellow',
+    },
+    {
+      title: 'អត្រាបញ្ជាទិញបរាជ័យ',
+      value: '២.៣%',
+      change: '-0.5%',
+      changeType: 'negative',
+      icon: TrendingDown,
+      variant: 'pink',
+    },
+  ];
 
   // Chart Data
   salesData = [
@@ -154,11 +192,46 @@ export class Report {
   ];
 
   topProducts = [
-    { id: 1, name: 'ប្រហុកខ្មែរ', category: 'គ្រឿងទេស', sold: 234, revenue: '4,680,000 រៀល', trend: 'up' },
-    { id: 2, name: 'ម្រេចកំពត', category: 'គ្រឿងទេស', sold: 189, revenue: '3,780,000 រៀល', trend: 'up' },
-    { id: 3, name: 'ត្រី​ប្រឹង', category: 'គ្រឿងទេស', sold: 156, revenue: '2,340,000 រៀល', trend: 'down' },
-    { id: 4, name: 'ក្រមា​ខ្មែរ', category: 'អនុសាវរីយ៍', sold: 145, revenue: '2,900,000 រៀល', trend: 'up' },
-    { id: 5, name: 'ស្ករ​ត្នោត', category: 'ផ្សេងៗ', sold: 132, revenue: '1,980,000 រៀល', trend: 'up' },
+    {
+      id: 1,
+      name: 'ប្រហុកខ្មែរ',
+      category: 'គ្រឿងទេស',
+      sold: 234,
+      revenue: '4,680,000 រៀល',
+      trend: 'up',
+    },
+    {
+      id: 2,
+      name: 'ម្រេចកំពត',
+      category: 'គ្រឿងទេស',
+      sold: 189,
+      revenue: '3,780,000 រៀល',
+      trend: 'up',
+    },
+    {
+      id: 3,
+      name: 'ត្រី​ប្រឹង',
+      category: 'គ្រឿងទេស',
+      sold: 156,
+      revenue: '2,340,000 រៀល',
+      trend: 'down',
+    },
+    {
+      id: 4,
+      name: 'ក្រមា​ខ្មែរ',
+      category: 'អនុសាវរីយ៍',
+      sold: 145,
+      revenue: '2,900,000 រៀល',
+      trend: 'up',
+    },
+    {
+      id: 5,
+      name: 'ស្ករ​ត្នោត',
+      category: 'ផ្សេងៗ',
+      sold: 132,
+      revenue: '1,980,000 រៀល',
+      trend: 'up',
+    },
   ];
 
   topCustomers = [
@@ -172,104 +245,126 @@ export class Report {
   // Expose Math for template (optional)
   Math = Math;
 
-
-   // Weekly sales
+  // Weekly sales
   public saleChart: ChartOptions = {
-      series: [
-        {
-          name: 'Sales',
-          data: [4000, 3000, 5000, 4500, 6000, 5500]
-        }
-      ],
-      chart: {
+    series: [
+      {
+        name: 'Sales',
+        data: [4000, 3000, 5000, 4500, 6000, 5500],
+      },
+    ],
+    chart: {
       type: 'bar',
       height: 280,
-      toolbar: { show: false }
+      toolbar: { show: false },
     },
-  
-      plotOptions: {
-        bar: {
-          borderRadius: 10,
-          columnWidth: '70%'
-        }
-      },
-  
-      xaxis: {
-        categories: ['សប្តាហ៍ ១', '២', '៣', '៤', '៥', '៦']
-      },
-      yaxis: {
-        labels: {
-          formatter: (val: number) => `$${val / 1000}k`
-        }
-      },
-  
-      colors: ['var(--primary)']
-    };
 
+    plotOptions: {
+      bar: {
+        borderRadius: 10,
+        columnWidth: '70%',
+      },
+    },
+
+    xaxis: {
+      categories: ['សប្តាហ៍ ១', '២', '៣', '៤', '៥', '៦'],
+    },
+    yaxis: {
+      labels: {
+        formatter: (val: number) => `$${val / 1000}k`,
+      },
+    },
+
+    colors: ['var(--primary)'],
+  };
 
   // Monthly revenue
-revenueChart : RevenueChartOptions = {
-  series: [
-    {
-      name: 'Revenue',
-      data: [10000, 25000, 35880, 40000, 50000]
-    }
-  ],
+  revenueChart: RevenueChartOptions = {
+    series: [
+      {
+        name: 'Revenue',
+        data: [10000, 25000, 35880, 40000, 50000],
+      },
+    ],
 
-  chart: {
-    type: 'area',
-    height: 350
-  },
+    chart: {
+      type: 'area',
+      height: 350,
+    },
 
-  xaxis: {
-    categories: ['មករា', 'កុម្ភះ', 'មីនា', 'មេសា', 'ឪសភា',"មិថុនា"]
-  },
+    xaxis: {
+      categories: ['មករា', 'កុម្ភះ', 'មីនា', 'មេសា', 'ឪសភា', 'មិថុនា'],
+    },
 
-  dataLabels: {
-    enabled: true
-  },
+    dataLabels: {
+      enabled: true,
+    },
 
-  fill: {
-    opacity: 5
-  },
+    fill: {
+      opacity: 5,
+    },
 
-  tooltip: {
-    enabled: true
-  }
-};
-
-
+    tooltip: {
+      enabled: true,
+    },
+  };
 
   ProductStats: ReportStatCard[] = [
-    { title: 'ផលិតផលសរុប', value: '៥៨០', change: '+24', changeType: 'positive', icon: Package, variant : "blue" },
-    { title: 'ផលិតផលលក់ដាច់', value: '១,៤៥៦', change: '+18.3%', changeType: 'positive', icon: TrendingUp, variant : "pink" },
-    { title: 'ផលិតផលអស់ស្តុក', value: '២០', change: '-5', changeType: 'negative', icon: TrendingDown, variant : "purple" },
-    { title: 'ប្រភេទផលិតផល', value: '១២', change: '+2', changeType: 'positive', icon: PieChart, variant : "yellow" }
+    {
+      title: 'ផលិតផលសរុប',
+      value: '៥៨០',
+      change: '+24',
+      changeType: 'positive',
+      icon: Package,
+      variant: 'blue',
+    },
+    {
+      title: 'ផលិតផលលក់ដាច់',
+      value: '១,៤៥៦',
+      change: '+18.3%',
+      changeType: 'positive',
+      icon: TrendingUp,
+      variant: 'pink',
+    },
+    {
+      title: 'ផលិតផលអស់ស្តុក',
+      value: '២០',
+      change: '-5',
+      changeType: 'negative',
+      icon: TrendingDown,
+      variant: 'purple',
+    },
+    {
+      title: 'ប្រភេទផលិតផល',
+      value: '១២',
+      change: '+2',
+      changeType: 'positive',
+      icon: PieChart,
+      variant: 'yellow',
+    },
   ];
 
   productPerformanceData = [
-  {
-    name: 'Product 1',
-    series: [
-      { name: 'In Stock', value: 50 },
-      { name: 'Out Stock', value: 10 }
-    ]
-  },
-  {
-    name: 'Product 2',
-    series: [
-      { name: 'In Stock', value: 30 },
-      { name: 'Out Stock', value: 20 }
-    ]
-  },
-  {
-    name: 'Product 3',
-    series: [
-      { name: 'In Stock', value: 20 },
-      { name: 'Out Stock', value: 5 }
-    ]
-  }
-];
-
-
+    {
+      name: 'Product 1',
+      series: [
+        { name: 'In Stock', value: 50 },
+        { name: 'Out Stock', value: 10 },
+      ],
+    },
+    {
+      name: 'Product 2',
+      series: [
+        { name: 'In Stock', value: 30 },
+        { name: 'Out Stock', value: 20 },
+      ],
+    },
+    {
+      name: 'Product 3',
+      series: [
+        { name: 'In Stock', value: 20 },
+        { name: 'Out Stock', value: 5 },
+      ],
+    },
+  ];
 }

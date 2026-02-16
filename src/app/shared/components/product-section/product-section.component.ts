@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ProductCard } from '../product-card/product-card';
+import { ProductCard } from '../product-card/product-card.component';
 import { ProductGrouped } from '@/app/features/merchant/pages/product/models/product';
 
 interface product {
