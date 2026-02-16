@@ -25,8 +25,8 @@ export type CategoryChartOptions = {
 @Component({
   selector: 'app-category-chart',
   imports: [ NgApexchartsModule , CommonModule],
-  templateUrl: './category-chart.html',
-  styleUrl: './category-chart.css',
+  templateUrl: './category-chart.component.html',
+  styleUrl: './category-chart.component.css',
 })
 export class CategoryChart {
   public chartOptions: CategoryChartOptions = {

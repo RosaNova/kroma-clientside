@@ -1,0 +1,59 @@
+<aside class="w-64 bg-sidebar h-screen flex flex-col fixed left-0 top-0">
+  <!-- Logo -->
+  <div class="p-6">
+    <div class="flex items-center gap-3">
+      <div class="w-13 h-13 bg-white rounded-[8px] flex items-center justify-center">
+        <img class="w-10 h-10 object-cover "
+          src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771199560/591fc31c-a48e-46eb-8a7e-061a9a06f215.png"
+          alt="">
+      </div>
+      <div>
+        <h1 class="text-sidebar-foreground font-extrabold text-xl">Krama</h1>
+        <p class="text-sidebar-foreground/50 text-xs">គ្រប់គ្រងអាជីវកម្ម</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 px-4 space-y-1 overflow-y-scroll">
+    <div *ngFor="let item of navbar">
+      <!-- Parent item -->
+      <div [routerLink]="item.route"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
+        [class.active]="isParentActive(item)" routerLinkActive="bg-sidebar-primary text-sidebar-primary-foreground"
+        (click)="onParentClick(item)">
+        <lucide-angular *ngIf="item.icon" [img]="item.icon"></lucide-angular>
+        <span class="flex-1 font-medium">{{ item.label }}</span>
+        <lucide-angular *ngIf="item.children" [img]="item.isOpen ? ChevronDown : ChevronRight"
+          class="w-4 h-4"></lucide-angular>
+      </div>
+
+      <!-- Sub menu -->
+      <div *ngIf="item.children"
+        class="ml-6 bg-gray-800 rounded-[10px] mt-1 space-y-1 overflow-hidden transition-all duration-300 ease-in-out"
+        [ngClass]="item.isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'">
+        <a *ngFor="let child of item.children" [routerLink]="child.route"
+          routerLinkActive="active bg-sidebar-primary text-sidebar-foreground"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex rounded-xl duration-300 items-center gap-2 px-4 py-2 text-sm text-sidebar-foreground/60 hover:text-sidebar-foreground cursor-pointer hover:bg-sidebar-accent transition-colors">
+          <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+          <span>{{ child.label }}</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- User Profile -->
+  <div class="p-4 border-t border-sidebar-border mt-auto">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-sidebar-accent overflow-hidden">
+        <img [src]="user.avatar" alt="User" class="w-full h-full object-cover" />
+      </div>
+      <div class="flex-1">
+        <p class="text-sidebar-foreground font-medium text-sm">{{ user.name }}</p>
+        <p class="text-sidebar-foreground/50 text-xs">{{ user.role }}</p>
+      </div>
+      <lucide-angular [img]="LogOut"></lucide-angular>
+    </div>
+  </div>
+</aside>

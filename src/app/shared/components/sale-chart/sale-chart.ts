@@ -22,8 +22,8 @@ export type ChartOptions = {
 @Component({
   selector: 'app-sale-chart',
   imports: [CommonModule, NgApexchartsModule],
-  templateUrl: './sale-chart.html',
-  styleUrl: './sale-chart.css',
+  templateUrl: './sale-chart.component.html',
+  styleUrl: './sale-chart.component.css',
 })
 export class SaleChart {
   

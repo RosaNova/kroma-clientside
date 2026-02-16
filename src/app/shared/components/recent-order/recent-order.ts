@@ -12,8 +12,8 @@ interface Order {
 @Component({
   selector: 'app-recent-order',
   imports: [CommonModule],
-  templateUrl: './recent-order.html',
-  styleUrl: './recent-order.css',
+  templateUrl: './recent-order.component.html',
+  styleUrl: './recent-order.component.css',
 })
 export class RecentOrder {
 

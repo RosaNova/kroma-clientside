@@ -16,8 +16,8 @@ import {
   standalone: true,
   selector: 'app-product-detail',
   imports: [CommonModule, DetailRow, LucideAngularModule],
-  templateUrl: './product-detail.html',
-  styleUrl: './product-detail.css',
+  templateUrl: './product-detail.component.html',
+  styleUrl: './product-detail.component.css',
 })
 export class ProductDetail {
   @Input() onBack?: () => void;
