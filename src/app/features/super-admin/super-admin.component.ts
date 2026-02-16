@@ -12,8 +12,8 @@ import {
 } from 'lucide-angular';
 import localeKm from '@angular/common/locales/km';
 import { registerLocaleData } from '@angular/common';
-import { Slidebar } from '@/app/shared/components/slidebar/slidebar';
-import { KrHeader } from '@/app/shared/components/kr-header/kr-header';
+import { SidebarComponent } from '@/app/shared/components/sidebar/sidebar.component';
+import { KrHeader } from '@/app/shared/components/kr-header/kr-header.component';
 registerLocaleData(localeKm);
 
 interface NavItem {
@@ -25,9 +25,9 @@ interface NavItem {
 }
 @Component({
   selector: 'app-super-admin',
-  imports: [RouterOutlet, LucideAngularModule, Slidebar, KrHeader],
-  templateUrl: './super-admin.html',
-  styleUrl: './super-admin.css',
+  imports: [RouterOutlet, LucideAngularModule, SidebarComponent, KrHeader],
+  templateUrl: './super-admin.component.html',
+  styleUrl: './super-admin.component.css',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

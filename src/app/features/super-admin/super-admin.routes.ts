@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const SUPER_ADMIN_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./super-admin').then((m) => m.SuperAdmin),
+    loadComponent: () => import('./super-admin.component').then((m) => m.SuperAdmin),
     children: [
       {
         path: '',
@@ -13,8 +13,32 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/dashboard/dashboard')
+          import('./pages/dashboard/dashboard.component')
             .then(c => c.Dashboard)
+      },
+      {
+        path: 'merchant',
+        loadComponent: () =>
+          import('./pages/merchant/merchant.component')
+            .then(c => c.Merchant)
+      },
+      {
+        path: 'report',
+        loadComponent: () =>
+          import('./pages/report/report.component')
+            .then(c => c.Report)
+      },
+      {
+        path: 'backup-information',
+        loadComponent: () =>
+          import('./pages/backup-information/backup-information.component')
+            .then(c => c.BackupInformation)
+      },
+      {
+        path: 'setting',
+        loadComponent: () =>
+          import('./pages/setting/setting.component')
+            .then(c => c.Setting)
       }
     ]
   }

@@ -10,8 +10,8 @@ import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp } from 
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule, LucideAngularModule, StatCard],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css',
 })
 export class Dashboard {
   DollarSign = DollarSign;
