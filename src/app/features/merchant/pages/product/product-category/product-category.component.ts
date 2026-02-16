@@ -1,12 +1,12 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
-import { TableComponent } from '@/app/shared/components/table-component/table-component';
-import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { TableComponent } from '@/app/shared/components/table/table.component';
+import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild } from '@angular/core';
 
 import { LucideAngularModule, Package, PackageIcon, CarIcon, WalletIcon, BoxIcon, Plus, Wallet, ShoppingCart, Box, Search, Eye, FileUp, Trash2, Edit, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-angular';
-import { EditDialogComponent } from "@/app/shared/components/ui/edit-dialog/edit-dialog";
-import { AddDialogComponent } from "@/app/shared/components/ui/add-dialog/add-dialog";
+import { EditDialogComponent } from "@/app/shared/components/ui/edit-dialog/edit-dialog.component";
+import { AddDialogComponent } from "@/app/shared/components/ui/add-dialog/add-dialog.component";
 interface Category {
   id: number;
   name: string;

@@ -4,7 +4,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./shared/authentication/login/login')
+      import('./shared/authentication/login/login.component')
         .then(c => c.Login)
   },
 

@@ -1,6 +1,3 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
-import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog';
-import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog';
 import { Component, computed, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -19,6 +16,9 @@ import {
   Edit,
   Trash2
 } from 'lucide-angular';
+import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
+import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 
 
 type ChangeType = 'positive' | 'negative';

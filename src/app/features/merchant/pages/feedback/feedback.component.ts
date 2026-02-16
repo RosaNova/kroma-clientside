@@ -1,8 +1,8 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
-import { StarRating } from '@/app/shared/components/ui/star-rating/star-rating';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { StarRating } from '@/app/shared/components/ui/star-rating/star-rating.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Variant, ChangeType } from '../../../../shared/components/stat-card/stat-card';
+import { Variant, ChangeType } from '../../../../shared/components/stat-card/stat-card.component';
 import { MessageSquare, Star, Users, Eye, TrendingUp, LucideAngularModule, Trash, Trash2 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
 

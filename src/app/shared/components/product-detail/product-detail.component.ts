@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DetailRow } from '../ui/detail-row/detail-row';
+import { DetailRow } from '../ui/detail-row/detail-row.component';
 import { FileText, LucideAngularModule, Ban, BadgeDollarSign } from 'lucide-angular';
 import { Location } from '@angular/common';
 import {

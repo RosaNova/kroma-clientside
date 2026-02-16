@@ -1,11 +1,11 @@
-import { ProductSection } from '@/app/shared/components/product-section/product-section';
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Inject, ChangeDetectorRef } from '@angular/core';
 import { LucideAngularModule, Package, Wallet, ShoppingCart, Box } from 'lucide-angular';
 import { ProductService } from './services/product-service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductGrouped } from './models/product';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { ProductSection } from '@/app/shared/components/product-section/product-section.component';
+
 interface StatType {
   title: string;
   value: string | number;
@@ -29,7 +29,7 @@ export class Product {
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.getProducts();
   }

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './kr-card.component.html',
-  styleUrls: ['./kr-card.css'],
+  styleUrl: './kr-card.component.css',
 })
 export class KrCard {
   @Input({ required: true }) image!: string;

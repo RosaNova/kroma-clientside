@@ -20,7 +20,7 @@ import {
   CircleCheckBig,
 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
-import { StatCard } from '@/app/shared/components/stat-card/stat-card';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 
 type OrderStatus = 'completed' | 'processing' | 'pending' | 'shipped' | 'cancelled';
 type PaymentStatus = 'paid' | 'pending' | 'failed';
@@ -51,12 +51,12 @@ interface StatCardType {
 
 @Component({
   selector: 'app-orders',
-  imports: [CommonModule, LucideAngularModule , FormsModule , StatCard],
+  imports: [CommonModule, LucideAngularModule, FormsModule, StatCard],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css',
 })
 export class Orders {
-   // Icons
+  // Icons
   ShoppingCart = ShoppingCart;
   DollarSign = DollarSign;
   Clock = Clock;
@@ -67,7 +67,7 @@ export class Orders {
   Eye = Eye;
   Edit = Edit;
   Trash2 = Trash2;
-   ShoppingBag =  ShoppingBag;
+  ShoppingBag = ShoppingBag;
 
   searchTerm = '';
   statusFilter: 'all' | OrderStatus = 'all';
@@ -119,36 +119,36 @@ export class Orders {
   }
 
   get pages(): number[] {
-  return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-}
-
-prevPage(): void {
-  if (this.currentPage > 1) {
-    this.currentPage--;
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
-}
 
-nextPage(): void {
-  if (this.currentPage < this.totalPages) {
-    this.currentPage++;
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
-}
 
-goToPage(page: number): void {
-  this.currentPage = page;
-}
-get paginatedEndIndex(): number {
-  return Math.min(this.currentPage * this.itemsPerPage, this.filteredOrders.length);
-}
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+  }
+  get paginatedEndIndex(): number {
+    return Math.min(this.currentPage * this.itemsPerPage, this.filteredOrders.length);
+  }
 
 
- statCards: StatCardType[] = [
+  statCards: StatCardType[] = [
     {
       title: 'ការបញ្ជាទិញ',
       value: '១២០',
       change: 'កើន​ ១២% ពីខែមុន',
       changeType: 'positive',
-      icon:  ShoppingCart,
+      icon: ShoppingCart,
       variant: 'blue'
     },
     {
