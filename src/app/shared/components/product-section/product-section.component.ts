@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ProductCard } from '../product-card/product-card';
 import { ProductGrouped } from '@/app/features/merchant/pages/product/models/product';
+import { ProductCard } from '../product-card/product-card.component';
 
 interface product {
   id: number;
@@ -23,7 +23,7 @@ interface product {
 export class ProductSection {
   @Input() title!: string;
   @Input() products: ProductGrouped[] = [];
-  constructor() {}
+  constructor() { }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['products']) {
       console.log('Products changed:', {

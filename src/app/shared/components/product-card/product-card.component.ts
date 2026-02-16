@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DeleteDialog } from '../ui/delete-dialog/delete-dialog';
-import { EditDialogComponent } from '../ui/edit-dialog/edit-dialog';
 import { FormsModule } from '@angular/forms';
 import { KhmerNumberPipe } from '@/app/pipes/khmer-number.pipe';
 import { Product } from '@/app/features/merchant/pages/product/models/product';
+import { DeleteDialog } from '../ui/delete-dialog/delete-dialog.component';
+import { EditDialogComponent } from '../ui/edit-dialog/edit-dialog.component';
 
 @Component({
   standalone: true,

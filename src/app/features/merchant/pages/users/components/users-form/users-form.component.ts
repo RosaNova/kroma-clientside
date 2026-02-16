@@ -9,15 +9,13 @@ import {
   Mail,
   KeyRound,
 } from 'lucide-angular';
-import { ProductService } from '../../../product/services/product-service';
-import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone-component/drop-zone-component';
 import { CommonModule } from '@angular/common';
 import { UserRole } from '../../models/user-role';
 import { UserService } from '../../service/user-service';
 
 @Component({
   selector: 'app-users-form',
-  imports: [LucideAngularModule, DropZoneComponent, ReactiveFormsModule, CommonModule],
+  imports: [LucideAngularModule, ReactiveFormsModule, CommonModule],
   templateUrl: './users-form.component.html',
   styleUrl: './users-form.component.css',
 })
@@ -36,7 +34,7 @@ export class UsersForm {
     profile: new FormControl(''),
     role: new FormControl(UserRole.shopOwner),
   });
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
   handleFiles(files: File[]) {
     if (files!.length > 0) {
       for (let index = 0; index < files!.length; index++) {
