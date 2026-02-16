@@ -10,7 +10,6 @@ import {
   Eye,
   TrendingUp,
   LucideAngularModule,
-  Trash,
   Trash2,
 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';

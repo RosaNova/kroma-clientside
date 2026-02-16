@@ -1,4 +1,3 @@
-import { ProductCard } from '@/app/shared/components/product-card/product-card.component';
 import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -6,6 +5,7 @@ import { ArrowLeft, LucideAngularModule, Search } from 'lucide-angular';
 import { ProductService } from '../services/product-service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Product } from '../models/product';
+import { ProductCard } from '@/app/shared/components/product-card/product-card.component';
 
 @Component({
   selector: 'app-see-all-product-category',

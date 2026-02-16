@@ -1,6 +1,3 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
-import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
-import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
 import { Component, computed, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -17,8 +14,12 @@ import {
   Users,
   ChevronsLeft,
   Edit,
-  Trash2,
+  Trash2
 } from 'lucide-angular';
+import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
+import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+
 
 type ChangeType = 'positive' | 'negative';
 type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
@@ -40,6 +41,7 @@ interface OutStockProduct {
   lastUpdated: string;
   status: string;
 }
+
 
 @Component({
   selector: 'app-product-outstock',
@@ -79,7 +81,7 @@ export class ProductOutstock {
       change: '2% ពីមុន',
       changeType: 'positive',
       icon: Package,
-      variant: 'purple',
+      variant: 'purple'
     },
     {
       title: 'ប្រាក់ចំណួលផល',
@@ -87,7 +89,7 @@ export class ProductOutstock {
       change: '5% ពីខែមុន',
       changeType: 'positive',
       icon: Wallet,
-      variant: 'yellow',
+      variant: 'yellow'
     },
     {
       title: 'ការបញ្ជាទិញផល',
@@ -95,7 +97,7 @@ export class ProductOutstock {
       change: '1% ពីខែមុន',
       changeType: 'negative',
       icon: ShoppingCart,
-      variant: 'pink',
+      variant: 'pink'
     },
     {
       title: 'ប្រភេទផលិតផល',
@@ -103,92 +105,28 @@ export class ProductOutstock {
       change: '0% ពីខែមុន',
       changeType: 'negative',
       icon: Box,
-      variant: 'pink',
-    },
+      variant: 'pink'
+    }
   ];
 
   products: OutStockProduct[] = [
-    {
-      id: 101,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងសៀមរាប',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 102,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងសៀមរាប',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 103,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងភ្នំពេញ',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 104,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងសៀមរាប',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 105,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងសៀមរាប',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 106,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងភ្នំពេញ',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 107,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងសៀមរាប',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 108,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងសៀមរាប',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
-    {
-      id: 109,
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop',
-      category: 'គ្រឿងកែច្នៃ',
-      location: 'ឃ្លាំងភ្នំពេញ',
-      lastUpdated: '10/10/2025',
-      status: 'អស់ស្តុក',
-    },
+    { id: 101, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 102, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 103, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 104, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 105, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 106, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 107, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 108, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងសៀមរាប', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
+    { id: 109, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=300&fit=crop', category: 'គ្រឿងកែច្នៃ', location: 'ឃ្លាំងភ្នំពេញ', lastUpdated: '10/10/2025', status: 'អស់ស្តុក' },
   ];
 
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase();
-    return this.products.filter(
-      (p) =>
-        p.category.toLowerCase().includes(term) ||
-        p.location.toLowerCase().includes(term) ||
-        p.id.toString().includes(term),
+    return this.products.filter(p =>
+      p.category.toLowerCase().includes(term) ||
+      p.location.toLowerCase().includes(term) ||
+      p.id.toString().includes(term)
     );
   });
 
@@ -199,23 +137,34 @@ export class ProductOutstock {
 
   // Filter
   filtered = computed(() =>
-    this.products.filter(
-      (c) =>
-        c.category.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c.id.toString().includes(this.searchTerm()),
-    ),
+    this.products.filter(c =>
+      c.category.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+      c.id.toString().includes(this.searchTerm())
+    )
   );
 
   // Pagination
-  totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
-
-  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
-
-  endIndex = computed(() =>
-    Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
+  totalPages = computed(() =>
+    Math.max(
+      Math.ceil(this.filtered().length / this.itemsPerPage()),
+      1
+    )
   );
 
-  paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
+  startIndex = computed(() =>
+    (this.currentPage() - 1) * this.itemsPerPage()
+  );
+
+  endIndex = computed(() =>
+    Math.min(
+      this.startIndex() + this.itemsPerPage(),
+      this.filtered().length
+    )
+  );
+
+  paginated = computed(() =>
+    this.filtered().slice(this.startIndex(), this.endIndex())
+  );
 
   // Navigation
   goToFirst() {
@@ -227,11 +176,11 @@ export class ProductOutstock {
   }
 
   prev() {
-    this.currentPage.update((p) => Math.max(p - 1, 1));
+    this.currentPage.update(p => Math.max(p - 1, 1));
   }
 
   next() {
-    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
+    this.currentPage.update(p => Math.min(p + 1, this.totalPages()));
   }
 
   changeItemsPerPage(value: number) {
@@ -264,6 +213,7 @@ export class ProductOutstock {
     this.editDialog.openModal();
   }
 
+
   closeEdit() {
     this.editDialog.closeModal();
   }
@@ -272,4 +222,5 @@ export class ProductOutstock {
     console.log('Product updated');
     this.closeEdit();
   }
+
 }

@@ -9,7 +9,7 @@ import { Tag, Layers, PackageIcon, Percent, ArrowLeft } from 'lucide-angular';
   standalone: true,
   selector: 'app-product-detail',
   imports: [CommonModule, DetailRow, LucideAngularModule],
-  templateUrl: './product-detail.html',
+  templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.css',
 })
 export class ProductDetail {
@@ -17,7 +17,7 @@ export class ProductDetail {
   @Output() edit = new EventEmitter<void>();
   @Output() remove = new EventEmitter<void>();
 
-  constructor(private location: Location) {}
+  constructor(private location: Location) { }
 
   Tag = Tag;
   Layers = Layers;

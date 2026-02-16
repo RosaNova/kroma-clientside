@@ -1,6 +1,3 @@
-import { CategoryChart } from '@/app/shared/components/category-chart/category-chart';
-import { RecentOrder } from '@/app/shared/components/recent-order/recent-order';
-import { SaleChart } from '@/app/shared/components/sale-chart/sale-chart';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -23,28 +20,28 @@ export class Dashboard {
       name: 'នាឡិកាឆ្លាតវៃ',
       category: 'អេឡិចត្រូនិក',
       price: '$299.00',
-      stock: 24,
+      stock: 24
     },
     {
       image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
       name: 'កាសស្តាប់ត្រចៀក',
       category: 'អេឡិចត្រូនិក',
       price: '$250.00',
-      stock: 8,
+      stock: 8
     },
     {
       image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop',
       name: 'ស្បែកជើងកីឡា',
       category: 'សម្លៀកបំពាក់',
       price: '$129.00',
-      stock: 35,
+      stock: 35
     },
     {
       image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&h=300&fit=crop',
       name: 'កាមេរ៉ាឌីជីថល',
       category: 'អេឡិចត្រូនិក',
       price: '$599.00',
-      stock: 0,
-    },
+      stock: 0
+    }
   ];
 }
