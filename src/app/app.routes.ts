@@ -4,34 +4,36 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
+<<<<<<< HEAD
       import('./shared/authentication/login/login.component')
         .then(c => c.Login)
+=======
+      import('./shared/authentication/login/login.component').then((c) => c.Login),
+>>>>>>> origin/master
   },
 
   {
     path: 'merchant',
     loadChildren: () =>
-      import('./features/merchant/merchant.routes')
-        .then(m => m.MERCHANT_ROUTES),
-    data: { roles: ['MERCHANT'] }
+      import('./features/merchant/merchant.routes').then((m) => m.MERCHANT_ROUTES),
+    data: { roles: ['MERCHANT'] },
   },
 
   {
     path: 'super-admin',
     loadChildren: () =>
-      import('./features/super-admin/super-admin.routes')
-        .then(m => m.SUPER_ADMIN_ROUTES),
-    data: { roles: ['SUPER_ADMIN'] }
+      import('./features/super-admin/super-admin.routes').then((m) => m.SUPER_ADMIN_ROUTES),
+    data: { roles: ['SUPER_ADMIN'] },
   },
 
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 
   {
     path: '**',
-    redirectTo: 'login'
-  }
+    redirectTo: 'login',
+  },
 ];

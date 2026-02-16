@@ -3,14 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DetailRow } from '../ui/detail-row/detail-row.component';
 import { FileText, LucideAngularModule, Ban, BadgeDollarSign } from 'lucide-angular';
 import { Location } from '@angular/common';
-import {
-  Tag,
-  Layers,
-  PackageIcon,
-  Percent,
-  ArrowLeft
-} from 'lucide-angular';
-
+import { Tag, Layers, PackageIcon, Percent, ArrowLeft } from 'lucide-angular';
 
 @Component({
   standalone: true,
@@ -24,7 +17,7 @@ export class ProductDetail {
   @Output() edit = new EventEmitter<void>();
   @Output() remove = new EventEmitter<void>();
 
-  constructor(private location: Location) { }
+  constructor(private location: Location) {}
 
   Tag = Tag;
   Layers = Layers;
@@ -40,16 +33,14 @@ export class ProductDetail {
     price: '20000 រៀល',
     category: 'ត្រីប្រែទេស',
     stock: 50,
-    brand: "KhmerFood",
+    brand: 'KhmerFood',
     discount: '10%',
     description:
       'ស្នាប់រូបភ្នែក្តីវារស្វប់ជង់ជ្រោយដីងលាលាបទម្លាប់ម្តងមួយពេសស្នាការនន្តុខណេលា មីញ្ញាលម្បាការម្តាជោជយម៉ំងយាមាវាតិការជួរត្រូតក្ដែងម្កីក៏មិកម្មាយម្រល់ពា។',
-    image:
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&h=300&fit=crop',
   };
 
   handleBack() {
     this.location.back();
   }
-
 }

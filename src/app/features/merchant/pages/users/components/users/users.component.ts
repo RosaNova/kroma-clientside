@@ -1,6 +1,4 @@
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
-import { TableComponent } from '@/app/shared/components/table/table.component';
-import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild, ChangeDetectorRef } from '@angular/core';
 

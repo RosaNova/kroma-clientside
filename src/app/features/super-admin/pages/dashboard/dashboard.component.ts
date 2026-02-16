@@ -1,8 +1,3 @@
-// import { CategoryChart } from '@/app/shared/components/category-chart/category-chart';
-// import { KrCard } from '@/app/shared/components/kr-card/kr-card.component';
-// import { RecentOrder } from '@/app/shared/components/recent-order/recent-order';
-// import { SaleChart } from '@/app/shared/components/sale-chart/sale-chart';
-
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';

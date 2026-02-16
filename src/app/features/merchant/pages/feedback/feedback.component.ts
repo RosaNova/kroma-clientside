@@ -2,8 +2,22 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 import { StarRating } from '@/app/shared/components/ui/star-rating/star-rating.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+<<<<<<< HEAD
 import { Variant, ChangeType } from '../../../../shared/components/stat-card/stat-card.component';
 import { MessageSquare, Star, Users, Eye, TrendingUp, LucideAngularModule, Trash, Trash2 } from 'lucide-angular';
+=======
+import { Variant, ChangeType } from '@/app/shared/components/stat-card/stat-card.component';
+import {
+  MessageSquare,
+  Star,
+  Users,
+  Eye,
+  TrendingUp,
+  LucideAngularModule,
+  Trash,
+  Trash2,
+} from 'lucide-angular';
+>>>>>>> origin/master
 import { FormsModule } from '@angular/forms';
 
 export interface FeedbackType {
@@ -39,40 +53,174 @@ export class Feedback {
   itemsPerPage: number = 10;
 
   feedbackData: FeedbackType[] = [
-    { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" },
-    { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" },
-    { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-    ,
-    { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-
-    , { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-    , { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-
-    , { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-
-    , { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-
-    , { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-    , { id: "101", customer: "សុខ មិនាកា", comment: "ផលិតផលល្អណាស់ គុណភាពខ្ពស់...", category: "ផលិតផលទូទៅ", rating: 5, date: "២០២៥-០១-២០" },
-    { id: "102", customer: "សុខ មិនាកា", comment: "សេវាកម្មរហ័សណាស់ អរគុណ...", category: "សេវាកម្ម", rating: 5, date: "២០២៥-០១-១៩" }
-
-
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
+    {
+      id: '101',
+      customer: 'សុខ មិនាកា',
+      comment: 'ផលិតផលល្អណាស់ គុណភាពខ្ពស់...',
+      category: 'ផលិតផលទូទៅ',
+      rating: 5,
+      date: '២០២៥-០១-២០',
+    },
+    {
+      id: '102',
+      customer: 'សុខ មិនាកា',
+      comment: 'សេវាកម្មរហ័សណាស់ អរគុណ...',
+      category: 'សេវាកម្ម',
+      rating: 5,
+      date: '២០២៥-០១-១៩',
+    },
   ];
 
   get filteredData() {
-    return this.feedbackData.filter(item => {
-      const matchesSearch = item.customer.toLowerCase().includes(this.searchTerm.toLowerCase())
-        || item.id.includes(this.searchTerm)
-        || item.comment.toLowerCase().includes(this.searchTerm.toLowerCase());
+    return this.feedbackData.filter((item) => {
+      const matchesSearch =
+        item.customer.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.id.includes(this.searchTerm) ||
+        item.comment.toLowerCase().includes(this.searchTerm.toLowerCase());
       const matchesRating = this.ratingFilter === 'all' || item.rating === +this.ratingFilter;
       return matchesSearch && matchesRating;
     });
