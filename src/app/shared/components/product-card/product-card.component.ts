@@ -19,7 +19,7 @@ import { EditDialogComponent } from '../ui/edit-dialog/edit-dialog.component';
     KhmerNumberPipe,
   ],
   templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.css'],
+  styleUrl: './product-card.component.css',
 })
 export class ProductCard {
   @Input() image!: string;
