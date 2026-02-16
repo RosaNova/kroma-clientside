@@ -17,7 +17,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'superadmin',
+    path: 'super-admin',
     loadChildren: () =>
       import('./features/super-admin/super-admin.routes')
         .then(m => m.SUPER_ADMIN_ROUTES),
