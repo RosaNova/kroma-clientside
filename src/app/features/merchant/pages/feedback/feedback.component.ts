@@ -2,10 +2,6 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 import { StarRating } from '@/app/shared/components/ui/star-rating/star-rating.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-<<<<<<< HEAD
-import { Variant, ChangeType } from '../../../../shared/components/stat-card/stat-card.component';
-import { MessageSquare, Star, Users, Eye, TrendingUp, LucideAngularModule, Trash, Trash2 } from 'lucide-angular';
-=======
 import { Variant, ChangeType } from '@/app/shared/components/stat-card/stat-card.component';
 import {
   MessageSquare,
@@ -14,10 +10,8 @@ import {
   Eye,
   TrendingUp,
   LucideAngularModule,
-  Trash,
   Trash2,
 } from 'lucide-angular';
->>>>>>> origin/master
 import { FormsModule } from '@angular/forms';
 
 export interface FeedbackType {

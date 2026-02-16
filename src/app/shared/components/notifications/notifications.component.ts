@@ -13,8 +13,8 @@ import {
 @Component({
   selector: 'app-notifications',
   imports: [LucideAngularModule, CommonModule],
-  templateUrl: './notifications.html',
-  styleUrl: './notifications.css',
+  templateUrl: './notifications.component.html',
+  styleUrl: './notifications.component.css',
 })
 export class Notifications {
   @Output() unreadChange = new EventEmitter<number>();
