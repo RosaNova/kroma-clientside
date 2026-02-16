@@ -8,16 +8,24 @@ import {
   User,
   Mail,
   KeyRound,
+  Phone,
 } from 'lucide-angular';
-import { ProductService } from '../../../product/services/product-service';
 import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zone.component';
 import { CommonModule } from '@angular/common';
 import { UserRole } from '../../models/user-role';
 import { UserService } from '../../service/user-service';
-
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-users-form',
-  imports: [LucideAngularModule, DropZoneComponent, ReactiveFormsModule, CommonModule],
+  imports: [
+    LucideAngularModule,
+    DropZoneComponent,
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    MatSnackBarModule,
+  ],
   templateUrl: './users-form.component.html',
   styleUrl: './users-form.component.css',
 })
@@ -28,15 +36,21 @@ export class UsersForm {
   User = User;
   Mail = Mail;
   KeyRound = KeyRound;
+  Phone = Phone;
   uploadFiles: any;
   form = new FormGroup({
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
     profile: new FormControl(''),
+    phone: new FormControl(''),
     role: new FormControl(UserRole.shopOwner),
   });
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private _snackBar: MatSnackBar,
+  ) {}
   handleFiles(files: File[]) {
     if (files!.length > 0) {
       for (let index = 0; index < files!.length; index++) {
@@ -45,15 +59,24 @@ export class UsersForm {
       }
     }
   }
-  async onCreateProduct() {
+  async onCreateUser() {
     try {
-      const body = {
+      const body: any = {
         ...this.form.value,
-        profile: this.uploadFiles,
       };
-      await this.userService.createUser(body);
+      if (this.uploadFiles) {
+        body.profile = this.uploadFiles;
+      }
+      const res = await this.userService.createUser(body);
+      if (res) {
+        this._snackBar.open('User created successfully!', 'OK', { duration: 3000 });
+        this.onBack();
+      }
     } catch (e) {
       console.log(e);
     }
+  }
+  onBack() {
+    this.router.navigate(['/super-admin/users']);
   }
 }

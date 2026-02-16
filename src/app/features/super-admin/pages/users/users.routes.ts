@@ -10,4 +10,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/users-form/users-form.component').then((c) => c.UsersForm),
   },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./components/users-detail/users-detail').then((c) => c.UsersDetail),
+  },
 ];

@@ -11,7 +11,8 @@ export const MERCHANT_ROUTES: Routes = [
       },
       {
         path: 'dashboard',
-        loadComponent: () => import('./pages/dashboard/dashboard.component').then((c) => c.Dashboard),
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.component').then((c) => c.Dashboard),
       },
       {
         path: 'product',
@@ -27,7 +28,9 @@ export const MERCHANT_ROUTES: Routes = [
       {
         path: 'product/addproduct',
         loadComponent: () =>
-          import('./pages/product/create-product/create-product.component').then((c) => c.CreateProduct),
+          import('./pages/product/create-product/create-product.component').then(
+            (c) => c.CreateProduct,
+          ),
       },
       {
         path: 'product/productcategory',
@@ -79,10 +82,6 @@ export const MERCHANT_ROUTES: Routes = [
       {
         path: 'setting',
         loadComponent: () => import('./pages/setting/setting.component').then((c) => c.Setting),
-      },
-      {
-        path: 'users',
-        loadChildren: () => import('./pages/users/users.routes').then((r) => r.routes),
       },
     ],
   },

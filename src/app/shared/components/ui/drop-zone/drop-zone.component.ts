@@ -18,6 +18,8 @@ import { LucideAngularModule, Upload } from 'lucide-angular';
   styleUrl: './drop-zone.component.css',
 })
 export class DropZoneComponent {
+  showImage: boolean = false;
+  selectedImage: string = '';
   /** Max file size (default 1GB) */
   @Input() maxSize = 1024 * 1024 * 1024;
 
@@ -63,8 +65,14 @@ export class DropZoneComponent {
   onFileInput(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
-
     const files = Array.from(input.files);
+    if (files) {
+      for (let index = 0; index < files!.length; index++) {
+        const file: File = files![index];
+        this.showImage = true;
+        this.selectedImage = URL.createObjectURL(file);
+      }
+    }
     this.filesAdded.emit(files);
   }
 

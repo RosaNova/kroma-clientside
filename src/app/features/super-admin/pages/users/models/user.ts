@@ -1,4 +1,4 @@
-export interface User {
+export interface adminUser {
   _id: string;
   username: string;
   email: string;
@@ -6,4 +6,6 @@ export interface User {
   profile: File;
   role: string;
   createdAt: Date;
+  phone: string;
+  profile_url: string;
 }

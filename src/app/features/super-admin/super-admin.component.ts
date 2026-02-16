@@ -44,7 +44,7 @@ export class SuperAdmin {
       children: [
         { icon: Package, label: 'ម្ខាស់អាជីវកម្មទាំងអស់', route: '' },
         { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '' },
-      ]
+      ],
     },
     {
       icon: FileText,
@@ -53,7 +53,7 @@ export class SuperAdmin {
       children: [
         { icon: Package, label: 'របាយការណ៍លក់', route: '' },
         { icon: Package, label: 'របាយការណ៍ទូទាត់', route: '' },
-      ]
+      ],
     },
     { icon: MessageSquareText, label: 'មតិកែលម្អ', route: 'feedback' },
     { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
@@ -72,4 +72,3 @@ export class SuperAdmin {
   today = new Date();
   notificationCount = 10;
 }
-
