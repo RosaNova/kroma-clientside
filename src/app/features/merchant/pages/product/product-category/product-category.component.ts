@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild } from '@angular/core';
 
 import { LucideAngularModule, Package, PackageIcon, CarIcon, WalletIcon, BoxIcon, Plus, Wallet, ShoppingCart, Box, Search, Eye, FileUp, Trash2, Edit, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-angular';
-import { EditDialogComponent } from "@/app/shared/components/ui/edit-dialog/edit-dialog.component";
-import { AddDialogComponent } from "@/app/shared/components/ui/add-dialog/add-dialog.component";
+import { BoxDialogComponent } from "@/app/shared/components/ui/box-dialog/box-dialog.component";
+
 interface Category {
   id: number;
   name: string;
@@ -78,7 +78,7 @@ const MOCK_CATEGORIES: Category[] = [
 
 @Component({
   selector: 'app-product-category',
-  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, EditDialogComponent, AddDialogComponent],
+  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
   templateUrl: './product-category.component.html',
   styleUrl: './product-category.component.css',
 })
@@ -181,8 +181,8 @@ export class ProductCategory {
   }
 
   /* ---------- Edit ---------- */
-  @ViewChild(EditDialogComponent) editDialog!: EditDialogComponent;
-  @ViewChild(AddDialogComponent) addDialog!: AddDialogComponent;
+  @ViewChild(BoxDialogComponent) editDialog!: BoxDialogComponent;
+  @ViewChild(BoxDialogComponent) addDialog!: BoxDialogComponent;
 
   openEdit() {
     this.editDialog.openModal();

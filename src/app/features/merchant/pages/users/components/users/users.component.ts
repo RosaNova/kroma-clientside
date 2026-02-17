@@ -23,8 +23,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-angular';
-import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
-import { AddDialogComponent } from '@/app/shared/components/ui/add-dialog/add-dialog.component';
+import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../service/user-service';
 import { User } from '../../models/user';
@@ -96,7 +95,7 @@ const MOCK_CATEGORIES: Category[] = [
 ];
 @Component({
   selector: 'app-users',
-  imports: [StatCard, CommonModule, LucideAngularModule, RouterModule, RouterLink],
+  imports: [StatCard, CommonModule, LucideAngularModule, RouterModule, RouterLink, BoxDialogComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
@@ -197,8 +196,8 @@ export class Users {
   }
 
   /* ---------- Edit ---------- */
-  @ViewChild(EditDialogComponent) editDialog!: EditDialogComponent;
-  @ViewChild(AddDialogComponent) addDialog!: AddDialogComponent;
+  @ViewChild(BoxDialogComponent) editDialog!: BoxDialogComponent;
+  @ViewChild(BoxDialogComponent) addDialog!: BoxDialogComponent;
 
   openEdit() {
     this.editDialog.openModal();

@@ -16,8 +16,8 @@ import {
   Edit,
   Trash2
 } from 'lucide-angular';
-import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
+import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { StatCardType } from '@/app/core/models/ui.types';
 
@@ -35,7 +35,7 @@ interface OutStockProduct {
 
 @Component({
   selector: 'app-product-outstock',
-  imports: [CommonModule, LucideAngularModule, StatCard, DeleteDialog, EditDialogComponent],
+  imports: [CommonModule, LucideAngularModule, StatCard, DeleteDialog, BoxDialogComponent],
   templateUrl: './product-outstock.component.html',
   styleUrl: './product-outstock.component.css',
 })
@@ -197,7 +197,7 @@ export class ProductOutstock {
   }
 
   /* ---------- Edit ---------- */
-  @ViewChild(EditDialogComponent) editDialog!: EditDialogComponent;
+  @ViewChild(BoxDialogComponent) editDialog!: BoxDialogComponent;
 
   openEdit() {
     this.editDialog.openModal();
