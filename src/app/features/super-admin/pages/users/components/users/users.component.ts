@@ -23,7 +23,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-angular';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
+import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../service/user-service';
 import { adminUser } from '../../models/user';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
@@ -96,7 +97,15 @@ const MOCK_CATEGORIES: Category[] = [
 ];
 @Component({
   selector: 'app-users',
-  imports: [StatCard, CommonModule, LucideAngularModule, RouterModule, RouterLink, DeleteDialog],
+  imports: [
+    StatCard,
+    CommonModule,
+    LucideAngularModule,
+    RouterModule,
+    RouterLink,
+    DeleteDialog,
+    BoxDialogComponent,
+  ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })

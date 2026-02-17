@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Search, Calendar, Bell, LucideAngularModule } from 'lucide-angular';
-import { Notifications } from '../notifications/notifications';
 import { CommonModule } from '@angular/common';
+import { Notifications } from '../notifications/notifications.component';
 
 @Component({
   selector: 'kr-header',

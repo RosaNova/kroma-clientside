@@ -2,9 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { KhmerNumberPipe } from '@/app/pipes/khmer-number.pipe';
-
-export type ChangeType = 'positive' | 'negative';
-export type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
+import { ChangeType, Variant } from '@/app/core/models/ui.types';
 
 @Component({
   selector: 'app-stat-card',
@@ -43,9 +41,14 @@ export class StatCard {
       text: 'text-stat-blue',
     },
     purple: {
-      bg: 'bg-green-300',
-      iconBg: 'bg-green-600',
-      text: 'text-green-700',
+      bg: 'bg-purple-300',
+      iconBg: 'bg-purple-600',
+      text: 'text-purple-700',
+    },
+    orange: {
+      bg: 'bg-orange-300',
+      iconBg: 'bg-orange-600',
+      text: 'text-orange-700',
     }
   };
 

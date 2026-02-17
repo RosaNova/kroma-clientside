@@ -1,8 +1,8 @@
 <div class="bg-card rounded-xl p-6 shadow-sm">
   <div class="flex items-center justify-between mb-6">
-    <h3 class="text-lg font-semibold text-card-foreground">
+    <!-- <h3 class="text-lg font-semibold text-card-foreground">
       ទិដ្ឋភាពទូទៅនៃការលក់
-    </h3>
+    </h3> -->
 
     <select class="bg-secondary text-secondary-foreground px-3 py-1.5 rounded-lg text-sm">
       <option>ឆ្នាំនេះ</option>
@@ -10,13 +10,7 @@
     </select>
   </div>
 
-  <apx-chart
-    [series]="chartOptions.series"
-    [chart]="chartOptions.chart"
-    [xaxis]="chartOptions.xaxis"
-    [yaxis]="chartOptions.yaxis"
-    [plotOptions]="chartOptions.plotOptions"
-    [colors]="chartOptions.colors"
-  >
+  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+    [yaxis]="chartOptions.yaxis" [plotOptions]="chartOptions.plotOptions" [colors]="chartOptions.colors">
   </apx-chart>
 </div>

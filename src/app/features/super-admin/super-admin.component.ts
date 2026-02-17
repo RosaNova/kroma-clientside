@@ -42,23 +42,31 @@ export class SuperAdmin {
       icon: Package,
       label: 'គ្រប់គ្រងអាជីវកម្ម',
       children: [
-        { icon: Package, label: 'ម្ខាស់អាជីវកម្មទាំងអស់', route: '' },
-        { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '' },
+        { icon: Package, label: 'ម្ខាស់អាជីវកម្មទាំងអស់', route: '/super-admin/merchant' },
+        { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '/super-admin/product-category' },
       ],
     },
     {
-      icon: FileText,
-      label: 'របាយការណ៍',
-      route: 'report',
-      children: [
-        { icon: Package, label: 'របាយការណ៍លក់', route: '' },
-        { icon: Package, label: 'របាយការណ៍ទូទាត់', route: '' },
-      ],
+      icon: User,
+      label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់',
+      children: [{ icon: Package, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' }],
     },
-    { icon: MessageSquareText, label: 'មតិកែលម្អ', route: 'feedback' },
-    { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
-    { icon: DatabaseBackup, label: 'ការបម្រុងទុកទិន្នន័យ', route: 'backup' },
-    { icon: Settings, label: 'ការកំណត់', route: 'setting' },
+    {
+      icon: FileText,
+      route: '/super-admin/report',
+      label: 'របាយការណ៍',
+      // children: [
+      //   { icon: Package, label: 'របាយការណ៍លក់', route: '/super-admin/report' },
+      //   { icon: Package, label: 'របាយការណ៍ទូទាត់', route: '/super-admin/report' },
+      // ]
+    },
+    { icon: MessageSquareText, label: 'មតិកែលម្អ', route: '/super-admin/feedback' },
+    {
+      icon: DatabaseBackup,
+      label: 'ការបម្រុងទុកទិន្នន័យ',
+      route: '/super-admin/backup-information',
+    },
+    { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
   user = {
     name: 'សុខ វណ្ណា',

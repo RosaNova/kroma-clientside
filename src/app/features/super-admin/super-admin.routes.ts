@@ -17,11 +17,27 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       },
       {
         path: 'merchant',
-        loadComponent: () => import('./pages/merchant/merchant.component').then((c) => c.Merchant),
+        loadComponent: () =>
+          import('./pages/merchant/merchant.component').then((c) => c.MerchantComponent),
+      },
+      {
+        path: 'users',
+        loadComponent: () => import('./pages/users/users').then((c) => c.Users),
+      },
+      {
+        path: 'product-category',
+        loadComponent: () =>
+          import('./pages/merchant/product-category/product-category').then(
+            (c) => c.ProductCategoryComponent,
+          ),
       },
       {
         path: 'report',
         loadComponent: () => import('./pages/report/report.component').then((c) => c.Report),
+      },
+      {
+        path: 'feedback',
+        loadComponent: () => import('./pages/feedback/feedback').then((c) => c.Feedback),
       },
       {
         path: 'backup-information',

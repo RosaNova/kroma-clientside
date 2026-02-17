@@ -7,8 +7,7 @@ export const routes: Routes = [
   },
   {
     path: 'create',
-    loadComponent: () =>
-      import('./components/users-form/users-form.component').then((c) => c.UsersForm),
+    loadComponent: () => import('./components/users-form/users-form.component').then((c) => c.UsersForm),
   },
   {
     path: ':id',
