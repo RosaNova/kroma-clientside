@@ -1,1 +1,288 @@
-<p>product-category works!</p>
+<div class="space-y-6 p-7">
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <app-stat-card *ngFor="let s of SUPER_ADMIN_PRODUCT_STATS" [icon]="s.icon" [variant]="s.variant"
+            [value]="s.value" [title]="s.title" [change]="s.change" [changeType]="s.changeType">
+        </app-stat-card>
+
+    </div>
+
+    <!-- Table  -->
+
+    <!-- Table -->
+    <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
+        <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
+            <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអាជីវកម្ម ( Merchant ) </h2>
+            <div class="flex gap-2">
+                <button type="button"
+                    class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
+                    <lucide-angular [img]="Plus" class="w-4 h-4" />
+                    បញ្ចូលឯកសារ
+                </button>
+                <button type="button"
+                    class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100">
+                    <lucide-angular [img]="FileUp"></lucide-angular>
+                    នាំចេញជាឯកសារ
+                </button>
+                <div class="relative">
+                    <lucide-angular [img]="Search"
+                        class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground "></lucide-angular>
+                    <input type="text"
+                        class=" bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+                        placeholder="ស្វែងរក..." [value]="searchTerm()"
+                        (input)="searchTerm.set($any($event.target).value)" />
+                </div>
+                <button (click)="openAdd()"
+                    class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white">
+                    + បន្ថែមថ្មី
+                </button>
+            </div>
+        </div>
+        <table class="w-full   ">
+            <thead class="bg-muted/20 text-gray-500">
+                <tr>
+                    <th class="p-2 text-center">ល.រ ▼</th>
+                    <th class="p-2 text-center">ឈ្មោះប្រភេទទំនិញ ▼</th>
+                    <th class="p-2 text-center">ចំនួនអាជីវកម្ម ▼</th>
+                    <th class="p-2 text-center">ចំនួនផលិតផល ▼</th>
+                    <th class="p-2 text-center">ប្រាក់ចំណូលសរុប ▼</th>
+                    <th class="p-2 text-center">ស្ថានភាព ▼</th>
+                    <th class="p-2 text-center">សកម្មភាព ▼</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of paginated()" class="border-t border-b border-gray-300 text-center">
+                    <td class="p-2 ">{{ c.id }}</td>
+                    <td class="p-2 ">{{ c.name }}</td>
+                    <td class="p-2  text-muted-foreground">{{ c.totalMerchants}}</td>
+                    <td class="p-2  text-muted-foreground">{{ c.totalProducts}}</td>
+                    <td class="p-2  text-muted-foreground">{{ c.totalRevenue}}</td>
+                    <td class="p-2">
+                        <span class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
+                            [class.bg-green-100]="c.status === 'active'" [class.text-green-700]="c.status === 'active'"
+                            [class.bg-orange-100]="c.status === 'inactive'"
+                            [class.text-orange-500]="c.status === 'inactive'">
+                            <span class="w-1.5 h-1.5 rounded-full inline-block"
+                                [class.bg-green-700]="c.status === 'active'"
+                                [class.bg-orange-700]="c.status === 'inactive'"></span>
+                            <span class="text-[13px] font-bold">{{ c.status }}</span>
+                        </span>
+                    </td>
+
+                    <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
+                        <button (click)="openDelete(c.name)"
+                            class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
+                            <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
+                            លុប</button>
+                        <button (click)="openView(c.id)"
+                            class="text-orange-400 bg-orange-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
+                            <lucide-angular [img]="Eye" class="w-4 h-4 mr-1" />
+                            មើលលម្អិត
+                        </button>
+                        <button (click)="openEdit()"
+                            class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center">
+                            <lucide-angular [img]="Edit" class="w-4 h-4 mr-1"></lucide-angular>
+                            កែសម្រួល</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="p-4 w-full flex items-center justify-end gap-4">
+
+            <!-- First / Previous -->
+            <div class="flex  items-center gap-2">
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="goToFirst()" [disabled]="currentPage() === 1">
+                    <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
+                </button>
+
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="prev()" [disabled]="currentPage() === 1">
+                    <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
+                </button>
+            </div>
+
+            <!-- Page info -->
+            <div class="flex items-center gap-3">
+                <select class="select select-neutral  bg-white border " [value]="itemsPerPage()"
+                    (change)="changeItemsPerPage($any($event.target).value)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+
+                <span class="text-sm text-muted-foreground">
+                    {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
+                </span>
+            </div>
+
+            <!-- Next / Last -->
+            <div class="flex items-center gap-2">
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="next()" [disabled]="currentPage() === totalPages()">
+                    <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
+                </button>
+
+                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+                    (click)="goToLast()" [disabled]="currentPage() === totalPages()">
+                    <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
+                </button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- Delete Dialog -->
+<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
+    (confirm)="handleDelete()"></app-delete-dialog>
+
+<!-- Edit Dialog -->
+<app-box-dialog title="កែសម្រួលប្រភេទទំនិញ" [open]="showEditDialog" (close)="closeEdit()">
+    <div class="space-y-4">
+        <!-- Category Name -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ឈ្មោះប្រភេទទំនិញ <span
+                    class="text-destructive">*</span></label>
+            <input type="text" placeholder="ឈ្មោះប្រភេទទំនិញ"
+                class="input border border-gray-300 bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
+        </div>
+
+        <!-- Status -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
+            <select class="select border border-gray-300  w-full bg-input/10 text-foreground">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-end pt-2">
+            <button class="btn btn-primary rounded-2xl" (click)="updateCategory()">រក្សាទុក</button>
+        </div>
+    </div>
+</app-box-dialog>
+
+
+<!-- Add Dialog -->
+<app-box-dialog title="បន្ថែមប្រភេទទំនិញថ្មី" [open]="showAddDialog" (close)="closeAdd()">
+    <div class="space-y-4">
+        <!-- Category Name -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ឈ្មោះប្រភេទទំនិញ <span
+                    class="text-destructive">*</span></label>
+            <input type="text" placeholder="ឈ្មោះប្រភេទទំនិញ"
+                class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full">
+        </div>
+
+        <!-- Status -->
+        <div class="flex flex-col gap-2">
+            <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
+            <select class="select border border-gray-300 placeholder:text-gray-400  w-full bg-input/10 text-foreground">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-end pt-2">
+            <button class="btn btn-primary rounded-2xl" (click)="addCategory()">រក្សាទុក</button>
+        </div>
+    </div>
+</app-box-dialog>
+
+<!-- View Dialog -->
+<app-box-dialog title="ព័ត៌មានលម្អិតអំពីប្រភេទទំនិញ" [open]="showViewDialog" (close)="closeView()">
+    <div class="space-y-6" *ngIf="selectedMerchant">
+        <!-- Header: Category Name & Status -->
+        <div class="flex items-center gap-6 p-6 bg-blue-50/50 rounded-2xl border border-blue-100">
+            <div class="p-4 bg-white rounded-2xl shadow-sm border border-blue-100">
+                <lucide-angular [img]="Package" class="w-10 h-10 text-blue-600"></lucide-angular>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Product Category</p>
+                        <h4 class="text-2xl font-black text-gray-900 leading-tight">{{ selectedMerchant.name }}</h4>
+                    </div>
+                    <span class="px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-widest border shadow-sm"
+                        [class.bg-green-100]="selectedMerchant.status === 'active'"
+                        [class.text-green-700]="selectedMerchant.status === 'active'"
+                        [class.border-green-200]="selectedMerchant.status === 'active'"
+                        [class.bg-orange-100]="selectedMerchant.status === 'inactive'"
+                        [class.text-orange-500]="selectedMerchant.status === 'inactive'"
+                        [class.border-orange-200]="selectedMerchant.status === 'inactive'">
+                        {{ selectedMerchant.status }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Total Products -->
+            <div
+                class="p-5 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                        <lucide-angular [img]="Box" class="w-4 h-4"></lucide-angular>
+                    </div>
+                    <span class="text-xs font-bold text-gray-500 uppercase">Products</span>
+                </div>
+                <p class="text-2xl font-black text-gray-900">{{ selectedMerchant.totalProducts | number }}</p>
+                <p class="text-[10px] text-gray-400 mt-1 font-medium">Items in this category</p>
+            </div>
+
+            <!-- Total Merchants -->
+            <div
+                class="p-5 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                        <lucide-angular [img]="ShoppingCart" class="w-4 h-4"></lucide-angular>
+                    </div>
+                    <span class="text-xs font-bold text-gray-500 uppercase">Merchants</span>
+                </div>
+                <p class="text-2xl font-black text-gray-900">{{ selectedMerchant.totalMerchants | number }}</p>
+                <p class="text-[10px] text-gray-400 mt-1 font-medium">Selling these products</p>
+            </div>
+
+            <!-- Total Revenue -->
+            <div
+                class="p-5 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="p-2 bg-amber-50 rounded-lg text-amber-600">
+                        <lucide-angular [img]="WalletIcon" class="w-4 h-4"></lucide-angular>
+                    </div>
+                    <span class="text-xs font-bold text-gray-500 uppercase">Revenue</span>
+                </div>
+                <p class="text-2xl font-black text-gray-900">${{ selectedMerchant.totalRevenue | number }}</p>
+                <p class="text-[10px] text-gray-400 mt-1 font-medium">Total sales generated</p>
+            </div>
+        </div>
+
+        <!-- Summary / Status Section -->
+        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full" [class.bg-green-500]="selectedMerchant.status === 'active'"
+                    [class.bg-orange-500]="selectedMerchant.status === 'inactive'"></div>
+                <p class="text-sm font-medium text-gray-600">
+                    Category is currently <span class="font-bold"
+                        [class.text-green-600]="selectedMerchant.status === 'active'"
+                        [class.text-orange-600]="selectedMerchant.status === 'inactive'">{{ selectedMerchant.status
+                        }}</span>
+                </p>
+            </div>
+            <button (click)="closeView()"
+                class="px-6 py-2 bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 rounded-xl text-sm font-bold shadow-sm transition-all duration-200 active:scale-95">
+                បិទ
+            </button>
+        </div>
+    </div>
+</app-box-dialog>

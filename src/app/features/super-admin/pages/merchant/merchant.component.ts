@@ -4,21 +4,21 @@ import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-di
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild } from '@angular/core';
 
-import { LucideAngularModule, Package, PackageIcon, CarIcon, WalletIcon, BoxIcon, Plus, Wallet, ShoppingCart, Box, Search, Eye, FileUp, Trash2, Edit, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-angular';
-import { EditDialogComponent } from "@/app/shared/components/ui/edit-dialog/edit-dialog.component";
-import { AddDialogComponent } from "@/app/shared/components/ui/add-dialog/add-dialog.component";
+import { LucideAngularModule, Package, PackageIcon, CarIcon, WalletIcon, BoxIcon, Plus, Wallet, ShoppingCart, Box, Search, Eye, FileUp, Trash2, Edit, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Phone, Mail, Calendar, Star } from 'lucide-angular';
+import { BoxDialogComponent } from "@/app/shared/components/ui/box-dialog/box-dialog.component";
 
 import { SUPER_ADMIN_MERCHANT_STATS } from '@/app/core/mocks/super-admin/merchant.mock';
 import { MOCK_MERCHANTS } from '@/app/core/mocks/super-admin/merchant.mock';
+import { Merchant } from '@/app/core/models/ui.types';
 
 
 @Component({
   selector: 'app-merchant',
-  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, EditDialogComponent, AddDialogComponent],
+  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
   templateUrl: './merchant.component.html',
-  styleUrl: './merchant.component.css',
+  styleUrl: './merchant.component.css', 
 })
-export class Merchant {
+export class MerchantComponent {
   SUPER_ADMIN_MERCHANT_STATS = SUPER_ADMIN_MERCHANT_STATS;
 
   Package = Package;
@@ -26,6 +26,11 @@ export class Merchant {
   WalletIcon = WalletIcon;
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
+
+  Phone = Phone;
+  Mail = Mail;
+  Calendar = Calendar;
+  Star = Star;
 
   Plus = Plus;
   Eye = Eye;
@@ -98,6 +103,8 @@ export class Merchant {
   }
 
   showDeleteDialog = false;
+  showAddDialog = false;
+  showEditDialog = false;
   selectedName = '';
   name?: string;
 
@@ -118,32 +125,44 @@ export class Merchant {
   }
 
   /* ---------- Edit ---------- */
-  @ViewChild(EditDialogComponent) editDialog!: EditDialogComponent;
-  @ViewChild(AddDialogComponent) addDialog!: AddDialogComponent;
-
   openEdit() {
-    this.editDialog.openModal();
+    this.showEditDialog = true;
   }
 
   closeEdit() {
-    this.editDialog.closeModal();
+    this.showEditDialog = false;
   }
 
   updateCategory() {
-    console.log('Category updated');
+    console.log('Merchant updated');
     this.closeEdit();
   }
 
   openAdd() {
-    this.addDialog.openModal();
+    this.showAddDialog = true;
   }
 
   closeAdd() {
-    this.addDialog.closeModal();
+    this.showAddDialog = false;
   }
 
   addCategory() {
-    console.log('Category added');
+    console.log('Merchant added');
     this.closeAdd();
+  }
+
+
+  /* ---------- View ---------- */
+  showViewDialog = false;
+  selectedMerchant?: Merchant;
+
+  openView(id: number) {
+    this.selectedMerchant = MOCK_MERCHANTS.find(m => m.id === id);
+    this.showViewDialog = true;
+  }
+
+  closeView() {
+    this.showViewDialog = false;
+    this.selectedMerchant = undefined;
   }
 }

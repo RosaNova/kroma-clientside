@@ -20,7 +20,7 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         path: 'merchant',
         loadComponent: () =>
           import('./pages/merchant/merchant.component')
-            .then(c => c.Merchant)
+            .then(c => c.MerchantComponent)
       },
       {
         path: 'users',
@@ -32,7 +32,7 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         path: 'product-category',
         loadComponent: () =>
           import('./pages/merchant/product-category/product-category')
-            .then(c => c.ProductCategory)
+            .then(c => c.ProductCategoryComponent)
       },
       {
         path: 'report',
