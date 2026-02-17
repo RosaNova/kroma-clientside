@@ -10,13 +10,13 @@ export interface StatCardType {
 }
 
 
-
-
 //  Merchant 
 export interface Merchant {
     id: number;
     name: string;
+    brandImage: string;
     ownerName: string;
+    profile: string;
     phone: string;
     email: string;
     totalProducts: number;
@@ -26,4 +26,15 @@ export interface Merchant {
     joinDate: string;
     status: 'active' | 'inactive' | 'suspended' | 'pending';
     rating: number;
+}
+
+
+//  Product Category
+export interface ProductCategoryType {
+    id: number;
+    name: string;
+    totalProducts: number;
+    totalMerchants: number;
+    totalRevenue: number;
+    status: 'active' | 'inactive';
 }

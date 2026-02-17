@@ -42,7 +42,9 @@ export const MOCK_MERCHANTS: Merchant[] = [
     {
         id: 1001,
         name: 'Krama Mart',
+        brandImage: "https://via.placeholder.com/150",
         ownerName: 'Sok Dara',
+        profile: "https://via.placeholder.com/150",
         phone: '012345678',
         email: 'krama@shop.com',
         totalProducts: 120,
@@ -56,7 +58,9 @@ export const MOCK_MERCHANTS: Merchant[] = [
     {
         id: 1002,
         name: 'Cambodia Fresh',
+        brandImage: "https://via.placeholder.com/150",
         ownerName: 'Chan Rithy',
+        profile: "https://via.placeholder.com/150",
         phone: '098765432',
         email: 'fresh@shop.com',
         totalProducts: 85,
@@ -70,7 +74,9 @@ export const MOCK_MERCHANTS: Merchant[] = [
     {
         id: 1003,
         name: 'Sweet Home Bakery',
+        brandImage: "https://via.placeholder.com/150",
         ownerName: 'Ly Nika',
+        profile: "https://via.placeholder.com/150",
         phone: '011223344',
         email: 'sweet@shop.com',
         totalProducts: 45,
@@ -84,7 +90,9 @@ export const MOCK_MERCHANTS: Merchant[] = [
     {
         id: 1004,
         name: 'Ocean Seafood',
+        brandImage: "https://via.placeholder.com/150",
         ownerName: 'Vannak',
+        profile: "https://via.placeholder.com/150",
         phone: '015889900',
         email: 'ocean@shop.com',
         totalProducts: 70,
