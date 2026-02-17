@@ -16,8 +16,10 @@ import { UserRole } from '../../models/user-role';
 import { UserService } from '../../service/user-service';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-users-form',
+  standalone: true,
   imports: [
     LucideAngularModule,
     DropZoneComponent,
@@ -50,7 +52,7 @@ export class UsersForm {
     private userService: UserService,
     private router: Router,
     private _snackBar: MatSnackBar,
-  ) {}
+  ) { }
   handleFiles(files: File[]) {
     if (files!.length > 0) {
       for (let index = 0; index < files!.length; index++) {

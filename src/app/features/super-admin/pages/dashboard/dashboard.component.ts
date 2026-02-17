@@ -9,6 +9,7 @@ import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp, Store,
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [
     CommonModule,
     LucideAngularModule,

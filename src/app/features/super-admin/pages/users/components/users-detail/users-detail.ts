@@ -15,6 +15,7 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-users-detail',
+  standalone: true,
   imports: [LucideAngularModule, ReactiveFormsModule],
   templateUrl: './users-detail.html',
   styleUrl: './users-detail.css',

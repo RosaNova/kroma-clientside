@@ -11,6 +11,7 @@ import { ProductCategoryType } from '@/app/core/models/ui.types';
 
 @Component({
   selector: 'app-product-category',
+  standalone: true,
   imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
   templateUrl: './product-category.html',
   styleUrl: './product-category.css',
