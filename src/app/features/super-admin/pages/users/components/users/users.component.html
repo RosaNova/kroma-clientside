@@ -48,22 +48,17 @@
           <td class="p-2 text-muted-foreground">{{ item.phone }}</td>
           <td class="p-2 text-muted-foreground">{{ item.createdAt | date: 'dd/MM/yyyy' }}</td>
           <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
-            <button class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
-              <button type="button"
-                class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center"
-                (click)="openDelete(item.username, item._id)">
-                <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
-                លុប
-              </button>
-              <button (click)="openEdit()"
-                class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center">
-                <lucide-angular [img]="Edit" class="w-4 h-4 mr-1"></lucide-angular>
-                កែសម្រួល
-                <button type="button" routerLink="{{ item._id }}"
-                  class="text-sky-400 px-3 rounded-[10px] bg-sky-50 border cursor-pointer flex items-center">
-                  <lucide-angular [img]="Eye" class="w-4 h-4 mr-1"></lucide-angular>
-                  មើលព័ត៌មានលម្អិត
-                </button>
+            <button type="button"
+              class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center"
+              (click)="openDelete(item.username, item._id)">
+              <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
+              លុប
+            </button>
+            <button type="button" routerLink="{{ item._id }}"
+              class="text-sky-400 px-3 rounded-[10px] bg-sky-50 border cursor-pointer flex items-center">
+              <lucide-angular [img]="Eye" class="w-4 h-4 mr-1"></lucide-angular>
+              មើលព័ត៌មានលម្អិត
+            </button>
           </td>
         </tr>
       </tbody>

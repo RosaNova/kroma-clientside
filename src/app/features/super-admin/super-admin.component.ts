@@ -49,7 +49,8 @@ export class SuperAdmin {
     {
       icon: User,
       label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់',
-      children: [{ icon: Package, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' }],
+      route: '/super-admin/users',
+      // children: [{ icon: Package, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' }],
     },
     {
       icon: FileText,

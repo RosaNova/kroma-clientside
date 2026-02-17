@@ -22,7 +22,7 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       },
       {
         path: 'users',
-        loadComponent: () => import('./pages/users/users').then((c) => c.Users),
+        loadChildren: () => import('./pages/users/users.routes').then((r) => r.routes),
       },
       {
         path: 'product-category',

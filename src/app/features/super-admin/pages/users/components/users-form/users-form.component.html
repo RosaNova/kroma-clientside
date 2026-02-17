@@ -41,10 +41,7 @@
             <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពអ្នកប្រើប្រាស់ប្រព័ន្ធ (User
             Profile)
           </Label>
-          <!-- <app-drop-zone-component
-            class="w-full"
-            (filesAdded)="handleFiles($event)"
-          ></app-drop-zone-component> -->
+          <app-drop-zone class="w-full" (filesAdded)="handleFiles($event)"></app-drop-zone>
         </div>
         <div class="flex gap-2 float-end">
           <button
@@ -58,11 +55,6 @@
             បង្កើតអ្នកប្រើប្រាស់ប្រព័ន្ធ
           </button>
         </div>
-        <button
-          class="w-32 cursor-pointer text-white flex justify-center items-center float-end h-10 bg-green-700 hover:bg-green-700/90 font-black text-[15px] rounded-[10px]"
-          (click)="onCreateProduct()" type="button">
-          បង្កើតទំនិញថ្មី
-        </button>
       </form>
     </div>
   </div>
