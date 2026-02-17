@@ -22,7 +22,13 @@
             <input placeholder="Email" class="input w-full" formControlName="email" />
           </div>
         </div>
-        <div class="grid w-full grid-cols-1 md:grid-cols-1 gap-6">
+        <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+              <lucide-angular [img]="Phone" class="h-3 w-3" /> លេខទូរស័ព្ទ (Phone)
+            </label>
+            <input type="text" placeholder="លេខទូរស័ព្ទ" class="input w-full" formControlName="phone" />
+          </div>
           <div class="space-y-2.5">
             <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
               <lucide-angular [img]="KeyRound" class="h-3 w-3" /> លេខសម្ងាត់ (Password)
@@ -35,16 +41,20 @@
             <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពអ្នកប្រើប្រាស់ប្រព័ន្ធ (User
             Profile)
           </Label>
-          <!-- <app-drop-zone-component
-            class="w-full"
-            (filesAdded)="handleFiles($event)"
-          ></app-drop-zone-component> -->
+          <app-drop-zone class="w-full" (filesAdded)="handleFiles($event)"></app-drop-zone>
         </div>
-        <button
-          class="w-32 cursor-pointer text-white flex justify-center items-center float-end h-10 bg-green-700 hover:bg-green-700/90 font-black text-[15px] rounded-[10px]"
-          (click)="onCreateProduct()" type="button">
-          បង្កើតទំនិញថ្មី
-        </button>
+        <div class="flex gap-2 float-end">
+          <button
+            class="w-40 cursor-pointer text-white flex justify-center items-center h-10 bg-sky-700 hover:bg-sky-700/90 font-black text-[15px] rounded-[10px] ms-2"
+            type="button" (click)="onBack()">
+            បោះបង់
+          </button>
+          <button
+            class="w-40 cursor-pointer text-white flex justify-center items-center h-10 bg-green-700 hover:bg-green-700/90 font-black text-[15px] rounded-[10px]"
+            (click)="onCreateUser()" type="button">
+            បង្កើតអ្នកប្រើប្រាស់ប្រព័ន្ធ
+          </button>
+        </div>
       </form>
     </div>
   </div>

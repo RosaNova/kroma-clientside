@@ -26,7 +26,9 @@ import {
 import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../service/user-service';
-import { User } from '../../models/user';
+import { adminUser } from '../../models/user';
+import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 interface Category {
   id: number;
   name: string;
@@ -95,7 +97,15 @@ const MOCK_CATEGORIES: Category[] = [
 ];
 @Component({
   selector: 'app-users',
-  imports: [StatCard, CommonModule, LucideAngularModule, RouterModule, RouterLink, BoxDialogComponent],
+  imports: [
+    StatCard,
+    CommonModule,
+    LucideAngularModule,
+    RouterModule,
+    RouterLink,
+    DeleteDialog,
+    BoxDialogComponent,
+  ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
@@ -122,10 +132,14 @@ export class Users {
   searchTerm = signal('');
   currentPage = signal(1);
   itemsPerPage = signal(10);
-  users: User[] = [];
+  users: adminUser[] = [];
+  showDeleteDialog = false;
+  selectedName = '';
+  storeId: string = '';
   constructor(
     private userService: UserService,
     private cdr: ChangeDetectorRef,
+    private _snackBar: MatSnackBar,
   ) {
     this.getUsers();
   }
@@ -150,15 +164,13 @@ export class Users {
   );
 
   // Pagination
-  totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
+  totalPages = computed(() => Math.max(Math.ceil(this.users.length / this.itemsPerPage()), 1));
 
   startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
-  endIndex = computed(() =>
-    Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
-  );
+  endIndex = computed(() => Math.min(this.startIndex() + this.itemsPerPage(), this.users.length));
 
-  paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
+  paginated = computed(() => this.users.slice(this.startIndex(), this.endIndex()));
 
   // Navigation
   goToFirst() {
@@ -181,34 +193,38 @@ export class Users {
     this.itemsPerPage.set(value);
     this.currentPage.set(1);
   }
-
-  showDeleteDialog = false;
-  selectedName = '';
-  name?: string;
-
+  openDelete(name: string, id: string) {
+    this.selectedName = name;
+    this.storeId = id;
+    this.showDeleteDialog = true;
+  }
   handleCancel() {
     this.showDeleteDialog = false;
   }
-
-  handleDelete() {
-    this.showDeleteDialog = false;
-    console.log('Deleted:', this.selectedName);
+  async handleDelete() {
+    try {
+      this.showDeleteDialog = false;
+      const res = await this.userService.deleteUser(this.storeId);
+      if (res) {
+        await this.getUsers();
+        this._snackBar.open('User deleted Successfully!', 'OK', { duration: 3000 });
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
-
-  /* ---------- Edit ---------- */
-  @ViewChild(BoxDialogComponent) editDialog!: BoxDialogComponent;
-  @ViewChild(BoxDialogComponent) addDialog!: BoxDialogComponent;
-
-  openEdit() {
-    this.editDialog.openModal();
-  }
-
-  closeEdit() {
-    this.editDialog.closeModal();
-  }
-
-  updateCategory() {
-    console.log('Category updated');
-    this.closeEdit();
+  async onSearch(event: KeyboardEvent) {
+    const inputKey = (event.target as HTMLInputElement).value;
+    if (inputKey != '') {
+      const res = await this.userService.searchUser(inputKey);
+      if (res.list) {
+        this.users = res.list;
+        this.cdr.detectChanges();
+      } else {
+        this.users = [];
+      }
+    } else {
+      await this.getUsers();
+    }
   }
 }

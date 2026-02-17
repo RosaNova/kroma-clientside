@@ -44,14 +44,13 @@ export class SuperAdmin {
       children: [
         { icon: Package, label: 'ម្ខាស់អាជីវកម្មទាំងអស់', route: '/super-admin/merchant' },
         { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '/super-admin/product-category' },
-      ]
+      ],
     },
     {
       icon: User,
       label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់',
-      children: [
-        { icon: Package, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' }
-      ]
+      route: '/super-admin/users',
+      // children: [{ icon: Package, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' }],
     },
     {
       icon: FileText,
@@ -63,7 +62,11 @@ export class SuperAdmin {
       // ]
     },
     { icon: MessageSquareText, label: 'មតិកែលម្អ', route: '/super-admin/feedback' },
-    { icon: DatabaseBackup, label: 'ការបម្រុងទុកទិន្នន័យ', route: '/super-admin/backup-information' },
+    {
+      icon: DatabaseBackup,
+      label: 'ការបម្រុងទុកទិន្នន័យ',
+      route: '/super-admin/backup-information',
+    },
     { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
   user = {
@@ -78,4 +81,3 @@ export class SuperAdmin {
   today = new Date();
   notificationCount = 10;
 }
-

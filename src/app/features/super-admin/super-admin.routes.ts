@@ -8,56 +8,52 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       {
         path: '',
         redirectTo: 'dashboard',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/dashboard/dashboard.component')
-            .then(c => c.Dashboard)
+          import('./pages/dashboard/dashboard.component').then((c) => c.Dashboard),
       },
       {
         path: 'merchant',
         loadComponent: () =>
-          import('./pages/merchant/merchant.component')
-            .then(c => c.MerchantComponent)
+          import('./pages/merchant/merchant.component').then((c) => c.MerchantComponent),
       },
       {
         path: 'users',
-        loadComponent: () =>
-          import('./pages/users/users')
-            .then(c => c.Users)
+        loadChildren: () => import('./pages/users/users.routes').then((r) => r.routes),
       },
       {
         path: 'product-category',
         loadComponent: () =>
-          import('./pages/merchant/product-category/product-category')
-            .then(c => c.ProductCategoryComponent)
+          import('./pages/merchant/product-category/product-category').then(
+            (c) => c.ProductCategoryComponent,
+          ),
       },
       {
         path: 'report',
-        loadComponent: () =>
-          import('./pages/report/report.component')
-            .then(c => c.Report)
+        loadComponent: () => import('./pages/report/report.component').then((c) => c.Report),
       },
       {
         path: 'feedback',
-        loadComponent: () =>
-          import('./pages/feedback/feedback')
-            .then(c => c.Feedback)
+        loadComponent: () => import('./pages/feedback/feedback').then((c) => c.Feedback),
       },
       {
         path: 'backup-information',
         loadComponent: () =>
-          import('./pages/backup-information/backup-information.component')
-            .then(c => c.BackupInformation)
+          import('./pages/backup-information/backup-information.component').then(
+            (c) => c.BackupInformation,
+          ),
       },
       {
         path: 'setting',
-        loadComponent: () =>
-          import('./pages/setting/setting.component')
-            .then(c => c.Setting)
-      }
-    ]
-  }
+        loadComponent: () => import('./pages/setting/setting.component').then((c) => c.Setting),
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./pages/users/users.routes').then((r) => r.routes),
+      },
+    ],
+  },
 ];
