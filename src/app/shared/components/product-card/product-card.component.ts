@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { KhmerNumberPipe } from '@/app/pipes/khmer-number.pipe';
 import { Product } from '@/app/features/merchant/pages/product/models/product';
 import { DeleteDialog } from '../ui/delete-dialog/delete-dialog.component';
-import { EditDialogComponent } from '../ui/edit-dialog/edit-dialog.component';
+import { BoxDialogComponent } from '../ui/box-dialog/box-dialog.component';
 
 @Component({
   standalone: true,
@@ -14,9 +14,9 @@ import { EditDialogComponent } from '../ui/edit-dialog/edit-dialog.component';
     CommonModule,
     RouterLink,
     DeleteDialog,
-    EditDialogComponent,
     FormsModule,
     KhmerNumberPipe,
+    BoxDialogComponent,
   ],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
@@ -47,7 +47,7 @@ export class ProductCard {
   }
 
   /* ---------- Edit ---------- */
-  @ViewChild(EditDialogComponent) editDialog!: EditDialogComponent;
+  @ViewChild(BoxDialogComponent) editDialog!: BoxDialogComponent;
 
   form = {
     firstName: 'Felicia',
