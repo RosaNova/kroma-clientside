@@ -47,6 +47,14 @@ export class SuperAdmin {
       ]
     },
     {
+      icon: User,
+      label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់',
+      children: [
+        { icon: Package, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '' },
+        { icon: Package, label: '', route: '' },
+      ]
+    },
+    {
       icon: FileText,
       label: 'របាយការណ៍',
       route: 'report',
@@ -56,7 +64,6 @@ export class SuperAdmin {
       ]
     },
     { icon: MessageSquareText, label: 'មតិកែលម្អ', route: 'feedback' },
-    { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
     { icon: DatabaseBackup, label: 'ការបម្រុងទុកទិន្នន័យ', route: 'backup' },
     { icon: Settings, label: 'ការកំណត់', route: 'setting' },
   ];

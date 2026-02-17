@@ -1,11 +1,23 @@
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { SaleChart } from '@/app/shared/components/sale-chart/sale-chart.component';
+import { CategoryChart } from '@/app/shared/components/category-chart/category-chart.component';
+import { RecentOrder } from '@/app/shared/components/recent-order/recent-order.component';
+import { MessagingComponent } from '@/app/shared/components/messaging/messaging.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp } from 'lucide-angular';
+import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp, Store, Activity, ShieldAlert } from 'lucide-angular';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, LucideAngularModule, StatCard],
+  imports: [
+    CommonModule,
+    LucideAngularModule,
+    StatCard,
+    SaleChart,
+    CategoryChart,
+    // RecentOrder,
+    // MessagingComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -14,6 +26,40 @@ export class Dashboard {
   ShoppingBag = ShoppingBag;
   Users = Users;
   TrendingUp = TrendingUp;
+  Store = Store;
+  Activity = Activity;
+  ShieldAlert = ShieldAlert;
+
+  topMerchants = [
+    {
+      name: 'ហាងលក់ទំនិញខ្មែរ',
+      owner: 'សុខ ជា',
+      sales: '$12,450',
+      status: 'active',
+      performance: '+15%',
+    },
+    {
+      name: 'អេឡិចត្រូនិច ភ្នំពេញ',
+      owner: 'លីណា ម៉ៅ',
+      sales: '$9,820',
+      status: 'active',
+      performance: '+12%',
+    },
+    {
+      name: 'ម៉ាឃីត ហ្វេសិន',
+      owner: 'ចាន់ សុភ័ក្ត្រ',
+      sales: '$8,150',
+      status: 'active',
+      performance: '-2%',
+    },
+    {
+      name: 'ម្ហូបអាហារស្រស់ៗ',
+      owner: 'រស្មី ពេជ្រ',
+      sales: '$5,900',
+      status: 'warning',
+      performance: '+5%',
+    },
+  ];
   products = [
     {
       image: 'https://i.pinimg.com/736x/29/60/23/2960239aa9f13028a186162bc10de8a6.jpg',
