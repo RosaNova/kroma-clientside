@@ -2,7 +2,7 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 import { StarRating } from '@/app/shared/components/ui/star-rating/star-rating.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Variant, ChangeType } from '@/app/shared/components/stat-card/stat-card.component';
+import { ChangeType, Variant } from '@/app/core/models/ui.types';
 import {
   MessageSquare,
   Star,

@@ -19,19 +19,9 @@ import {
 import { EditDialogComponent } from '@/app/shared/components/ui/edit-dialog/edit-dialog.component';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { StatCardType } from '@/app/core/models/ui.types';
 
 
-type ChangeType = 'positive' | 'negative';
-type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
-
-interface StatCardType {
-  title: string;
-  value: string;
-  change: string;
-  changeType: ChangeType;
-  icon: any;
-  variant: Variant;
-}
 
 interface OutStockProduct {
   id: number;
