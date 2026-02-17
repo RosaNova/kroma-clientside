@@ -1,5 +1,5 @@
 export type ChangeType = 'positive' | 'negative';
-export type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple' | 'orange';
+export type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple' | 'orange' | 'red';
 export interface StatCardType {
     title: string;
     value: string;
