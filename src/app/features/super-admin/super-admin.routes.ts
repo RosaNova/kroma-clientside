@@ -3,13 +3,41 @@ import { Routes } from '@angular/router';
 export const SUPER_ADMIN_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
+    loadComponent: () => import('./super-admin.component').then((m) => m.SuperAdmin),
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.component').then((c) => c.Dashboard),
+      },
+      {
+        path: 'merchant',
+        loadComponent: () => import('./pages/merchant/merchant.component').then((c) => c.Merchant),
+      },
+      {
+        path: 'report',
+        loadComponent: () => import('./pages/report/report.component').then((c) => c.Report),
+      },
+      {
+        path: 'backup-information',
+        loadComponent: () =>
+          import('./pages/backup-information/backup-information.component').then(
+            (c) => c.BackupInformation,
+          ),
+      },
+      {
+        path: 'setting',
+        loadComponent: () => import('./pages/setting/setting.component').then((c) => c.Setting),
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./pages/users/users.routes').then((r) => r.routes),
+      },
+    ],
   },
-  {
-    path: 'dashboard',
-    loadComponent: () =>
-      import('./pages/dashboard/dashboard')
-        .then(c => c.Dashboard)
-  }
 ];

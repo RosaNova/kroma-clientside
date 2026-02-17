@@ -1,0 +1,12 @@
+.img {
+  width: 100%;
+  height: 300px;
+}
+.img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.img .no-data {
+  font-size: 20px;
+}

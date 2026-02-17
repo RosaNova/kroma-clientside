@@ -7,7 +7,7 @@ import {
   ApexNonAxisChartSeries,
   ApexResponsive,
   ApexDataLabels,
-  ApexStroke
+  ApexStroke,
 } from 'ng-apexcharts';
 
 export type CategoryChartOptions = {
@@ -21,10 +21,9 @@ export type CategoryChartOptions = {
   responsive: ApexResponsive[];
 };
 
-
 @Component({
   selector: 'app-category-chart',
-  imports: [ NgApexchartsModule , CommonModule],
+  imports: [NgApexchartsModule, CommonModule],
   templateUrl: './category-chart.html',
   styleUrl: './category-chart.css',
 })
@@ -33,39 +32,33 @@ export class CategoryChart {
     series: [35, 25, 20, 12, 8],
     chart: {
       type: 'donut',
-      height: 300
+      height: 300,
     },
 
-    labels: [
-      'អេឡិចត្រូនិក',
-      'សម្លៀកបំពាក់',
-      'ម្ហូបអាហារ',
-      'គ្រឿងសម្អាង',
-      'ផ្សេងៗ'
-    ],
+    labels: ['អេឡិចត្រូនិក', 'សម្លៀកបំពាក់', 'ម្ហូបអាហារ', 'គ្រឿងសម្អាង', 'ផ្សេងៗ'],
 
     colors: [
       'var(--chart-1)',
       'var(--chart-2)',
       'var(--chart-3)',
       'var(--chart-4)',
-      'var(--chart-5)'
+      'var(--chart-5)',
     ],
 
     legend: {
       position: 'bottom',
       fontSize: '14px',
       labels: {
-        colors: 'hsl(var(--card-foreground))'
-      }
+        colors: 'hsl(var(--card-foreground))',
+      },
     },
 
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
 
     stroke: {
-      width: 2
+      width: 2,
     },
 
     responsive: [
@@ -73,10 +66,10 @@ export class CategoryChart {
         breakpoint: 480,
         options: {
           chart: {
-            height: 260
-          }
-        }
-      }
-    ]
+            height: 260,
+          },
+        },
+      },
+    ],
   };
 }

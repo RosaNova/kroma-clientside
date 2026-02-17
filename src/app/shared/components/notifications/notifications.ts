@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Bell, Trash2, Check, AlertTriangle , Info , CheckCircle , LucideAngularModule } from 'lucide-angular';
+import {
+  Bell,
+  Trash2,
+  Check,
+  AlertTriangle,
+  Info,
+  CheckCircle,
+  LucideAngularModule,
+} from 'lucide-angular';
 
 @Component({
   selector: 'app-notifications',
-  imports: [LucideAngularModule , CommonModule],
+  imports: [LucideAngularModule, CommonModule],
   templateUrl: './notifications.html',
   styleUrl: './notifications.css',
 })
@@ -21,44 +29,44 @@ export class Notifications {
   open = false;
 
   notifications = [
-   {
+    {
       id: 1,
-      type: "order",
-      title: "ការបញ្ជាទិញថ្មី",
-      description: "អតិថិជន សុខា បានបញ្ជាទិញផលិតផល ២ មុខ",
-      time: "២ នាទីមុន",
+      type: 'order',
+      title: 'ការបញ្ជាទិញថ្មី',
+      description: 'អតិថិជន សុខា បានបញ្ជាទិញផលិតផល ២ មុខ',
+      time: '២ នាទីមុន',
       read: false,
     },
     {
       id: 2,
-      type: "message",
-      title: "សារថ្មី",
-      description: "អ្នកមានសារថ្មីពីអតិថិជន វុទ្ធី",
-      time: "១៥ នាទីមុន",
+      type: 'message',
+      title: 'សារថ្មី',
+      description: 'អ្នកមានសារថ្មីពីអតិថិជន វុទ្ធី',
+      time: '១៥ នាទីមុន',
       read: false,
     },
     {
       id: 3,
-      type: "stock",
-      title: "ស្តុកទាប",
-      description: "ផលិតផល ប្រហុកខ្មែរ នៅសល់តែ ៥ មុខ",
-      time: "១ ម៉ោងមុន",
+      type: 'stock',
+      title: 'ស្តុកទាប',
+      description: 'ផលិតផល ប្រហុកខ្មែរ នៅសល់តែ ៥ មុខ',
+      time: '១ ម៉ោងមុន',
       read: false,
     },
     {
       id: 4,
-      type: "order",
-      title: "ការបញ្ជាទិញបានបញ្ចប់",
-      description: "ការបញ្ជាទិញ #១២៣៤ បានដឹកជញ្ជូនដោយជោគជ័យ",
-      time: "២ ម៉ោងមុន",
+      type: 'order',
+      title: 'ការបញ្ជាទិញបានបញ្ចប់',
+      description: 'ការបញ្ជាទិញ #១២៣៤ បានដឹកជញ្ជូនដោយជោគជ័យ',
+      time: '២ ម៉ោងមុន',
       read: true,
     },
     {
       id: 5,
-      type: "message",
-      title: "មតិកែលម្អថ្មី",
-      description: "អតិថិជនបានផ្តល់មតិកែលម្អ ៥ ផ្កាយ",
-      time: "៣ ម៉ោងមុន",
+      type: 'message',
+      title: 'មតិកែលម្អថ្មី',
+      description: 'អតិថិជនបានផ្តល់មតិកែលម្អ ៥ ផ្កាយ',
+      time: '៣ ម៉ោងមុន',
       read: true,
     },
   ];
@@ -72,7 +80,7 @@ export class Notifications {
   }
 
   get unreadCount(): number {
-    return this.notifications.filter(n => !n.read).length;
+    return this.notifications.filter((n) => !n.read).length;
   }
 
   emitUnread() {
@@ -80,7 +88,7 @@ export class Notifications {
   }
 
   markAllAsRead() {
-    this.notifications = this.notifications.map(n => ({
+    this.notifications = this.notifications.map((n) => ({
       ...n,
       read: true,
     }));
@@ -88,14 +96,12 @@ export class Notifications {
   }
 
   markAsRead(id: number) {
-    this.notifications = this.notifications.map(n =>
-      n.id === id ? { ...n, read: true } : n
-    );
+    this.notifications = this.notifications.map((n) => (n.id === id ? { ...n, read: true } : n));
     this.emitUnread();
   }
 
   deleteNotification(id: number) {
-    this.notifications = this.notifications.filter(n => n.id !== id);
+    this.notifications = this.notifications.filter((n) => n.id !== id);
     this.emitUnread();
   }
 

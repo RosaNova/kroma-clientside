@@ -39,18 +39,25 @@ export class requestService {
     headers.append('Content-Type', 'application/json');
     return this.httpClient.patch<any>(url, data, { headers });
   }
-  deleteJSON(path: string, data: any) {
+  deleteJSON(path: string) {
     const url = this.getUrl(path);
     const headers = this.getAuthHeader();
     headers.append('Content-Type', 'application/json');
-    return this.httpClient.patch<any>(url, data, { headers });
+    return this.httpClient.delete<any>(url, { headers });
   }
-  postFile(path: string, data: any) {
+  postFormData(path: string, data: any) {
     const url = this.getUrl(path);
     const headers = this.getAuthHeader();
     headers.append('Content-Type', 'multipart/form-data;boundary=abc');
     data = this.toFormData(data);
     return this.httpClient.post<any>(url, data, { headers });
+  }
+  patchFormData(path: string, data: any) {
+    const url = this.getUrl(path);
+    const headers = this.getAuthHeader();
+    headers.append('Content-Type', 'multipart/form-data;boundary=abc');
+    data = this.toFormData(data);
+    return this.httpClient.patch<any>(url, data, { headers });
   }
   private toFormData(formValue: any) {
     const formData = new FormData();

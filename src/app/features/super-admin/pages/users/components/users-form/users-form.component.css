@@ -1,0 +1,20 @@
+.input {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #000000;
+  background-color: #ffffffff;
+  outline-color: #0145ff;
+}
+.select {
+  border-radius: 10px;
+  border: 2px solid #000000;
+  outline-color: rgb(0, 89, 255);
+  background-color: #ffffffff;
+}
+
+.textarea {
+  border-radius: 10px;
+  background-color: #ffffffff;
+  border: 2px solid #000000;
+  outline-color: rgb(0, 89, 255);
+}
