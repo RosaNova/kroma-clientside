@@ -57,19 +57,12 @@ export class SuperAdmin {
     },
     {
       icon: FileText,
-      route: '/super-admin/report',
       label: 'របាយការណ៍',
-      // children: [
-      //   { icon: Package, label: 'របាយការណ៍លក់', route: '/super-admin/report' },
-      //   { icon: Package, label: 'របាយការណ៍ទូទាត់', route: '/super-admin/report' },
-      // ]
+      children: [
+        { icon: Package, label: 'របាយការណ៍ទូទៅទាំងអស់', route: '/super-admin/report' }
+      ]
     },
-    { icon: MessageSquareText, label: 'មតិកែលម្អ', route: '/super-admin/feedback' },
-    {
-      icon: DatabaseBackup,
-      label: 'ការបម្រុងទុកទិន្នន័យ',
-      route: '/super-admin/backup-information',
-    },
+    { icon: MessageSquareText, label: 'គ្រប់គ្រងមតិកែលម្អ', route: '/super-admin/feedback' },
     { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
   user = {

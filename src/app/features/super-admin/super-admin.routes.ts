@@ -35,13 +35,13 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         path: 'feedback',
         loadComponent: () => import('./pages/feedback/feedback').then((c) => c.Feedback),
       },
-      {
-        path: 'backup-information',
-        loadComponent: () =>
-          import('./pages/backup-information/backup-information.component').then(
-            (c) => c.BackupInformation,
-          ),
-      },
+      // {
+      //   path: 'backup-information',
+      //   loadComponent: () =>
+      //     import('./pages/backup-information/backup-information.component').then(
+      //       (c) => c.BackupInformation,
+      //     ),
+      // },
       {
         path: 'setting',
         loadComponent: () => import('./pages/setting/setting.component').then((c) => c.Setting),
