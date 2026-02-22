@@ -19,10 +19,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-users-form',
-<<<<<<< HEAD
-=======
   standalone: true,
->>>>>>> a9523863c50a5ce39a4deada2de2506f4f149f36
   imports: [
     LucideAngularModule,
     DropZoneComponent,
@@ -55,11 +52,7 @@ export class UsersForm {
     private userService: UserService,
     private router: Router,
     private _snackBar: MatSnackBar,
-<<<<<<< HEAD
   ) {}
-=======
-  ) { }
->>>>>>> a9523863c50a5ce39a4deada2de2506f4f149f36
   handleFiles(files: File[]) {
     if (files!.length > 0) {
       for (let index = 0; index < files!.length; index++) {
