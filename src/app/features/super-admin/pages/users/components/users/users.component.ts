@@ -1,4 +1,3 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ChangeDetectorRef } from '@angular/core';
 
@@ -20,14 +19,13 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-angular';
-import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../service/user-service';
-import { adminUser } from '../../models/user';
+import { mobileUser } from '../../models/user';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SUPER_ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -36,7 +34,8 @@ import { SUPER_ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock'
     CommonModule,
     LucideAngularModule,
     RouterModule,
-    RouterLink,
+    DeleteDialog,
+    MatSnackBarModule,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
@@ -48,7 +47,7 @@ export class Users {
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
 
-  SUPER_ADMIN_USER_STATS = SUPER_ADMIN_USER_STATS
+  SUPER_ADMIN_USER_STATS = SUPER_ADMIN_USER_STATS;
 
   Plus = Plus;
   Eye = Eye;
@@ -66,20 +65,19 @@ export class Users {
   searchTerm = signal('');
   currentPage = signal(1);
   itemsPerPage = signal(10);
-  users: adminUser[] = [];
+  users: mobileUser[] = [];
   showDeleteDialog = false;
   selectedName = '';
   storeId: string = '';
   constructor(
     private userService: UserService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
   ) {
     this.getUsers();
   }
   async getUsers() {
     try {
-      const res = await this.userService.getUsers();
+      const res = await this.userService.getMany();
       if (res) {
         this.users = res.list;
         this.cdr.detectChanges();
@@ -92,7 +90,7 @@ export class Users {
   filtered = computed(() =>
     this.users.filter(
       (c) =>
-        c.username.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
         c._id.toString().includes(this.searchTerm()),
     ),
   );
@@ -138,11 +136,6 @@ export class Users {
   async handleDelete() {
     try {
       this.showDeleteDialog = false;
-      const res = await this.userService.deleteUser(this.storeId);
-      if (res) {
-        await this.getUsers();
-        this._snackBar.open('User deleted Successfully!', 'OK', { duration: 3000 });
-      }
     } catch (e) {
       console.log(e);
     }
@@ -150,13 +143,13 @@ export class Users {
   async onSearch(event: KeyboardEvent) {
     const inputKey = (event.target as HTMLInputElement).value;
     if (inputKey != '') {
-      const res = await this.userService.searchUser(inputKey);
-      if (res.list) {
-        this.users = res.list;
-        this.cdr.detectChanges();
-      } else {
-        this.users = [];
-      }
+      // const res = await this.userService.searchUser(inputKey);
+      // if (res.list) {
+      //   this.users = res.list;
+      //   this.cdr.detectChanges();
+      // } else {
+      //   this.users = [];
+      // }
     } else {
       await this.getUsers();
     }

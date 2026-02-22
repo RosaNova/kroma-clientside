@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 export const SUPER_ADMIN_ROUTES: Routes = [
   {
     path: '',
@@ -52,7 +51,7 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       },
       {
         path: 'admin-users',
-        loadComponent: () => import('./pages/admin-users/admin-users').then((c) => c.AdminUsers),
+        loadChildren: () => import('./pages/admin-users/admin-users.route').then((c) => c.routes),
       },
     ],
   },
