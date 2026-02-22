@@ -49,6 +49,11 @@ export class StatCard {
       bg: 'bg-orange-300',
       iconBg: 'bg-orange-600',
       text: 'text-orange-700',
+    },
+    red: {
+      bg: 'bg-red-300',
+      iconBg: 'bg-red-600',
+      text: 'text-red-700',
     }
   };
 

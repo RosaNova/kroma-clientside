@@ -71,3 +71,5 @@ export const MOCK_PRODUCT_CATEGORIES: ProductCategoryType[] = [
         status: 'active'
     }
 ];
+
+

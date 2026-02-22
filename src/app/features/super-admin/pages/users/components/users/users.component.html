@@ -1,7 +1,11 @@
 <div class="space-y-6 p-7">
-  <!-- Table  -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <app-stat-card *ngFor="let stat of SUPER_ADMIN_USER_STATS" [title]="stat.title" [value]="stat.value"
+      [icon]="stat.icon" [change]="stat.change" [changeType]="stat.changeType" [variant]="stat.variant"></app-stat-card>
+    <!-- Table -->
+  </div>
 
-  <!-- Table -->
+  <!-- Table  -->
   <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
     <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
       <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអ្នកប្រើប្រាស់ប្រព័ន្ធ ( User Accounts )</h2>
@@ -23,10 +27,7 @@
             class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
             placeholder="ស្វែងរក..." (keyup)="onSearch($event)" />
         </div>
-        <button class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white"
-          type="button" routerLink="create">
-          + បន្ថែមថ្មី
-        </button>
+
       </div>
     </div>
     <table class="w-full">

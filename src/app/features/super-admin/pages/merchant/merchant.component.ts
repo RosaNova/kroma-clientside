@@ -14,9 +14,10 @@ import { Merchant } from '@/app/core/models/ui.types';
 
 @Component({
   selector: 'app-merchant',
+  standalone: true,
   imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
   templateUrl: './merchant.component.html',
-  styleUrl: './merchant.component.css', 
+  styleUrl: './merchant.component.css',
 })
 export class MerchantComponent {
   SUPER_ADMIN_MERCHANT_STATS = SUPER_ADMIN_MERCHANT_STATS;

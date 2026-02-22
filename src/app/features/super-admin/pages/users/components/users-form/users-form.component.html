@@ -10,13 +10,22 @@
       <form class="p-8 space-y-8" [formGroup]="form">
         <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-2.5">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="User" class="h-3 w-3" /> ឈ្មោះអ្នកប្រើប្រាស់ (Username)
             </label>
-            <input type="text" placeholder="ឈ្មោះអ្នកប្រើប្រាស់" class="input w-full" formControlName="username" />
+            <input
+              type="text"
+              placeholder="ឈ្មោះអ្នកប្រើប្រាស់"
+              class="input w-full"
+              formControlName="username"
+            />
           </div>
           <div class="space-y-2.5 w-full">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="Mail" class="h-3 w-3" /> អ៊ីមែល (Email)
             </label>
             <input placeholder="Email" class="input w-full" formControlName="email" />
@@ -30,14 +39,23 @@
             <input type="text" placeholder="លេខទូរស័ព្ទ" class="input w-full" formControlName="phone" />
           </div>
           <div class="space-y-2.5">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="KeyRound" class="h-3 w-3" /> លេខសម្ងាត់ (Password)
             </label>
-            <input type="password" placeholder="លេខសម្ងាត់" class="input w-full" formControlName="password" />
+            <input
+              type="password"
+              placeholder="លេខសម្ងាត់"
+              class="input w-full"
+              formControlName="password"
+            />
           </div>
         </div>
         <div class="space-y-2.5 w-full">
-          <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <Label
+            class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+          >
             <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពអ្នកប្រើប្រាស់ប្រព័ន្ធ (User
             Profile)
           </Label>

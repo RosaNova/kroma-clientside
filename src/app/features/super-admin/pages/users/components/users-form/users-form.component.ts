@@ -16,8 +16,10 @@ import { UserRole } from '../../models/user-role';
 import { UserService } from '../../service/user-service';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-users-form',
+  standalone: true,
   imports: [
     LucideAngularModule,
     DropZoneComponent,

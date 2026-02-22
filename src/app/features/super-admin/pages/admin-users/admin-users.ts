@@ -14,41 +14,54 @@ import {
   Eye,
   FileUp,
   Trash2,
+  Mail,
+  Upload,
+  User,
+  KeyRound,
+  Phone,
   Edit,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-angular';
-import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 import { RouterLink, RouterModule } from '@angular/router';
-import { UserService } from '../../service/user-service';
-import { adminUser } from '../../models/user';
-import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
+import { UserService } from '../users/service/user-service';
+import { adminUser } from '../users/models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SUPER_ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
+import { ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
+import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zone.component';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-admin-users',
   standalone: true,
-  imports: [
-    StatCard,
+  imports: [StatCard,
     CommonModule,
     LucideAngularModule,
     RouterModule,
     RouterLink,
+    BoxDialogComponent,
+    ReactiveFormsModule,
+    DropZoneComponent,
   ],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.css',
+  templateUrl: './admin-users.html',
+  styleUrl: './admin-users.css',
 })
-export class Users {
+export class AdminUsers {
   Package = Package;
   PackageIcon = PackageIcon;
   WalletIcon = WalletIcon;
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
+  Upload = Upload;
+  User = User;
+  Mail = Mail;
+  KeyRound = KeyRound;
+  Phone = Phone;
 
-  SUPER_ADMIN_USER_STATS = SUPER_ADMIN_USER_STATS
+  ADMIN_USER_STATS = ADMIN_USER_STATS
 
   Plus = Plus;
   Eye = Eye;
@@ -68,8 +81,10 @@ export class Users {
   itemsPerPage = signal(10);
   users: adminUser[] = [];
   showDeleteDialog = false;
+  showAddDialog = signal(false);
   selectedName = '';
   storeId: string = '';
+
   constructor(
     private userService: UserService,
     private cdr: ChangeDetectorRef,
@@ -127,6 +142,16 @@ export class Users {
     this.itemsPerPage.set(value);
     this.currentPage.set(1);
   }
+
+  openAdd() {
+    this.showAddDialog.set(true);
+  }
+
+  closeAdd() {
+    this.showAddDialog.set(false);
+    this.form.reset();
+  }
+
   openDelete(name: string, id: string) {
     this.selectedName = name;
     this.storeId = id;
@@ -161,4 +186,43 @@ export class Users {
       await this.getUsers();
     }
   }
+
+  // Form
+  uploadFiles: any;
+  form = new FormGroup({
+    username: new FormControl(''),
+    email: new FormControl(''),
+    password: new FormControl(''),
+    profile: new FormControl(''),
+    phone: new FormControl(''),
+    role: new FormControl(""),
+  });
+
+  handleFiles(files: File[]) {
+    if (files!.length > 0) {
+      for (let index = 0; index < files!.length; index++) {
+        const file: File = files![index];
+        this.uploadFiles = file;
+      }
+    }
+  }
+  async onCreateUser() {
+    try {
+      const body: any = {
+        ...this.form.value,
+      };
+      if (this.uploadFiles) {
+        body.profile = this.uploadFiles;
+      }
+      const res = await this.userService.createUser(body);
+      if (res) {
+        this._snackBar.open('User created successfully!', 'OK', { duration: 3000 });
+        this.closeAdd();
+        await this.getUsers();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 }
