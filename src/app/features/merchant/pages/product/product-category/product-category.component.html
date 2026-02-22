@@ -140,7 +140,7 @@
     (confirm)="handleDelete()"></app-delete-dialog>
 
 <!-- Edit Dialog -->
-<app-edit-dialog title="កែសម្រួលប្រភេទផលិតផល" (close)="closeEdit()">
+<app-box-dialog title="កែសម្រួលប្រភេទផលិតផល" (close)="closeEdit()">
     <div class="space-y-4">
         <!-- Category Name -->
         <div class="flex flex-col gap-2">
@@ -172,11 +172,11 @@
             <button class="btn btn-primary rounded-2xl" (click)="updateCategory()">រក្សាទុក</button>
         </div>
     </div>
-</app-edit-dialog>
+</app-box-dialog>
 
 
 <!-- Add Dialog -->
-<app-add-dialog title="បន្ថែមប្រភេទផលិតផល" (close)="closeAdd()">
+<app-box-dialog title="បន្ថែមប្រភេទផលិតផល" (close)="closeAdd()">
     <div class="space-y-4">
         <!-- Category Name -->
         <div class="flex flex-col gap-2">
@@ -208,4 +208,4 @@
             <button class="btn btn-primary rounded-2xl" (click)="addCategory()">រក្សាទុក</button>
         </div>
     </div>
-</app-add-dialog>
+</app-box-dialog>

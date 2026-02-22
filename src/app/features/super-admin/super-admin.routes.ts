@@ -17,19 +17,31 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       },
       {
         path: 'merchant',
-        loadComponent: () => import('./pages/merchant/merchant.component').then((c) => c.Merchant),
+        loadComponent: () =>
+          import('./pages/merchant/merchant.component').then((c) => c.MerchantComponent),
+      },
+      {
+        path: 'product-category',
+        loadComponent: () =>
+          import('./pages/merchant/product-category/product-category').then(
+            (c) => c.ProductCategoryComponent,
+          ),
       },
       {
         path: 'report',
         loadComponent: () => import('./pages/report/report.component').then((c) => c.Report),
       },
       {
-        path: 'backup-information',
-        loadComponent: () =>
-          import('./pages/backup-information/backup-information.component').then(
-            (c) => c.BackupInformation,
-          ),
+        path: 'feedback',
+        loadComponent: () => import('./pages/feedback/feedback').then((c) => c.Feedback),
       },
+      // {
+      //   path: 'backup-information',
+      //   loadComponent: () =>
+      //     import('./pages/backup-information/backup-information.component').then(
+      //       (c) => c.BackupInformation,
+      //     ),
+      // },
       {
         path: 'setting',
         loadComponent: () => import('./pages/setting/setting.component').then((c) => c.Setting),
@@ -37,6 +49,10 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       {
         path: 'users',
         loadChildren: () => import('./pages/users/users.routes').then((r) => r.routes),
+      },
+      {
+        path: 'admin-users',
+        loadComponent: () => import('./pages/admin-users/admin-users').then((c) => c.AdminUsers),
       },
     ],
   },

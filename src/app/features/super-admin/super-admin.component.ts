@@ -42,23 +42,28 @@ export class SuperAdmin {
       icon: Package,
       label: 'គ្រប់គ្រងអាជីវកម្ម',
       children: [
-        { icon: Package, label: 'ម្ខាស់អាជីវកម្មទាំងអស់', route: '' },
-        { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '' },
+        { icon: Package, label: 'ម្ខាស់អាជីវកម្មទាំងអស់', route: '/super-admin/merchant' },
+        { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '/super-admin/product-category' },
+      ],
+    },
+    {
+      icon: User,
+      label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់',
+      children: [
+        { icon: User, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' },
+        { icon: User, label: 'អ្នកគ្រប់គ្រងទាំងអស់', route: '/super-admin/admin-users' },
+
       ],
     },
     {
       icon: FileText,
       label: 'របាយការណ៍',
-      route: 'report',
       children: [
-        { icon: Package, label: 'របាយការណ៍លក់', route: '' },
-        { icon: Package, label: 'របាយការណ៍ទូទាត់', route: '' },
-      ],
+        { icon: Package, label: 'របាយការណ៍ទូទៅទាំងអស់', route: '/super-admin/report' }
+      ]
     },
-    { icon: MessageSquareText, label: 'មតិកែលម្អ', route: 'feedback' },
-    { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
-    { icon: DatabaseBackup, label: 'ការបម្រុងទុកទិន្នន័យ', route: 'backup' },
-    { icon: Settings, label: 'ការកំណត់', route: 'setting' },
+    { icon: MessageSquareText, label: 'គ្រប់គ្រងមតិកែលម្អ', route: '/super-admin/feedback' },
+    { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
   user = {
     name: 'សុខ វណ្ណា',

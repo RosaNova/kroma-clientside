@@ -1,18 +1,15 @@
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
-import { Component, signal, computed, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, signal, computed, ChangeDetectorRef } from '@angular/core';
 
 import {
   LucideAngularModule,
   Package,
   PackageIcon,
-  CarIcon,
   WalletIcon,
   BoxIcon,
   Plus,
-  Wallet,
   ShoppingCart,
-  Box,
   Search,
   Eye,
   FileUp,
@@ -23,80 +20,24 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-angular';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
+import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../service/user-service';
 import { adminUser } from '../../models/user';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-interface Category {
-  id: number;
-  name: string;
-  description: string;
-  productCount: string;
-  status: 'active' | 'inactive';
-}
+import { SUPER_ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
 
-const MOCK_CATEGORIES: Category[] = [
-  {
-    id: 101,
-    name: 'បង្អែម',
-    description: 'ផលិតផលបង្អែម និងអាហារផ្អែម',
-    productCount: '12',
-    status: 'active',
-  },
-  {
-    id: 102,
-    name: 'ភេសជ្ជៈ',
-    description: 'ភេសជ្ជៈត្រជាក់ និងក្តៅ',
-    productCount: '18',
-    status: 'active',
-  },
-  {
-    id: 103,
-    name: 'អាហារសម្រន់',
-    description: 'អាហារស្រាលសម្រាប់ញ៉ាំលេង',
-    productCount: '9',
-    status: 'inactive',
-  },
-  {
-    id: 104,
-    name: 'បន្លែ',
-    description: 'បន្លែស្រស់ និងបន្លែស្ងួត',
-    productCount: '15',
-    status: 'active',
-  },
-  {
-    id: 105,
-    name: 'ផ្លែឈើ',
-    description: 'ផ្លែឈើស្រស់ និងផ្លែឈើនាំចូល',
-    productCount: '20',
-    status: 'inactive',
-  },
-  {
-    id: 106,
-    name: 'សាច់ និងត្រី',
-    description: 'សាច់ស្រស់ ត្រី និងគ្រឿងសមុទ្រ',
-    productCount: '14',
-    status: 'active',
-  },
-  {
-    id: 107,
-    name: 'គ្រឿងទេស',
-    description: 'គ្រឿងទេសសម្រាប់ចម្អិនអាហារ',
-    productCount: '22',
-    status: 'active',
-  },
-  {
-    id: 108,
-    name: 'អង្ករ និងធញ្ញជាតិ',
-    description: 'អង្ករ មី និងធញ្ញជាតិផ្សេងៗ',
-    productCount: '11',
-    status: 'inactive',
-  },
-];
 @Component({
   selector: 'app-users',
-  imports: [StatCard, CommonModule, LucideAngularModule, RouterModule, RouterLink, DeleteDialog],
+  standalone: true,
+  imports: [
+    StatCard,
+    CommonModule,
+    LucideAngularModule,
+    RouterModule,
+    RouterLink,
+  ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
@@ -106,6 +47,8 @@ export class Users {
   WalletIcon = WalletIcon;
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
+
+  SUPER_ADMIN_USER_STATS = SUPER_ADMIN_USER_STATS
 
   Plus = Plus;
   Eye = Eye;
@@ -147,10 +90,10 @@ export class Users {
   }
   // Filter
   filtered = computed(() =>
-    MOCK_CATEGORIES.filter(
+    this.users.filter(
       (c) =>
-        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c.id.toString().includes(this.searchTerm()),
+        c.username.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+        c._id.toString().includes(this.searchTerm()),
     ),
   );
 

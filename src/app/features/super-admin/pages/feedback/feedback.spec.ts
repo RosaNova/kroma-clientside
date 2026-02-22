@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditProductDialog } from './edit-product-dialog';
+import { Feedback } from './feedback';
 
-describe('EditProductDialog', () => {
-  let component: EditProductDialog;
-  let fixture: ComponentFixture<EditProductDialog>;
+describe('Feedback', () => {
+  let component: Feedback;
+  let fixture: ComponentFixture<Feedback>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditProductDialog]
+      imports: [Feedback]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditProductDialog);
+    fixture = TestBed.createComponent(Feedback);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

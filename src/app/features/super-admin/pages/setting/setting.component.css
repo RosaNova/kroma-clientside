@@ -1,0 +1,75 @@
+@reference "../../../../../styles.css";
+
+.settings-container {
+    @apply min-h-[calc(100vh-120px)] w-full p-4 md:p-6;
+}
+
+.glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl rounded-3xl overflow-hidden transition-all duration-300;
+}
+
+.tab-btn {
+    @apply flex items-center gap-3 px-6 py-4 w-full text-left transition-all duration-300 rounded-xl mb-2;
+}
+
+.tab-btn.active {
+    @apply bg-primary text-white shadow-lg shadow-primary/20 scale-[1.02];
+}
+
+.tab-btn:not(.active) {
+    @apply hover:bg-gray-100 text-gray-500;
+}
+
+.form-input-group {
+    @apply space-y-2;
+}
+
+.form-label {
+    @apply text-sm font-medium text-gray-600 block;
+}
+
+.form-input {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none bg-gray-50/50;
+}
+
+.btn-modern {
+    @apply px-8 py-3 rounded-xl font-bold transition-all duration-300 active:scale-95 disabled:opacity-50;
+}
+
+.btn-primary-modern {
+    @apply px-8 py-3 rounded-xl font-bold transition-all duration-300 active:scale-95  bg-primary text-white shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5;
+}
+
+.avatar-wrapper {
+    @apply relative w-40 h-33 mx-auto;
+}
+
+.avatar-overlay {
+    @apply absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer border-4 border-white shadow-xl;
+}
+
+.status-badge {
+    @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
+}
+
+.animate-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.border-gradient {
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(to right, #250fe9, #a3946d) border-box;
+    border: 4px solid transparent;
+}
