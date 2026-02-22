@@ -1,4 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   LucideAngularModule,
   User,
@@ -8,18 +12,15 @@ import {
   Calendar,
   KeyRound,
 } from 'lucide-angular';
-import { UserService } from '../../service/user-service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { AdminUsersService } from '../services/admin-users-service';
 
 @Component({
-  selector: 'app-users-detail',
-  standalone: true,
+  selector: 'app-admin-users-detail',
   imports: [LucideAngularModule, ReactiveFormsModule],
-  templateUrl: './users-detail.html',
-  styleUrl: './users-detail.css',
+  templateUrl: './admin-users-detail.html',
+  styleUrl: './admin-users-detail.css',
 })
-export class UsersDetail {
+export class AdminUsersDetail {
   @ViewChild('fileInput')
   fileInput!: ElementRef;
   User = User;
@@ -40,27 +41,28 @@ export class UsersDetail {
     phone: new FormControl(''),
   });
   constructor(
-    private userService: UserService,
+    private adminUserService: AdminUsersService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private router: Router,
+    private snackBar: MatSnackBar,
   ) {
     this.id = this.route?.snapshot.paramMap.get('id')!;
     this.getUserById(this.id);
   }
   async getUserById(id: string) {
     try {
-      // const res = await this.userService.getUserById(id);
-      // if (res) {
-      //   this.img_url = res.profile_url;
-      //   this.form.patchValue({
-      //     username: res.username,
-      //     email: res.email,
-      //     role: res.role,
-      //     phone: res.phone,
-      //   });
-      //   this.cdr.detectChanges();
-      // }
+      const res = await this.adminUserService.getUserById(id);
+      if (res) {
+        this.img_url = res.profile_url;
+        this.form.patchValue({
+          username: res.username,
+          email: res.email,
+          role: res.role,
+          phone: res.phone,
+        });
+        this.cdr.detectChanges();
+      }
     } catch (e) {
       console.log(e);
     }
@@ -70,13 +72,17 @@ export class UsersDetail {
       const body: any = {
         ...this.form.value,
       };
-      // const res = await this.userService.updateUser(this.id, body);
-      // if (res) {
-      //   this.router.navigate(['/super-admin/users']);
-      // }
+      const res = await this.adminUserService.updateUser(this.id, body);
+      if (res) {
+        this.snackBar.open('Admin updated successfully', 'OK', { duration: 2000 });
+        this.onBack();
+      }
     } catch (e) {
       console.log(e);
     }
+  }
+  onBack() {
+    this.router.navigate(['/super-admin/admin-users']);
   }
   async onFileChange(event: Event) {
     try {
@@ -90,10 +96,10 @@ export class UsersDetail {
         const body = {
           profile: this.uploadFiles,
         };
-        // const res = await this.ad.updateProfile(this.id, body);
-        // if (res) {
-        //   window.location.reload();
-        // }
+        const res = await this.adminUserService.updateProfile(this.id, body);
+        if (res) {
+          window.location.reload();
+        }
       }
     } catch (e) {
       console.log(e);

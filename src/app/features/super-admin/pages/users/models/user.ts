@@ -1,11 +1,17 @@
-export interface adminUser {
+export interface mobileUser {
   _id: string;
-  username: string;
+  name: string;
   email: string;
   password?: string;
-  profile: File;
-  role: string;
-  createdAt: Date;
+  address?: address[];
   phone: string;
-  profile_url: string;
+  createdAt: Date;
+}
+export interface address {
+  street: string;
+  city: string;
+  province: string;
+  country: string;
+  lat: number;
+  lng: number;
 }

@@ -1,4 +1,3 @@
-import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ChangeDetectorRef } from '@angular/core';
 
@@ -26,18 +25,20 @@ import {
   ChevronsRight,
 } from 'lucide-angular';
 import { RouterLink, RouterModule } from '@angular/router';
-import { UserService } from '../users/service/user-service';
-import { adminUser } from '../users/models/user';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { adminUser } from './models/admin-users';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
 import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zone.component';
-
+import { UserRole } from './models/role.enum';
+import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
+import { AdminUsersService } from './services/admin-users-service';
+import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 @Component({
   selector: 'app-admin-users',
-  standalone: true,
-  imports: [StatCard,
+  imports: [
+    StatCard,
     CommonModule,
     LucideAngularModule,
     RouterModule,
@@ -45,6 +46,8 @@ import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zon
     BoxDialogComponent,
     ReactiveFormsModule,
     DropZoneComponent,
+    DeleteDialog,
+    MatSnackBarModule,
   ],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.css',
@@ -61,7 +64,7 @@ export class AdminUsers {
   KeyRound = KeyRound;
   Phone = Phone;
 
-  ADMIN_USER_STATS = ADMIN_USER_STATS
+  ADMIN_USER_STATS = ADMIN_USER_STATS;
 
   Plus = Plus;
   Eye = Eye;
@@ -86,7 +89,7 @@ export class AdminUsers {
   storeId: string = '';
 
   constructor(
-    private userService: UserService,
+    private adminUserService: AdminUsersService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
   ) {
@@ -94,7 +97,7 @@ export class AdminUsers {
   }
   async getUsers() {
     try {
-      const res = await this.userService.getUsers();
+      const res = await this.adminUserService.getUsers();
       if (res) {
         this.users = res.list;
         this.cdr.detectChanges();
@@ -163,10 +166,10 @@ export class AdminUsers {
   async handleDelete() {
     try {
       this.showDeleteDialog = false;
-      const res = await this.userService.deleteUser(this.storeId);
+      const res = await this.adminUserService.deleteUser(this.storeId);
       if (res) {
         await this.getUsers();
-        this._snackBar.open('User deleted Successfully!', 'OK', { duration: 3000 });
+        window.location.reload();
       }
     } catch (e) {
       console.log(e);
@@ -175,7 +178,7 @@ export class AdminUsers {
   async onSearch(event: KeyboardEvent) {
     const inputKey = (event.target as HTMLInputElement).value;
     if (inputKey != '') {
-      const res = await this.userService.searchUser(inputKey);
+      const res = await this.adminUserService.searchUser(inputKey);
       if (res.list) {
         this.users = res.list;
         this.cdr.detectChanges();
@@ -195,7 +198,7 @@ export class AdminUsers {
     password: new FormControl(''),
     profile: new FormControl(''),
     phone: new FormControl(''),
-    role: new FormControl(""),
+    role: new FormControl(UserRole.shopOwner),
   });
 
   handleFiles(files: File[]) {
@@ -214,15 +217,14 @@ export class AdminUsers {
       if (this.uploadFiles) {
         body.profile = this.uploadFiles;
       }
-      const res = await this.userService.createUser(body);
+      const res = await this.adminUserService.createUser(body);
       if (res) {
         this._snackBar.open('User created successfully!', 'OK', { duration: 3000 });
-        this.closeAdd();
         await this.getUsers();
+        this.closeAdd();
       }
     } catch (e) {
       console.log(e);
     }
   }
-
 }

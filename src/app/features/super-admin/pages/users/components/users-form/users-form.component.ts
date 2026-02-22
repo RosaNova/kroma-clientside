@@ -12,7 +12,6 @@ import {
 } from 'lucide-angular';
 import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zone.component';
 import { CommonModule } from '@angular/common';
-import { UserRole } from '../../models/user-role';
 import { UserService } from '../../service/user-service';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -46,12 +45,11 @@ export class UsersForm {
     password: new FormControl(''),
     profile: new FormControl(''),
     phone: new FormControl(''),
-    role: new FormControl(UserRole.shopOwner),
+    role: new FormControl(),
   });
   constructor(
     private userService: UserService,
     private router: Router,
-    private _snackBar: MatSnackBar,
   ) {}
   handleFiles(files: File[]) {
     if (files!.length > 0) {
@@ -69,11 +67,11 @@ export class UsersForm {
       if (this.uploadFiles) {
         body.profile = this.uploadFiles;
       }
-      const res = await this.userService.createUser(body);
-      if (res) {
-        this._snackBar.open('User created successfully!', 'OK', { duration: 3000 });
-        this.onBack();
-      }
+      // const res = await this.userService.createUser(body);
+      // if (res) {
+      //   this._snackBar.open('User created successfully!', 'OK', { duration: 3000 });
+      //   this.onBack();
+      // }
     } catch (e) {
       console.log(e);
     }
