@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   signal,
+  SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Upload } from 'lucide-angular';
@@ -22,6 +23,7 @@ export class DropZoneComponent {
   selectedImage: string = '';
   /** Max file size (default 1GB) */
   @Input() maxSize = 1024 * 1024 * 1024;
+  @Input() isImageUrl?: string;
 
   /** Emit selected files */
   @Output() filesAdded = new EventEmitter<File[]>();
@@ -31,9 +33,18 @@ export class DropZoneComponent {
 
   /** Icon */
   readonly UploadIcon = Upload;
-
   /* ---------------- Drag Events ---------------- */
-
+  ngOnInit() {
+    if (this.isImageUrl) {
+      this.selectedImage = this.isImageUrl;
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['isImageUrl']?.currentValue) {
+      this.selectedImage = changes['isImageUrl'].currentValue;
+      this.showImage = true;
+    }
+  }
   @HostListener('dragover', ['$event'])
   onDragOver(event: DragEvent) {
     event.preventDefault();

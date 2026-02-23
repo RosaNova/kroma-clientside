@@ -42,6 +42,7 @@ export class SuperAdmin {
       icon: Package,
       label: 'គ្រប់គ្រងអាជីវកម្ម',
       children: [
+        { icon: Package, label: 'ប្រភេទអាជីវកម្ម', route: '/super-admin/store-category' },
         { icon: Package, label: 'ម្ខាស់អាជីវកម្មទាំងអស់', route: '/super-admin/merchant' },
         { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '/super-admin/product-category' },
       ],
@@ -52,15 +53,12 @@ export class SuperAdmin {
       children: [
         { icon: User, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' },
         { icon: User, label: 'អ្នកគ្រប់គ្រងទាំងអស់', route: '/super-admin/admin-users' },
-
       ],
     },
     {
       icon: FileText,
       label: 'របាយការណ៍',
-      children: [
-        { icon: Package, label: 'របាយការណ៍ទូទៅទាំងអស់', route: '/super-admin/report' }
-      ]
+      children: [{ icon: Package, label: 'របាយការណ៍ទូទៅទាំងអស់', route: '/super-admin/report' }],
     },
     { icon: MessageSquareText, label: 'គ្រប់គ្រងមតិកែលម្អ', route: '/super-admin/feedback' },
     { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
