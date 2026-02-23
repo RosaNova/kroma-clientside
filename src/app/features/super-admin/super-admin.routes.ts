@@ -34,6 +34,11 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         path: 'feedback',
         loadComponent: () => import('./pages/feedback/feedback').then((c) => c.Feedback),
       },
+      {
+        path: 'store-category',
+        loadChildren: () =>
+          import('./pages/store-category/store-category.route').then((r) => r.routes),
+      },
       // {
       //   path: 'backup-information',
       //   loadComponent: () =>
