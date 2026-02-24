@@ -1,77 +1,86 @@
-<main class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+<main class="min-h-screen  flex justify-center items-center bg-white">
   <!-- Left Side -->
-  <div class="hidden lg:flex bg-khaki items-center justify-center"></div>
+  <!-- <div class="hidden lg:flex flex-col bg-khaki items-center justify-center">
+
+    <div class="w-30 h-30 bg-gray-300 rounded-[20px] flex items-center justify-center">
+      <img class="w-25 h-25 object-cover "
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771199560/591fc31c-a48e-46eb-8a7e-061a9a06f215.png"
+        alt="">
+    </div> -->
+  <!-- <h1 class="font-bold text-white text-[18px] pt-5">Kroma</h1> -->
+  <!-- <p class="text-gray-500 font-medium">ប្រព័ន្ធគ្រប់គ្រងការលក់ផលិតផលខ្មែរ</p> -->
+
+  <!-- <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul> -->
+
+  <!-- </div> -->
 
   <!-- Right Side -->
-  <div class="flex items-center justify-center p-8 bg-white">
-    <div class="w-full max-w-md space-y-8">
+  <div class="flex items-center w-full justify-center p-8">
+    <div class="w-full max-w-md bg-gray-100  py-4 px-5 space-y-5">
       <!-- Logo -->
       <div class="flex flex-col items-center text-center">
-        <div class="relative w-24 h-24 mb-4">
-          <div
-            class="absolute inset-0 border-4 border-khaki rounded-full flex items-center justify-center"
-          >
-            <div class="w-16 h-16 bg-khaki/10 rounded-full flex items-center justify-center">
-              <span class="text-khaki font-bold text-xs">ANGKOR</span>
-            </div>
-          </div>
+
+        <div class="w-20 h-20 bg-gray-200 rounded-[20px] flex items-center justify-center">
+          <img class="w-15 h-15 object-cover "
+            src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771199560/591fc31c-a48e-46eb-8a7e-061a9a06f215.png"
+            alt="">
         </div>
-        <h1 class="text-khaki font-bold text-2xl tracking-wide">ANGKOR E6</h1>
+
+        <!-- <h1 class="text-khaki font-bold text-xl tracking-wide">Kroma</h1> -->
       </div>
 
       <!-- Title -->
-      <div class="text-center space-y-2">
-        <h2 class="text-3xl font-bold text-gray-800 leading-tight">
+      <div class="text-center space-y-1">
+        <h2 class="text-xl font-bold text-gray-800 leading-tight">
           ប្រព័ន្ធគ្រប់គ្រងការលក់ផលិតផលខ្មែរ
         </h2>
         <p class="text-gray-500 font-medium">សូមស្វាគមន៍!</p>
       </div>
 
       <!-- Form -->
-      <form class="space-y-6" [formGroup]="form">
+      <form class="space-y-3" [formGroup]="form">
         <div class="space-y-2">
           <label for="username" class="text-gray-700 font-medium">
             ឈ្មោះគណនី <span class="text-red-500">*</span>
           </label>
-          <input
-            id="username"
-            type="text"
-            formControlName="email"
-            name="username"
-            required
+          <input id="username" type="text" formControlName="email" name="username" required
             placeholder="បញ្ចូលឈ្មោះគណនី"
-            class="h-12 w-full rounded-md border border-khaki/40 px-3 focus:outline-none focus:ring-2 focus:ring-khaki"
-          />
+            class="h-10 w-full mt-2 rounded-md border border-khaki/40 px-3 focus:outline-none focus:ring-2 focus:ring-khaki" />
         </div>
 
         <div class="space-y-2">
-          <label for="password" class="text-gray-700 font-medium">
+          <label for="password" class="text-gray-700  font-medium">
             ពាក្យសម្ងាត់ <span class="text-red-500">*</span>
           </label>
-          <input
-            id="password"
-            type="password"
-            formControlName="password"
-            name="password"
-            required
+          <input id="password" type="password" formControlName="password" name="password" required
             placeholder="បញ្ចូលពាក្យសម្ងាត់"
-            class="h-12 w-full rounded-md border border-khaki/40 px-3 focus:outline-none focus:ring-2 focus:ring-khaki"
-          />
+            class="h-10 w-full rounded-md border mt-2 border-khaki/40 px-3 focus:outline-none focus:ring-2 focus:ring-khaki" />
         </div>
 
-        <button
-          (click)="onSubmit()"
-          type="button"
-          class="w-full h-12 bg-khaki hover:bg-khaki-dark text-white text-lg font-medium flex items-center justify-center gap-2 transition-colors rounded-md"
-        >
-          <span class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center"> → </span>
-          ចូលប្រើប្រាស់
+        <button (click)="onSubmit()" type="button" [disabled]="isLoading"
+          class="w-full h-10 bg-khaki mt-8 hover:bg-khaki/90 disabled:bg-khaki/90 cursor-pointer hover:bg-khaki-dark text-white text-sm font-medium flex items-center justify-center gap-2 transition-colors rounded-md disabled:opacity-80 disabled:cursor-not-allowed">
+          <ng-container *ngIf="isLoading; else normalText">
+            <lucide-angular class="moveRight w-5" [name]="MoveRight"></lucide-angular>
+            <span>សូមមេត្តារង់ចាំ</span>
+            <div class="dot-animation">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </ng-container>
+          <ng-template #normalText>ចូលប្រើប្រាស់</ng-template>
         </button>
       </form>
-
       <!-- Footer -->
       <div class="text-center pt-8 text-gray-400 text-sm">
-        © {{ currentYear }} Angkor E6 Management System
+        © {{ currentYear }} Angkor - Krama Management System
       </div>
     </div>
   </div>
