@@ -10,7 +10,7 @@ import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp } from 
   selector: 'app-dashboard',
   imports: [LucideAngularModule, CommonModule, StatCard, SaleChart, CategoryChart, KrCard, RecentOrder],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
+  styleUrls: ['./dashboard.component.css'],
 })
 
 export class Dashboard {

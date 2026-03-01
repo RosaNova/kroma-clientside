@@ -18,7 +18,7 @@ interface StatType {
   selector: 'app-product',
   imports: [CommonModule, ProductSection, StatCard, LucideAngularModule],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.css',
+  styleUrls: ['./product.component.css'],
 })
 export class Product {
   Package = Package;

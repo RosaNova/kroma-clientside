@@ -11,7 +11,7 @@ import { ProductCard } from '@/app/shared/components/product-card/product-card.c
   selector: 'app-see-all-product-category',
   imports: [ProductCard, CommonModule, FormsModule, LucideAngularModule, RouterModule],
   templateUrl: './see-all-product-category.component.html',
-  styleUrl: './see-all-product-category.component.css',
+  styleUrls: ['./see-all-product-category.component.css'],
 })
 export class SeeAllProductCategory {
   searchTerm = '';

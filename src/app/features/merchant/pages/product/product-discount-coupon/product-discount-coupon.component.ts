@@ -27,7 +27,7 @@ const ProductDiscount: Category[] = [
   selector: 'app-product-discount-coupon',
   imports: [TableComponent, StatCard, CommonModule, LucideAngularModule],
   templateUrl: './product-discount-coupon.component.html',
-  styleUrl: './product-discount-coupon.component.css',
+  styleUrls: ['./product-discount-coupon.component.css'],
 })
 export class ProductDiscountCouponComponent {
   Package = Package;

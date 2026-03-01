@@ -20,7 +20,7 @@ import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp, Store,
     // MessagingComponent,
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
+  styleUrls: ['./dashboard.component.css'],
 })
 export class Dashboard {
   DollarSign = DollarSign;

@@ -14,8 +14,6 @@ import { MoveRight, LucideAngularModule } from 'lucide-angular';
 export class Login {
   MoveRight = MoveRight
 
-  username = '';
-  password = '';
   currentYear = new Date().getFullYear();
   isLoading = false;
   form = new FormGroup({
@@ -27,14 +25,26 @@ export class Login {
     private authService: AuthService,
   ) { }
   onSubmit() {
+    if (this.form.invalid) return;
     this.isLoading = true;
     this.authService
-      .login(this.form.value)
+      .login(this.form.value, 'MERCHANT')
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
-        next: (res) => {
-          localStorage.setItem('role', res.role);
+        next: (res: any) => {
+          if (res?.token) localStorage.setItem('token', res.token);
+          const roleFromRes = res.role || res.user.role || res.data.role;
+          const roleToStore = roleFromRes || 'MERCHANT';
+          localStorage.setItem('role', roleToStore);
+          if (roleToStore === 'SUPER_ADMIN' || roleToStore === 'super-admin') {
+            this.router.navigate(['/super-admin']);
+          } else {
+            this.router.navigate(['/merchant']);
+          }
         },
+        error: (err) => {
+          console.error('Login error', err);
+        }
       });
   }
 }

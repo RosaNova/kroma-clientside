@@ -17,7 +17,7 @@ import { MOCK_MERCHANTS } from '@/app/core/mocks/super-admin/merchant.mock';
   standalone: true,
   imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
   templateUrl: './report.component.html',
-  styleUrl: './report.component.css',
+  styleUrls: ['./report.component.css'],
 })
 export class Report {
   MONTHLY_REVENUE_STATS = MONTHLY_REVENUE_STATS;

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './backup-information.component.html',
-  styleUrl: './backup-information.component.css',
+  styleUrls: ['./backup-information.component.css'],
 })
 export class BackupInformation {
 

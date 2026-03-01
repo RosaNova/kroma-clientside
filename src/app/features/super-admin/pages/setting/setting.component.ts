@@ -21,43 +21,68 @@ import {
   AlertCircle
 } from 'lucide-angular';
 import { UserService } from '@/app/features/super-admin/pages/users/service/user-service';
+import { requestService } from '@/app/services/request-service';
+import { SuperAdminAccountType} from '@/app/core/models/super-admin.types';
 
 @Component({
   selector: 'app-setting',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './setting.component.html',
-  styleUrl: './setting.component.css',
+  styleUrls: ['./setting.component.css'],
 })
 export class Setting implements OnInit {
   activeTab: string = 'profile';
   settingsForm!: FormGroup;
   passwordForm!: FormGroup;
 
-  user = {
-    id: 'admin-1',
-    name: 'សុខ វណ្ណា',
-    email: 'vanna.sokh@krama.com',
-    phone: '012 345 678',
-    role: 'Super Admin',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
-    joinDate: new Date('2024-01-15')
-  };
+  user?: SuperAdminAccountType ;
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private requestService: requestService
   ) { }
 
   ngOnInit() {
     this.initForms();
+
+    // Fetch super-admin account and update settings form
+    this.requestService.getJSON('/api/super-admins').subscribe({
+      next: (res) => {
+        if (res && Array.isArray(res.list) && res.list.length > 0) {
+          const acct: SuperAdminAccountType = res.list[0];
+          this.user = {
+            id: acct.id?.toString() ,
+            fullname: acct.fullname ,
+            email: acct.email,
+            phone: acct.phone,
+            role: acct.role ,
+            profile_url: acct.profile_url,
+            joinDate:acct.createdAt
+          } as any;
+
+          // update form values
+          if (this.settingsForm) {
+            this.settingsForm.patchValue({
+              name: this.user?.fullname,
+              email: this.user?.email,
+              phone: this.user?.phone,
+            });
+          }
+        }
+      },
+      error: () => {
+        // keep defaults on error
+      }
+    });
   }
 
   private initForms() {
     this.settingsForm = this.fb.group({
-      name: [this.user.name, Validators.required],
-      email: [this.user.email, [Validators.required, Validators.email]],
-      phone: [this.user.phone],
+      name: [this.user?.fullname, Validators.required],
+      email: [this.user?.email, [Validators.required, Validators.email]],
+      phone: [this.user?.phone],
       language: ['km'],
       darkMode: [false],
       notifications: [true]
@@ -93,7 +118,7 @@ export class Setting implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.user.avatar = e.target.result;
+        this.user = { ...this.user, profile_url: e.target.result } as any;
       };
       reader.readAsDataURL(file);
     }
