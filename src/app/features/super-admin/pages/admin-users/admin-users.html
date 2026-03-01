@@ -168,16 +168,31 @@
               <label
                 class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
               >
-                <lucide-angular [img]="User" class="h-3 w-3" /> ឈ្មោះអ្នកប្រើប្រាស់ (Username)
+                <lucide-angular [img]="User" class="h-3 w-3" /> ឈ្មោះអ្នកប្រើប្រាស់ (Name)
               </label>
               <input
                 type="text"
                 placeholder="ឈ្មោះអ្នកប្រើប្រាស់"
                 class="input bg-gray-300 outline-gray-400 w-full"
+                formControlName="name"
+              />
+            </div>
+            <div class="space-y-2.5">
+              <label
+                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+              >
+                <lucide-angular [img]="User" class="h-3 w-3" /> ឈ្មោះគណនី (Username)
+              </label>
+              <input
+                type="text"
+                placeholder="ឈ្មោះគណនី"
+                class="input bg-gray-300 outline-gray-400 w-full"
                 formControlName="username"
               />
             </div>
-            <div class="space-y-2.5 w-full">
+          </div>
+          <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2.5">
               <label
                 class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
               >
@@ -189,7 +204,21 @@
                 formControlName="email"
               />
             </div>
+            <div class="space-y-2.5">
+              <label
+                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+              >
+                <lucide-angular [img]="CirclePercent" class="h-3 w-3" /> ថ្លៃបង់ភាគរយ (Commission
+                Rate)
+              </label>
+              <input
+                placeholder="commission_rate"
+                class="input bg-gray-300 outline-gray-400 w-full"
+                formControlName="commission_rate"
+              />
+            </div>
           </div>
+
           <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2.5">
               <label
@@ -217,6 +246,19 @@
                 formControlName="password"
               />
             </div>
+          </div>
+          <div class="space-y-2.5 w-full">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="MapPinHouse" class="h-3 w-3" /> អាស័យដ្ឋាន (Address)
+            </label>
+            <input
+              type="text"
+              placeholder="លេខទូរស័ព្ទ"
+              class="input bg-gray-300 outline-gray-400 w-full"
+              formControlName="address"
+            />
           </div>
           <div class="space-y-2.5 w-full">
             <Label

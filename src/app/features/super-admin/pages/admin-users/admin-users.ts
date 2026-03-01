@@ -23,9 +23,12 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  MapPinHouse,
+  CirclePercent,
+  Circle,
 } from 'lucide-angular';
 import { RouterLink, RouterModule } from '@angular/router';
-import { adminUser } from './models/admin-users';
+import { Merchant } from './models/merchant';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
 import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
@@ -63,7 +66,8 @@ export class AdminUsers {
   Mail = Mail;
   KeyRound = KeyRound;
   Phone = Phone;
-
+  MapPinHouse = MapPinHouse;
+  CirclePercent = CirclePercent;
   ADMIN_USER_STATS = ADMIN_USER_STATS;
 
   Plus = Plus;
@@ -82,7 +86,7 @@ export class AdminUsers {
   searchTerm = signal('');
   currentPage = signal(1);
   itemsPerPage = signal(10);
-  users: adminUser[] = [];
+  users: Merchant[] = [];
   showDeleteDialog = false;
   showAddDialog = signal(false);
   selectedName = '';
@@ -193,12 +197,14 @@ export class AdminUsers {
   // Form
   uploadFiles: any;
   form = new FormGroup({
+    name: new FormControl(''),
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
-    profile: new FormControl(''),
     phone: new FormControl(''),
-    role: new FormControl(UserRole.shopOwner),
+    address: new FormControl(''),
+    commission_rate: new FormControl(''),
+    role: new FormControl(UserRole.Merchant),
   });
 
   handleFiles(files: File[]) {

@@ -193,7 +193,9 @@ export class StoreCategories {
         this.storeCategory = res;
         this.cdr.detectChanges();
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
   async onSearch(event: KeyboardEvent) {
     console.log(event);
@@ -212,6 +214,11 @@ export class StoreCategories {
   }
   closeEdit() {
     this.showEditDialog = false;
+    this.form.patchValue({
+      name: '',
+      des: '',
+      isActive: true,
+    });
   }
 
   async updateCategory() {
