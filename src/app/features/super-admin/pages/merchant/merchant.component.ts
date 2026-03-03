@@ -68,11 +68,10 @@ import { storeCategory } from '../store-category/models/store-categories';
   ],
   templateUrl: './merchant.component.html',
   styleUrl: './merchant.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchantComponent {
-  stores: Store[] = [];
-  detailInfo!: any;
+  stores = signal<Store[]>([]);
+  detailInfo = signal<any>({});
   merchants: Merchant[] = [];
   storeCategories: storeCategory[] = [];
   form = new FormGroup({
@@ -82,6 +81,7 @@ export class MerchantComponent {
     store_category: new FormControl(''),
   });
   uploadFiles?: File;
+  store_id: string = '';
   SUPER_ADMIN_MERCHANT_STATS = SUPER_ADMIN_MERCHANT_STATS;
 
   Package = Package;
@@ -125,8 +125,7 @@ export class MerchantComponent {
     try {
       const res = await this.merchantService.getMany();
       if (res) {
-        this.stores = res.list;
-        this.cdr.detectChanges();
+        this.stores.set(res.list);
       }
     } catch (e) {
       console.log(e);
@@ -203,18 +202,27 @@ export class MerchantComponent {
   name?: string;
 
   /* ---------- Delete ---------- */
-  openDelete(name: string) {
+  openDelete(name: string, id: string) {
     this.selectedName = name;
     this.showDeleteDialog = true;
+    this.store_id = id;
   }
 
   handleCancel() {
     this.showDeleteDialog = false;
   }
 
-  handleDelete() {
-    this.showDeleteDialog = false;
-    console.log('Deleted:', this.selectedName);
+  async handleDelete() {
+    try {
+      this.showDeleteDialog = false;
+      const res = await this.merchantService.delete(this.store_id);
+      if (res) {
+        await this.getList();
+        window.location.reload();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   /* ---------- Edit ---------- */
@@ -268,14 +276,12 @@ export class MerchantComponent {
 
   async openView(id: string) {
     // this.selectedMerchant = MOCK_MERCHANTS.find((m) => m.id === id);
-    this.detailInfo = {};
     try {
       const res = await this.merchantService.getDetail(id);
       if (res) {
         this.showViewDialog = false;
-        this.detailInfo = { ...res };
+        this.detailInfo.set(res);
         this.showViewDialog = true;
-        this.cdr.markForCheck();
       }
     } catch (e) {
       console.log(e);
@@ -283,7 +289,7 @@ export class MerchantComponent {
   }
 
   closeView() {
-    this.detailInfo = {};
+    this.detailInfo.set({});
     this.showViewDialog = false;
   }
 }

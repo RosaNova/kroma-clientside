@@ -17,4 +17,7 @@ export class MerchantService {
   create(data: any) {
     return lastValueFrom(this.requestService.postFormData(this.path, data));
   }
+  delete(id: string) {
+    return lastValueFrom(this.requestService.deleteJSON(`${this.path}/${id}`));
+  }
 }
