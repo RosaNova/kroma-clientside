@@ -2,7 +2,14 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 import { TableComponent } from '@/app/shared/components/table/table.component';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { CommonModule } from '@angular/common';
-import { Component, signal, computed, ViewChild, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  signal,
+  computed,
+  ViewChild,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import {
   LucideAngularModule,
@@ -61,6 +68,7 @@ import { storeCategory } from '../store-category/models/store-categories';
   ],
   templateUrl: './merchant.component.html',
   styleUrl: './merchant.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchantComponent {
   stores: Store[] = [];
@@ -260,12 +268,14 @@ export class MerchantComponent {
 
   async openView(id: string) {
     // this.selectedMerchant = MOCK_MERCHANTS.find((m) => m.id === id);
-    this.showViewDialog = true;
+    this.detailInfo = {};
     try {
       const res = await this.merchantService.getDetail(id);
       if (res) {
-        this.detailInfo = res;
-        this.cdr.detectChanges();
+        this.showViewDialog = false;
+        this.detailInfo = { ...res };
+        this.showViewDialog = true;
+        this.cdr.markForCheck();
       }
     } catch (e) {
       console.log(e);
@@ -273,7 +283,7 @@ export class MerchantComponent {
   }
 
   closeView() {
+    this.detailInfo = {};
     this.showViewDialog = false;
-    this.selectedMerchant = undefined;
   }
 }
