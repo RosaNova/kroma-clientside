@@ -56,7 +56,11 @@ export const SUPER_ADMIN_ROUTES: Routes = [
       },
       {
         path: 'admin-users',
-        loadChildren: () => import('./pages/admin-users/admin-users.route').then((c) => c.routes),
+        loadChildren: () => import('./pages/admin-users/admin-users.route').then((r) => r.routes),
+      },
+      {
+        path: 'commission',
+        loadChildren: () => import('./pages/commissions/commission.route').then((r) => r.routes),
       },
     ],
   },

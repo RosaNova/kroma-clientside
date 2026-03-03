@@ -53,6 +53,7 @@ import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zon
 import { AdminUsersService } from '../admin-users/services/admin-users-service';
 import { StoreCategoriesService } from '../store-category/service/store-categories-service';
 import { storeCategory } from '../store-category/models/store-categories';
+import { isActive } from '@angular/router';
 @Component({
   selector: 'app-merchant',
   standalone: true,
@@ -73,6 +74,7 @@ export class MerchantComponent {
   stores = signal<Store[]>([]);
   detailInfo = signal<any>({});
   merchants: Merchant[] = [];
+  store = signal<Store>({} as any);
   storeCategories: storeCategory[] = [];
   form = new FormGroup({
     name: new FormControl(''),
@@ -226,8 +228,41 @@ export class MerchantComponent {
   }
 
   /* ---------- Edit ---------- */
-  openEdit() {
-    this.showEditDialog = true;
+  async openEdit(id: string) {
+    this.store_id = id;
+    try {
+      this.showEditDialog = true;
+      const res = await this.merchantService.getById(this.store_id);
+      if (res) {
+        this.form.patchValue({
+          name: res.name,
+          merchant: res.merchant._id,
+          isActive: res.isActive,
+          store_category: res.store_category,
+        });
+        this.store.set(res);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async updateStore() {
+    const body = {
+      name: this.form.get('name')?.value,
+      merchant: this.form.get('merchant')?.value,
+      isActive: this.form.get('isActive')?.value,
+      store_category: this.form.get('store_category')?.value,
+    };
+    this.closeEdit();
+    try {
+      const res = await this.merchantService.updateInfo(this.store_id, body);
+      if (res) {
+        this.getList();
+        window.location.reload();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   closeEdit() {
@@ -246,11 +281,25 @@ export class MerchantComponent {
   closeAdd() {
     this.showAddDialog.set(false);
   }
-  handleFiles(files: File[]) {
+  async handleFiles(files: File[]) {
     if (files!.length > 0) {
       for (let index = 0; index < files!.length; index++) {
         const file: File = files![index];
         this.uploadFiles = file;
+      }
+      if (this.store_id !== '') {
+        const body = {
+          store_img: this.uploadFiles,
+        };
+        try {
+          const res = await this.merchantService.updateImage(this.store_id, body);
+          if (res) {
+            await this.getList();
+            this.closeAdd();
+          }
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
   }

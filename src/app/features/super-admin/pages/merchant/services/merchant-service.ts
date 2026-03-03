@@ -20,4 +20,17 @@ export class MerchantService {
   delete(id: string) {
     return lastValueFrom(this.requestService.deleteJSON(`${this.path}/${id}`));
   }
+  getById(id: string) {
+    return lastValueFrom(this.requestService.getJSON(`${this.path}/${id}`));
+  }
+  updateInfo(id: string, data: any) {
+    return lastValueFrom(this.requestService.patchJSON(`${this.path}/update-info/${id}`, data));
+  }
+  updateImage(id: string, data: any) {
+    return lastValueFrom(this.requestService.patchFormData(`${this.path}/update-img/${id}`, data));
+  }
+  getCommissions() {
+    const path = '/api/merchants';
+    return lastValueFrom(this.requestService.getJSON(`${path}/commissions`));
+  }
 }

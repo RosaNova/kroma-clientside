@@ -53,6 +53,7 @@ export class SuperAdmin {
       children: [
         { icon: User, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' },
         { icon: User, label: 'អ្នកគ្រប់គ្រងទាំងអស់', route: '/super-admin/admin-users' },
+        { icon: User, label: 'ថ្លៃបង់ភាគរយ', route: '/super-admin/commission' },
       ],
     },
     {
