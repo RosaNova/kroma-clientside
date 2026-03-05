@@ -53,7 +53,7 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
     MatSnackBarModule,
   ],
   templateUrl: './admin-users.html',
-  styleUrl: './admin-users.css',
+  styleUrls: ['./admin-users.css'],
 })
 export class AdminUsers {
   Package = Package;

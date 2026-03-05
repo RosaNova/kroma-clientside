@@ -53,7 +53,7 @@ interface StatCardType {
   selector: 'app-orders',
   imports: [CommonModule, LucideAngularModule, FormsModule, StatCard],
   templateUrl: './orders.component.html',
-  styleUrl: './orders.component.css',
+  styleUrls: ['./orders.component.css'],
 })
 export class Orders {
   // Icons

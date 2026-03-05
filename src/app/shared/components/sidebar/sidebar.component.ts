@@ -12,9 +12,9 @@ interface NavItem {
 }
 
 export interface User {
-  name: string;
-  role: string;
-  avatar: string;
+  fullname: string;
+  role : string;
+  profile: string;
 }
 
 @Component({
@@ -22,7 +22,7 @@ export interface User {
   selector: 'app-sidebar',
   imports: [CommonModule, LucideAngularModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css',
+  styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
   @Input() navbar!: NavItem[];
@@ -55,5 +55,12 @@ export class SidebarComponent {
     return item.children.some(child =>
       this.router.isActive(child.route!, false)
     );
+  }
+
+  logout(): void {
+    // Implement logout logic here (e.g., clear auth tokens, redirect to login page)
+    console.log('Logging out...');
+    // Example: this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

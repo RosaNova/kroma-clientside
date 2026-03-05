@@ -7,7 +7,7 @@ import { ProductService } from '../services/product-service';
   selector: 'app-create-product',
   imports: [FormCreateProductComponent, CommonModule],
   templateUrl: './create-product.component.html',
-  styleUrl: './create-product.component.css',
+  styleUrls: ['./create-product.component.css'],
 })
 export class CreateProduct {
   constructor(private productService: ProductService) { }

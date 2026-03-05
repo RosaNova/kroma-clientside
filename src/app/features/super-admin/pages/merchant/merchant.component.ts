@@ -68,7 +68,7 @@ import { isActive } from '@angular/router';
     ReactiveFormsModule,
   ],
   templateUrl: './merchant.component.html',
-  styleUrl: './merchant.component.css',
+  styleUrls: ['./merchant.component.css'],
 })
 export class MerchantComponent {
   stores = signal<Store[]>([]);

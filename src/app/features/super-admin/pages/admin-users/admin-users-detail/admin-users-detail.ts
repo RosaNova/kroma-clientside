@@ -21,7 +21,7 @@ import { AdminUsersService } from '../services/admin-users-service';
   selector: 'app-admin-users-detail',
   imports: [LucideAngularModule, ReactiveFormsModule],
   templateUrl: './admin-users-detail.html',
-  styleUrl: './admin-users-detail.css',
+  styleUrls: ['./admin-users-detail.css'],
 })
 export class AdminUsersDetail {
   @ViewChild('fileInput')

@@ -47,13 +47,15 @@
   <div class="p-4 border-t border-sidebar-border mt-auto">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-full bg-sidebar-accent overflow-hidden">
-        <img [src]="user.avatar" alt="User" class="w-full h-full object-cover" />
+        <img [src]="user.profile" alt="User" class="w-full h-full object-cover" />
       </div>
       <div class="flex-1">
-        <p class="text-sidebar-foreground font-medium text-sm">{{ user.name }}</p>
+        <p class="text-sidebar-foreground font-medium text-sm">{{ user.fullname }}</p>
         <p class="text-sidebar-foreground/50 text-xs">{{ user.role }}</p>
       </div>
-      <lucide-angular class="text-red-700" [img]="LogOut"></lucide-angular>
+      <button type="button" (click)="logout()" class="p-2 cursor-pointer rounded-full hover:bg-sidebar-accent">
+        <lucide-angular class="text-red-700 w-5 h-5" [img]="LogOut"></lucide-angular>
+      </button>
     </div>
   </div>
 </aside>

@@ -80,7 +80,7 @@ const MOCK_CATEGORIES: Category[] = [
   selector: 'app-product-category',
   imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
   templateUrl: './product-category.component.html',
-  styleUrl: './product-category.component.css',
+  styleUrls: ['./product-category.component.css'],
 })
 export class ProductCategory {
   Package = Package;

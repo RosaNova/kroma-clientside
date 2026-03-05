@@ -77,3 +77,10 @@ export interface FeedbackType {
   productName?: string;
   merchantName?: string;
 }
+
+
+export interface AccountDashboard {
+  fullname: string;
+  role: string;
+  profile_url?: string;
+}

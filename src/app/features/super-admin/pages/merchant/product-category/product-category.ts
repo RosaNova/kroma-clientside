@@ -14,7 +14,7 @@ import { ProductCategoryType } from '@/app/core/models/ui.types';
   standalone: true,
   imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
   templateUrl: './product-category.html',
-  styleUrl: './product-category.css',
+  styleUrls: ['./product-category.css'],
 })
 export class ProductCategoryComponent {
   SUPER_ADMIN_PRODUCT_STATS = SUPER_ADMIN_PRODUCT_STATS;

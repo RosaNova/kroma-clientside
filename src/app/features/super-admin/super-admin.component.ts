@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   LayoutDashboard,
@@ -13,8 +13,11 @@ import {
 import localeKm from '@angular/common/locales/km';
 import { registerLocaleData } from '@angular/common';
 import { SidebarComponent } from '@/app/shared/components/sidebar/sidebar.component';
+import { User as SidebarUser } from '@/app/shared/components/sidebar/sidebar.component';
+import { requestService } from '@/app/services/request-service';
 import { KrHeader } from '@/app/shared/components/kr-header/kr-header.component';
 registerLocaleData(localeKm);
+import { AccountDashboard } from '@/app/core/models/ui.types';
 
 interface NavItem {
   icon: any;
@@ -27,11 +30,11 @@ interface NavItem {
   selector: 'app-super-admin',
   imports: [RouterOutlet, LucideAngularModule, SidebarComponent, KrHeader],
   templateUrl: './super-admin.component.html',
-  styleUrl: './super-admin.component.css',
+  styleUrls: ['./super-admin.component.css'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SuperAdmin {
+export class SuperAdmin implements OnInit {
   navItems: NavItem[] = [
     {
       icon: LayoutDashboard,
@@ -51,8 +54,7 @@ export class SuperAdmin {
       icon: User,
       label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់',
       children: [
-        { icon: User, label: 'អ្នកប្រើប្រាស់ទាំងអស់', route: '/super-admin/users' },
-        { icon: User, label: 'អ្នកគ្រប់គ្រងទាំងអស់', route: '/super-admin/admin-users' },
+        { icon: User, label: 'អ្នកប្រើប្រាស់ទាំងអស់ក្នុងទូរសព្ទដៃ', route: '/super-admin/users' },
         { icon: User, label: 'ថ្លៃបង់ភាគរយ', route: '/super-admin/commission' },
       ],
     },
@@ -64,12 +66,32 @@ export class SuperAdmin {
     { icon: MessageSquareText, label: 'គ្រប់គ្រងមតិកែលម្អ', route: '/super-admin/feedback' },
     { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
-  user = {
-    name: 'សុខ វណ្ណា',
-    role: 'អ្នកគ្រប់គ្រង',
-    avatar:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
+
+  sidebarUser: SidebarUser = {
+    fullname: '',
+    role: 'Super-Admin',
+    profile: 'assets/images/default-profile.png',
   };
+
+  constructor(private requestService: requestService) {}
+  ngOnInit(): void {
+    // Fetch super-admin account info from API and map to sidebar user
+    this.requestService.getJSON('/api/super-admins').subscribe({
+      next: (res) => {
+        if (res && Array.isArray(res.list) && res.list.length > 0) {
+          const superAdmin: AccountDashboard = res.list[0];
+          this.sidebarUser = {
+            fullname: superAdmin.fullname || '',
+            role: superAdmin.role || 'Super-Admin',
+            profile: superAdmin.profile_url || 'assets/images/default-profile.png',
+          };
+        }
+      },
+      error: () => {
+        // keep default user if request fails
+      },
+    });
+  }
 
   title = 'ផ្ទាំងគ្រប់គ្រង';
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';

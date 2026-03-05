@@ -11,7 +11,7 @@ import { FeedbackType } from '@/app/core/models/ui.types';
   standalone: true,
   imports: [CommonModule, LucideAngularModule, StatCard, BoxDialogComponent],
   templateUrl: './feedback.html',
-  styleUrl: './feedback.css',
+  styleUrls: ['./feedback.css'],
 })
 export class Feedback {
   // Mock Data

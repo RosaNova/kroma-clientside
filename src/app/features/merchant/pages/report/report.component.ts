@@ -93,7 +93,7 @@ interface ProductPerformance {
     LucideAngularModule
   ],
   templateUrl: './report.component.html',
-  styleUrl: './report.component.css',
+  styleUrls: ['./report.component.css'],
 })
 export class Report {
 

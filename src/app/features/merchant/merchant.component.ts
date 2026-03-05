@@ -16,6 +16,9 @@ import localeKm from '@angular/common/locales/km';
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localeKm);
 
+import { AccountDashboard } from '@/app/core/models/ui.types';
+import { title } from 'process';
+
 interface NavItem {
   icon: any;
   label: string;
@@ -28,7 +31,7 @@ interface NavItem {
   selector: 'app-merchant',
   imports: [RouterOutlet, LucideAngularModule, KrHeader, SidebarComponent],
   templateUrl: './merchant.component.html',
-  styleUrl: './merchant.component.css',
+  styleUrls: ['./merchant.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class Merchant {
@@ -56,13 +59,13 @@ export class Merchant {
     { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
     { icon: Settings, label: 'ការកំណត់', route: '/merchant/setting' },
   ];
-  user = {
-    name: 'សុខ វណ្ណា',
-    role: 'អ្នកគ្រប់គ្រង',
-    avatar:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-  };
 
+  sidebarUser? :AccountDashboard = {
+    fullname: '',
+    role: '',
+    profile_url: 'assets/images/default-profile.png',
+  };
+ 
   title = 'ផ្ទាំងគ្រប់គ្រង';
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
   today = new Date();
