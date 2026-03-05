@@ -17,6 +17,7 @@ import { MerchantService } from '@/app/features/super-admin/pages/merchant/servi
 import { Store } from '@/app/features/super-admin/pages/merchant/models/store';
 import { CommonModule } from '@angular/common';
 import { Category } from '@/app/features/merchant/pages/product/models/category';
+import { Router } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'app-form-create-product',
@@ -40,15 +41,16 @@ export class FormCreateProductComponent {
     name: new FormControl('', Validators.required),
     price: new FormControl(''),
     description: new FormControl(''),
-    category: new FormControl('693ab7eda6eeb5e1cdb1a83f'),
+    category: new FormControl(''),
     qty: new FormControl(''),
     isActive: new FormControl(true),
     discount: new FormControl(''),
-    store: new FormControl('693ab7eda6eeb5e1cdb1a83f'),
+    store: new FormControl(''),
   });
   constructor(
     private productService: ProductService,
     private merchantService: MerchantService,
+    private router: Router,
   ) {
     this.getStores();
     this.getCategories();
@@ -82,12 +84,16 @@ export class FormCreateProductComponent {
     }
   }
   onCreateProduct() {
-    const body = {
+    const body: any = {
       ...this.form.value,
-      image: this.uploadFiles,
     };
+    if (this.uploadFiles) {
+      body.image = this.uploadFiles;
+    }
     this.productService.createProducts(body).subscribe({
-      next: (res) => {},
+      next: (res) => {
+        this.router.navigate(['/merchant/product']);
+      },
     });
   }
 }

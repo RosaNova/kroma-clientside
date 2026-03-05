@@ -72,7 +72,7 @@ export class requestService {
     const fileKeys = [];
     for (const key of Object.keys(formValue)) {
       const value = formValue[key];
-      if (typeof value.name == 'string') {
+      if (typeof value?.name == 'string') {
         fileKeys.push(key);
         continue;
       }

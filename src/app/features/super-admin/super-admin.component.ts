@@ -108,7 +108,7 @@ export class SuperAdmin implements OnInit {
     // });
   }
   ngOnDestroy(): void {
-    this.userSub?.unsubscribe(); // ✅ prevent memory leaks
+    this.userSub?.unsubscribe(); //prevent memory leaks
   }
   title = 'ផ្ទាំងគ្រប់គ្រង';
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
