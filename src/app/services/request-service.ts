@@ -8,8 +8,8 @@ import { environment } from '../environments/environment';
 export class requestService {
   constructor(private httpClient: HttpClient) {}
   private getAuthHeader(): HttpHeaders {
-    // const token = localStorage.getItem('_t');
-    const token = '';
+    const token = localStorage.getItem('_t');
+    // const token = '';
     if (token) {
       return new HttpHeaders({
         Authorization: 'Bearer ' + token,

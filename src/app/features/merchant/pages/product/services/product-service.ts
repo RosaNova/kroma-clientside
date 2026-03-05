@@ -14,6 +14,10 @@ export class ProductService {
   getGroupedProduct(data?: any) {
     return lastValueFrom(this.requestService.getJSON(this.path + '/grouped'));
   }
+  getCategories() {
+    const path = '/api/categories';
+    return lastValueFrom(this.requestService.getJSON(path));
+  }
   createProducts(data: any) {
     return this.requestService.postFormData(this.path, data);
   }

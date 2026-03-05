@@ -12,7 +12,7 @@ import { MoveRight, LucideAngularModule } from 'lucide-angular';
   styleUrl: './login.component.css',
 })
 export class Login {
-  MoveRight = MoveRight
+  MoveRight = MoveRight;
 
   username = '';
   password = '';
@@ -25,7 +25,7 @@ export class Login {
   constructor(
     private router: Router,
     private authService: AuthService,
-  ) { }
+  ) {}
   onSubmit() {
     this.isLoading = true;
     this.authService
@@ -33,7 +33,9 @@ export class Login {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (res) => {
-          localStorage.setItem('role', res.role);
+          localStorage.setItem('role', res.user.role);
+          localStorage.setItem('_t', res.token);
+          localStorage.setItem('store_id', res.user.store._id);
         },
       });
   }

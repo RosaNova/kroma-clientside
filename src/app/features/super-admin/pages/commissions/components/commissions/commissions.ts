@@ -27,13 +27,15 @@ import {
 } from 'lucide-angular';
 import { MerchantService } from '../../../merchant/services/merchant-service';
 import { CommonModule } from '@angular/common';
+import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 @Component({
   selector: 'app-commissions',
-  imports: [LucideAngularModule, CommonModule],
+  imports: [LucideAngularModule, CommonModule, BoxDialogComponent],
   templateUrl: './commissions.html',
   styleUrl: './commissions.css',
 })
 export class Commissions {
+  showConfirmDialog: boolean = false;
   ChevronLeft = ChevronLeft;
   ChevronRight = ChevronRight;
   ChevronsLeft = ChevronsLeft;
@@ -53,6 +55,7 @@ export class Commissions {
   Edit = Edit;
   FileUp = FileUp;
   Search = Search;
+  store_id: string = '';
   commissions = signal<any[]>([]);
   searchTerm = signal('');
   currentPage = signal(1);
@@ -65,7 +68,25 @@ export class Commissions {
       const res = await this.merchantService.getCommissions();
       if (res) {
         this.commissions.set(res.list);
-        console.log(this.commissions());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  onShowDialog(id: string) {
+    this.store_id = id;
+    this.showConfirmDialog = true;
+  }
+  closeDialog() {
+    this.showConfirmDialog = false;
+  }
+  async onMark() {
+    const body = {};
+    try {
+      const res = await this.merchantService.updateCommissions(this.store_id, body);
+      if (res) {
+        await this.getCommissions();
+        this.closeDialog();
       }
     } catch (e) {
       console.log(e);

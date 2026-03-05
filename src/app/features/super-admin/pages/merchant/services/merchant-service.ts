@@ -33,4 +33,8 @@ export class MerchantService {
     const path = '/api/merchants';
     return lastValueFrom(this.requestService.getJSON(`${path}/commissions`));
   }
+  updateCommissions(id: string, data: any) {
+    const path = '/api/merchants';
+    return lastValueFrom(this.requestService.patchJSON(`${path}/update-commissions/${id}`, data));
+  }
 }
