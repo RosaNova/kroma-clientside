@@ -73,7 +73,7 @@ import { isActive } from '@angular/router';
 export class MerchantComponent {
   stores = signal<Store[]>([]);
   detailInfo = signal<any>({});
-  merchants: Merchant[] = [];
+  merchants = signal<Merchant[]>([]);
   store = signal<Store>({} as any);
   storeCategories: storeCategory[] = [];
   form = new FormGroup({
@@ -137,8 +137,7 @@ export class MerchantComponent {
     try {
       const res = await this.adminUserService.getUsers();
       if (res) {
-        this.merchants = res.list;
-        this.cdr.detectChanges();
+        this.merchants.set(res.list);
       }
     } catch (e) {
       console.log(e);

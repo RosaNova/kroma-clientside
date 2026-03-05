@@ -94,7 +94,7 @@ export class AdminUsersDetail {
     }
   }
   onBack() {
-    this.router.navigate(['/super-admin/admin-users']);
+    this.router.navigate(['/super-admin/merchant']);
   }
   async onFileChange(event: Event) {
     try {

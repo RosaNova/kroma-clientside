@@ -1,22 +1,15 @@
 <div class="space-y-6 p-7">
   <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
     <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
-      <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអាជីវកម្ម ( Merchant )</h2>
+      <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីការបង់ថ្លៃភាគរយ (Commission)</h2>
       <div class="flex gap-2">
-        <button
-          type="button"
-          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
-        >
-          <lucide-angular [img]="Plus" class="w-4 h-4" />
-          បញ្ចូលឯកសារ
-        </button>
-        <button
+        <!-- <button
           type="button"
           class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
         >
           <lucide-angular [img]="FileUp"></lucide-angular>
           នាំចេញជាឯកសារ
-        </button>
+        </button> -->
         <div class="relative">
           <lucide-angular
             [img]="Search"
@@ -28,11 +21,6 @@
             placeholder="ស្វែងរក..."
           />
         </div>
-        <button
-          class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white"
-        >
-          + បន្ថែមថ្មី
-        </button>
       </div>
     </div>
     <table class="w-full">
@@ -101,7 +89,16 @@
         </tr>
       </tbody>
     </table>
-
+    <div class="img flex flex-col justify-center items-center" *ngIf="commissions().length == 0">
+      <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
+      <img
+        class="w-50 h-50 object-contain"
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
+        alt=""
+      />
+      <!-- </div> -->
+      <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
+    </div>
     <!-- Pagination -->
     <div class="p-4 w-full flex items-center justify-end gap-4">
       <!-- First / Previous -->

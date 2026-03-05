@@ -97,7 +97,7 @@
     <div class="img flex flex-col justify-center items-center" *ngIf="users.length == 0">
       <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
       <img
-        class="w-30 h-30 object-contain"
+        class="w-50 h-50 object-contain"
         src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
         alt=""
       />
@@ -180,7 +180,7 @@
                 type="text"
                 placeholder="ឈ្មោះអ្នកប្រើប្រាស់"
                 class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="name"
+                formControlName="fullName"
               />
             </div>
             <div class="space-y-2.5">
@@ -211,16 +211,14 @@
               />
             </div>
             <div class="space-y-2.5">
-              <label
-                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-              >
-                <lucide-angular [img]="CirclePercent" class="h-3 w-3" /> ថ្លៃបង់ភាគរយ (Commission
-                Rate)
+              <label class="text-[13px] font-bold text-muted-foreground flex items-center gap-2">
+                <lucide-angular [img]="KeyRound" class="h-5 w-5" /> លេខសម្ងាត់
               </label>
               <input
-                placeholder="commission_rate"
+                type="password"
+                placeholder="លេខសម្ងាត់"
                 class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="commission_rate"
+                formControlName="password"
               />
             </div>
           </div>
@@ -234,14 +232,11 @@
                 Rate)
               </label>
               <input
-                placeholder="commission_rate"
+                placeholder="ថ្លៃបង់ភាគរយ"
                 class="input bg-gray-300 outline-gray-400 w-full"
                 formControlName="commission_rate"
               />
             </div>
-          </div>
-
-          <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2.5">
               <label class="text-[13px] font-bold text-muted-foreground flex items-center gap-2">
                 <lucide-angular [img]="Phone" class="h-5 w-5" /> លេខទូរស័ព្ទ
@@ -251,17 +246,6 @@
                 placeholder="លេខទូរស័ព្ទ"
                 class="input bg-gray-300 outline-gray-400 w-full"
                 formControlName="phone"
-              />
-            </div>
-            <div class="space-y-2.5">
-              <label class="text-[13px] font-bold text-muted-foreground flex items-center gap-2">
-                <lucide-angular [img]="KeyRound" class="h-5 w-5" /> លេខសម្ងាត់
-              </label>
-              <input
-                type="password"
-                placeholder="លេខសម្ងាត់"
-                class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="password"
               />
             </div>
           </div>

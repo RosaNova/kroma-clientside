@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { AuthService } from '../services/auth-service';
 import { finalize } from 'rxjs';
 import { MoveRight, LucideAngularModule } from 'lucide-angular';
+import { UserRole } from '@/app/features/super-admin/enum/user-role.enum';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, LucideAngularModule],
@@ -28,15 +29,19 @@ export class Login {
     if (this.form.invalid) return;
     this.isLoading = true;
     this.authService
-      .login(this.form.value, 'MERCHANT')
+      .login(this.form.value)
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (res: any) => {
+          localStorage.setItem('user_profile', res.user.userProfile);
+          localStorage.setItem('fullName', res.user.fullName);
           if (res?.token) localStorage.setItem('token', res.token);
+          if (res?.store) localStorage.setItem('storeId', res.store);
           const roleFromRes = res.role || res.user.role || res.data.role;
           const roleToStore = roleFromRes || 'MERCHANT';
           localStorage.setItem('role', roleToStore);
-          if (roleToStore === 'SUPER_ADMIN' || roleToStore === 'super-admin') {
+          if (roleToStore === UserRole.SuperAdmin || roleToStore === 'super-admin') {
+            this.authService.refreshUser();
             this.router.navigate(['/super-admin']);
           } else {
             this.router.navigate(['/merchant']);

@@ -1,15 +1,23 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from '../environments/environment';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class requestService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {}
   private getAuthHeader(): HttpHeaders {
-    const token = localStorage.getItem('_t');
-    // const token = '';
+    // ✅ return empty headers during SSR
+    if (!isPlatformBrowser(this.platformId)) {
+      return new HttpHeaders();
+    }
+
+    const token = localStorage.getItem('token');
     if (token) {
       return new HttpHeaders({
         Authorization: 'Bearer ' + token,

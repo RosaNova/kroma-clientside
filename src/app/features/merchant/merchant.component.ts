@@ -60,12 +60,12 @@ export class Merchant {
     { icon: Settings, label: 'ការកំណត់', route: '/merchant/setting' },
   ];
 
-  sidebarUser? :AccountDashboard = {
+  sidebarUser: any = {
     fullname: '',
     role: '',
     profile_url: 'assets/images/default-profile.png',
   };
- 
+
   title = 'ផ្ទាំងគ្រប់គ្រង';
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
   today = new Date();

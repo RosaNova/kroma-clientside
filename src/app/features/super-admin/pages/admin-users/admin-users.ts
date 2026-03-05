@@ -197,14 +197,14 @@ export class AdminUsers {
   // Form
   uploadFiles: any;
   form = new FormGroup({
-    name: new FormControl(''),
+    fullName: new FormControl(''),
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
     phone: new FormControl(''),
     address: new FormControl(''),
     commission_rate: new FormControl(''),
-    role: new FormControl(UserRole.Merchant),
+    role: new FormControl(UserRole.ShopOwner),
   });
 
   handleFiles(files: File[]) {
