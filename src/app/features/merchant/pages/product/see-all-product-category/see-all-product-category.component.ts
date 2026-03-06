@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ArrowLeft, LucideAngularModule, Search } from 'lucide-angular';
 import { ProductService } from '../services/product-service';
@@ -17,7 +17,8 @@ export class SeeAllProductCategory {
   searchTerm = '';
   Search = Search;
   ArrowLeft = ArrowLeft;
-  products: Product[] = [];
+  products = signal<Product[]>([]);
+  categoryId: string = '';
   categories = [
     {
       id: 1,
@@ -195,21 +196,38 @@ export class SeeAllProductCategory {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
   ) {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.getProductByCategory(id as string);
+    this.categoryId = this.route.snapshot.paramMap.get('id')!;
+    this.getProductByCategory(this.categoryId as string);
   }
   async getProductByCategory(id: string) {
     try {
       const res = await this.productService.getProducts({ category: id });
       if (res) {
-        this.products = res.list;
+        this.products.set(res.list);
         this.cdr.detectChanges();
       }
     } catch (e) {
       console.log(e);
     }
   }
-
+  async onSearch(event: KeyboardEvent) {
+    try {
+      const inputKey = (event.target as HTMLInputElement).value;
+      const storeId = localStorage.getItem('store_id')!;
+      if (inputKey != '') {
+        const res = await this.productService.search(inputKey, storeId);
+        if (res.list) {
+          this.products.set(res.list);
+        } else {
+          this.products.set([]);
+        }
+      } else {
+        await this.getProductByCategory(this.categoryId);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   handleBack() {
     this.location.back();
   }

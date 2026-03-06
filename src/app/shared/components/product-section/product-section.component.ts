@@ -16,14 +16,14 @@ interface product {
 @Component({
   standalone: true,
   selector: 'app-product-section',
-  imports: [CommonModule, RouterLink, FormsModule, ProductCard],
+  imports: [CommonModule, RouterLink, FormsModule, ProductCard, FormsModule],
   templateUrl: './product-section.component.html',
   styleUrl: './product-section.component.css',
 })
 export class ProductSection {
   @Input() title!: string;
   @Input() products: ProductGrouped[] = [];
-  constructor() { }
+  constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['products']) {
       console.log('Products changed:', {

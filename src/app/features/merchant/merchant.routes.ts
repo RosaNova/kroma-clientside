@@ -40,7 +40,7 @@ export const MERCHANT_ROUTES: Routes = [
           ),
       },
       {
-        path: 'product/productdetail',
+        path: 'product/productdetail/:id',
         loadComponent: () =>
           import('../../shared/components/product-detail/product-detail.component').then(
             (c) => c.ProductDetail,

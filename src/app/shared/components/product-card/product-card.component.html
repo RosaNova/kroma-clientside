@@ -26,7 +26,7 @@
         <div class="flex gap-2">
           <!-- Delete -->
           <button
-            (click)="openDelete(item.name)"
+            (click)="openDelete(item._id, item.name)"
             type="button"
             class="flex-1 cursor-pointer bg-destructive rounded-xl hover:bg-destructive/90 text-destructive-foreground text-xs h-8"
           >
@@ -36,7 +36,7 @@
           <!-- Edit -->
           <button
             type="button"
-            (click)="open(item._id, item)"
+            (click)="open(item._id!)"
             class="flex-1 cursor-pointer bg-stat-pink rounded-xl hover:bg-stat-pink/90 text-white text-xs h-8"
           >
             កែសម្រួល
@@ -44,7 +44,7 @@
 
           <!-- Detail -->
           <a
-            routerLink="/merchant/product/productdetail"
+            [routerLink]="['/merchant/product/productdetail', item._id]"
             class="flex-1 bg-green-700 flex justify-center items-center rounded-xl text-white cursor-pointer text-xs h-8"
           >
             លម្អិត
@@ -65,102 +65,110 @@
 <!-- ✅ Edit Dialog -->
 <app-box-dialog title="កែសម្រួលផលិតផល" (close)="close()">
   <!-- Profile -->
-  <div class="flex gap-6">
-    <label for="file" class="relative w-32 h-32 rounded-xl overflow-hidden bg-gray-200">
-      <img src="https://i.pravatar.cc/300" class="w-full h-full object-cover" />
-      <div
-        class="bg-black/50 top-0 text-center text-[12px] text-white cursor-pointer font-bold flex justify-center items-center left-0 opacity-0 hover:opacity-100 duration-300 absolute h-full w-full"
-      >
-        Update Image
-      </div>
-      <input
-        type="file"
-        id="file"
-        class="absolute hidden inset-0 bg-black/40 items-center justify-center text-white text-xs cursor-pointer"
-      />
-    </label>
-
-    <!-- Form -->
-    <div class="grid grid-cols-2 text-card-foreground gap-4 flex-1">
-      <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground"
-          >ឈ្មោះផលិតផល <span class="text-destructive">*</span></label
+  <form [formGroup]="form">
+    <div class="flex gap-6">
+      <label for="file" class="relative w-32 h-32 rounded-xl overflow-hidden bg-gray-200">
+        <!-- <img src="https://i.pravatar.cc/300" class="w-full h-full object-cover" /> -->
+        <img src="{{ image_url }}" class="w-full h-full object-contain" />
+        <div
+          class="bg-black/50 top-0 text-center text-[12px] text-white cursor-pointer font-bold flex justify-center items-center left-0 opacity-0 hover:opacity-100 duration-300 absolute h-full w-full"
         >
+          Update Image
+        </div>
         <input
-          formControlName="name"
-          placeholder="ឈ្មោះទំនិញ"
-          class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full"
+          (change)="onFileChange($event)"
+          type="file"
+          id="file"
+          class="absolute opacity-0 inset-0 bg-black/40 items-center justify-center text-white text-xs cursor-pointer"
         />
-      </div>
+      </label>
 
-      <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground"
-          >តម្លៃ <span class="text-destructive">*</span></label
-        >
-        <input
-          formControlName="price"
-          placeholder="$"
-          class="input bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full"
-        />
-      </div>
+      <!-- Form -->
+      <div class="grid grid-cols-2 text-card-foreground gap-4 flex-1">
+        <div class="flex flex-col gap-3">
+          <label class="label-text text-card-foreground"
+            >ឈ្មោះផលិតផល <span class="text-destructive">*</span></label
+          >
+          <input
+            formControlName="name"
+            placeholder="ឈ្មោះទំនិញ"
+            class="input bg-gray-300 outline-gray-400 placeholder:text-muted-foreground text-foreground input-bordered w-full"
+          />
+        </div>
 
-      <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground"
-          >ប្រភេទ <span class="text-destructive">*</span></label
-        >
-        <select
-          name=""
-          class="select w-full bg-input/10 text-foreground"
-          id=""
-          formControlName="category"
-        >
-          <!-- @for (item of ; track $index) {} -->
-          <option value="clothes">សម្លៀកបំពាក់</option>
-          <!-- <option value="accessories">គ្រឿងអលង្ការ</option>
+        <div class="flex flex-col gap-3">
+          <label class="label-text text-card-foreground"
+            >តម្លៃ <span class="text-destructive">*</span></label
+          >
+          <input
+            formControlName="price"
+            placeholder="$"
+            class="input bg-gray-300 outline-gray-400 placeholder:text-muted-foreground text-foreground input-bordered w-full"
+          />
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <label class="label-text text-card-foreground"
+            >ប្រភេទ <span class="text-destructive">*</span></label
+          >
+          <select
+            name=""
+            class="select w-full bg-gray-300 outline-gray-400 text-foreground"
+            id=""
+            formControlName="category"
+          >
+            @for (item of categories(); track $index) {
+              <option [value]="item._id">{{ item.name }}</option>
+            }
+            <!-- <option value="accessories">គ្រឿងអលង្ការ</option>
           <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option> -->
-        </select>
-      </div>
+          </select>
+        </div>
 
-      <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground"
-          >ចំនួនស្តុក <span class="text-destructive">*</span></label
-        >
-        <input
-          type="number"
-          name=""
-          placeholder="0"
-          class="input bg-input/10 text-foreground w-full"
-          id=""
-        />
-      </div>
+        <div class="flex flex-col gap-3">
+          <label class="label-text text-card-foreground"
+            >ចំនួនស្តុក <span class="text-destructive">*</span></label
+          >
+          <input
+            type="number"
+            name=""
+            formControlName="qty"
+            placeholder="0"
+            class="input bg-gray-300 outline-gray-400 text-foreground w-full"
+            id=""
+          />
+        </div>
 
-      <!-- Gender -->
-      <div class="flex flex-col gap-3">
-        <label class="label-text text-card-foreground"
-          >បញ្ចុះតម្លៃ <span class="text-destructive">*</span></label
-        >
-        <input
-          type="number"
-          placeholder="%"
-          name=""
-          class="input bg-input/10 w-full text-foreground"
-          id=""
-        />
-      </div>
-      <div class="flex flex-col gap-3">
-        <label for="" class="text-card-foreground"
-          >ពិពណ៌នា <span class="text-destructive">*</span></label
-        >
-        <textarea
-          name=""
-          class="textarea bg-input/10 text-foreground w-full"
-          placeholder="ការពិពណ៌នា..."
-          id=""
-        >
-        </textarea>
+        <!-- Gender -->
+        <div class="flex flex-col gap-3">
+          <label class="label-text text-card-foreground"
+            >បញ្ចុះតម្លៃ <span class="text-destructive">*</span></label
+          >
+          <input
+            formControlName="discount"
+            type="number"
+            placeholder="%"
+            name=""
+            class="input bg-gray-300 outline-gray-400 w-full text-foreground"
+            id=""
+          />
+        </div>
+        <div class="flex flex-col gap-3">
+          <label for="" class="text-card-foreground"
+            >ពិពណ៌នា <span class="text-destructive">*</span></label
+          >
+          <textarea
+            name=""
+            class="textarea bg-gray-300 outline-gray-400 text-foreground w-full"
+            formControlName="description"
+            placeholder="ការពិពណ៌នា..."
+            id=""
+          >
+          </textarea>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 
   <!-- Footer -->
   <div class="flex justify-end">

@@ -8,7 +8,7 @@
   </button>
 
   <div class="flex bg-white shadow p-4 rounded-xl justify-between items-center mb-4">
-    <h2 class="text-lg font-bold">{{ products[0]?.category?.name }}</h2>
+    <h2 class="text-lg font-bold">{{ products()[0]?.category?.name }}</h2>
 
     <div class="relative">
       <lucide-angular
@@ -19,9 +19,9 @@
         type="text"
         class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
         placeholder="ស្វែងរក..."
-        [(ngModel)]="searchTerm"
+        (keyup)="onSearch($event)"
       />
     </div>
   </div>
-  <app-product-card [products]="products" />
+  <app-product-card [products]="products()" />
 </div>
