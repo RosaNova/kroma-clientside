@@ -1,0 +1,170 @@
+<div class="space-y-6 p-7">
+  <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
+    <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
+      <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីការបង់ថ្លៃភាគរយ (Commission)</h2>
+      <div class="flex gap-2">
+        <!-- <button
+          type="button"
+          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+        >
+          <lucide-angular [img]="FileUp"></lucide-angular>
+          នាំចេញជាឯកសារ
+        </button> -->
+        <div class="relative">
+          <lucide-angular
+            [img]="Search"
+            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+          ></lucide-angular>
+          <input
+            type="text"
+            class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+            placeholder="ស្វែងរក..."
+          />
+        </div>
+      </div>
+    </div>
+    <table class="w-full">
+      <thead class="bg-muted/20 text-gray-500">
+        <tr>
+          <th class="p-2 text-center">ល.រ</th>
+          <th class="p-2 text-center">ម្ចាស់អាជីវកម្ម</th>
+          <th class="p-2 text-center">លេខទូរស័ព្ទ</th>
+          <th class="p-2 text-center">ភាគរយនៃការបង់</th>
+          <th class="p-2 text-center">ប្រាក់ដែលត្រូវបង់</th>
+          <th class="p-2 text-center">ស្ថានភាព</th>
+          <th class="p-2 text-center">សកម្មភាព</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of commissions(); let i = index"
+          class="border-t border-b border-gray-300 text-center"
+        >
+          <td class="p-2">{{ i + 1 }}</td>
+          <td class="p-2">{{ item.merchant.name }}</td>
+          <td class="p-2">{{ item.merchant.phone }}</td>
+          <td class="p-2">{{ item.rate }}</td>
+          <ng-container *ngIf="item.totalPaid == 0; else totalPending">
+            <td class="p-2">{{ item.totalPending }}</td>
+            <td class="p-2">
+              <span
+                class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
+                [class.bg-orange-100]="true"
+                [class.text-orange-500]="true"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full inline-block"
+                  [class.bg-orange-700]="true"
+                ></span>
+                <span class="text-[13px] font-bold">{{ 'pending' }}</span>
+              </span>
+            </td>
+          </ng-container>
+          <ng-template #totalPending>
+            <td class="p-2">{{ item.totalPaid }}</td>
+            <td>
+              <span
+                class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
+                [class.bg-green-100]="true"
+                [class.text-green-500]="true"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full inline-block"
+                  [class.bg-green-700]="true"
+                ></span>
+                <span class="text-[13px] font-bold">{{ 'paid' }}</span>
+              </span>
+            </td>
+          </ng-template>
+          <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
+            <button
+              type="button"
+              (click)="onShowDialog(item.merchant._id)"
+              class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center"
+            >
+              <lucide-angular [img]="Edit" class="w-4 h-4 mr-1"></lucide-angular>
+              កំណត់សម្គាល់ (Mark)
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="img flex flex-col justify-center items-center" *ngIf="commissions().length == 0">
+      <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
+      <img
+        class="w-50 h-50 object-contain"
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
+        alt=""
+      />
+      <!-- </div> -->
+      <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
+    </div>
+    <!-- Pagination -->
+    <div class="p-4 w-full flex items-center justify-end gap-4">
+      <!-- First / Previous -->
+      <div class="flex items-center gap-2">
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="goToFirst()"
+          [disabled]="currentPage() === 1"
+        >
+          <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
+        </button>
+
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="prev()"
+          [disabled]="currentPage() === 1"
+        >
+          <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
+        </button>
+      </div>
+
+      <!-- Page info -->
+      <div class="flex items-center gap-3">
+        <select
+          class="select select-neutral bg-white border"
+          [value]="itemsPerPage()"
+          (change)="changeItemsPerPage($any($event.target).value)"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+
+        <span class="text-sm text-muted-foreground">
+          {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
+        </span>
+      </div>
+
+      <!-- Next / Last -->
+      <div class="flex items-center gap-2">
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="next()"
+          [disabled]="currentPage() === totalPages()"
+        >
+          <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
+        </button>
+
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="goToLast()"
+          [disabled]="currentPage() === totalPages()"
+        >
+          <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-box-dialog title="កែសម្រួលព័ត៌មានអាជីវកម្ម" [open]="showConfirmDialog" (close)="closeDialog()">
+  <div class="space-y-4">
+    <p class="text-gray-500 text-center p-6 text-[15px] pt-2 pb-5">
+      តើអ្នកពិតជាចង់លុបកំណត់ថាគាត់បានបង់ប្រាក់រួចហើយមែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
+    </p>
+    <div class="flex justify-end pt-2">
+      <button class="btn btn-primary rounded-2xl" (click)="onMark()">បាទ/ចាស</button>
+    </div>
+  </div>
+</app-box-dialog>

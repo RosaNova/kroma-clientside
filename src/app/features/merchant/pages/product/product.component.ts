@@ -1,10 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, Inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  Inject,
+  ChangeDetectorRef,
+  PLATFORM_ID,
+} from '@angular/core';
+
 import { LucideAngularModule, Package, Wallet, ShoppingCart, Box } from 'lucide-angular';
 import { ProductService } from './services/product-service';
 import { ProductGrouped } from './models/product';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { ProductSection } from '@/app/shared/components/product-section/product-section.component';
+import { FormsModule } from '@angular/forms';
 
 interface StatType {
   title: string;
@@ -16,11 +25,12 @@ interface StatType {
 
 @Component({
   selector: 'app-product',
-  imports: [CommonModule, ProductSection, StatCard, LucideAngularModule],
+  imports: [CommonModule, ProductSection, StatCard, LucideAngularModule, FormsModule],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
 })
 export class Product {
+  @Inject(PLATFORM_ID) private platformId: Object = {};
   Package = Package;
   Wallet = Wallet;
   ShoppingCart = ShoppingCart;
@@ -29,23 +39,23 @@ export class Product {
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
-  ) { }
-  ngOnInit(): void {
+  ) {
     this.getProducts();
   }
+  ngOnInit(): void {}
   async getProducts() {
     try {
       const res = await this.productService.getGroupedProduct();
+      console.log(res);
 
       if (res && res.list) {
         this.products = res.list;
-        this.cdr.detectChanges(); // Manually trigger change detection
+        this.cdr.detectChanges();
       } else {
         this.products = [];
       }
     } catch (e) {
       console.error('API ERROR:', e);
-      this.products = [];
     }
   }
 

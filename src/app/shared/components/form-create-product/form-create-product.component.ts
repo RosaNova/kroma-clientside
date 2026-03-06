@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   Upload,
   ChevronRight,
@@ -13,10 +13,15 @@ import {
 import { DropZoneComponent } from '../ui/drop-zone/drop-zone.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '@/app/features/merchant/pages/product/services/product-service';
+import { MerchantService } from '@/app/features/super-admin/pages/merchant/services/merchant-service';
+import { Store } from '@/app/features/super-admin/pages/merchant/models/store';
+import { CommonModule } from '@angular/common';
+import { Category } from '@/app/features/merchant/pages/product/models/category';
+import { Router } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'app-form-create-product',
-  imports: [LucideAngularModule, DropZoneComponent, ReactiveFormsModule],
+  imports: [LucideAngularModule, DropZoneComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './form-create-product.component.html',
   styleUrl: './form-create-product.component.css',
 })
@@ -30,17 +35,46 @@ export class FormCreateProductComponent {
   Tag = Tag;
   FileText = FileText;
   uploadFiles: any;
+  stores = signal<Store[]>([]);
+  categories = signal<Category[]>([]);
   form = new FormGroup({
     name: new FormControl('', Validators.required),
     price: new FormControl(''),
     description: new FormControl(''),
-    category: new FormControl('693ab7eda6eeb5e1cdb1a83f'),
+    category: new FormControl(''),
     qty: new FormControl(''),
     isActive: new FormControl(true),
     discount: new FormControl(''),
-    store: new FormControl('693ab7eda6eeb5e1cdb1a83f'),
+    store: new FormControl(''),
   });
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private merchantService: MerchantService,
+    private router: Router,
+  ) {
+    this.getStores();
+    this.getCategories();
+  }
+  async getStores() {
+    try {
+      const res = await this.merchantService.getMany();
+      if (res) {
+        this.stores.set(res.list);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async getCategories() {
+    try {
+      const res = await this.productService.getCategories();
+      if (res) {
+        this.categories.set(res.list);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   handleFiles(files: File[]) {
     if (files!.length > 0) {
       for (let index = 0; index < files!.length; index++) {
@@ -50,12 +84,16 @@ export class FormCreateProductComponent {
     }
   }
   onCreateProduct() {
-    const body = {
+    const body: any = {
       ...this.form.value,
-      image: this.uploadFiles,
     };
+    if (this.uploadFiles) {
+      body.image = this.uploadFiles;
+    }
     this.productService.createProducts(body).subscribe({
-      next: (res) => { },
+      next: (res) => {
+        this.router.navigate(['/merchant/product']);
+      },
     });
   }
 }

@@ -13,13 +13,22 @@
       <form class="p-8 space-y-8" [formGroup]="form">
         <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-2.5">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="Tag" class="h-3 w-3" /> ឈ្មោះទំនិញ (Product Name)
             </label>
-            <input type="text" placeholder="ឈ្មោះផលិតផល" class="input w-full" formControlName="name" />
+            <input
+              type="text"
+              placeholder="ឈ្មោះផលិតផល"
+              class="input w-full"
+              formControlName="name"
+            />
           </div>
           <div class="space-y-2.5 w-full">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="DollarSign" class="h-3 w-3" /> តម្លៃ (Price)
             </label>
             <input placeholder="0.00$" class="input w-full" formControlName="price" />
@@ -28,55 +37,61 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="space-y-2.5">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="Hash" class="h-3 w-3" /> ចំនួនស្តុក (Stock)
             </label>
             <input type="number" placeholder="0" class="input" formControlName="qty" />
           </div>
           <div class="space-y-2.5">
-            <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="ListTree" class="h-3 w-3" /> ប្រភេទ (Category)
             </Label>
 
-            <select class="select">
+            <select class="select" formControlName="category">
               <!-- <selectedcontent class="h-12 bg-muted/5 border-muted">
                        placeholder="ជ្រើសរើសប្រភេទ" />
                     </selectedcontent> -->
 
-              <option value="clothes">សម្លៀកបំពាក់</option>
-              <option value="accessories">គ្រឿងអលង្ការ</option>
-              <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option>
+              <option *ngFor="let item of categories()" [value]="item._id">{{ item.name }}</option>
             </select>
           </div>
-          <div class="space-y-2.5">
-            <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <!-- <div class="space-y-2.5">
+            <Label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="Package" class="h-3 w-3" /> ម៉ាក (Brand)
             </Label>
             <input type="text" placeholder="Brand...." class="input" />
-          </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          </div> -->
           <div class="space-y-2.5">
-            <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="ListTree" class="h-3 w-3" /> ហាង (Store)
             </Label>
 
-            <select class="select">
+            <select class="select" formControlName="store">
               <!-- <selectedcontent class="h-12 bg-muted/5 border-muted">
                        placeholder="ជ្រើសរើសប្រភេទ" />
                     </selectedcontent> -->
 
-              <option value="clothes">សម្លៀកបំពាក់</option>
-              <option value="accessories">គ្រឿងអលង្ការ</option>
-              <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option>
+              <option *ngFor="let item of stores()" [value]="item._id">{{ item.name }}</option>
             </select>
           </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div class="space-y-2.5">
-            <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="ListTree" class="h-3 w-3" /> ស្ថានភាព (Status)
             </Label>
 
-            <select class="select">
+            <select class="select w-100">
               <!-- <selectedcontent class="h-12 bg-muted/5 border-muted">
                        placeholder="ជ្រើសរើសប្រភេទ" />
                     </selectedcontent> -->
@@ -86,7 +101,9 @@
             </select>
           </div>
           <div class="space-y-2.5 w-full">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="Hash" class="h-3 w-3" /> ការបញ្ចុះតម្លៃ (Discount) Optional
             </label>
             <input type="number" placeholder="%" class="input" formControlName="discount" />
@@ -94,23 +111,32 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-1 gap-6 w-full">
           <div class="space-y-2.5 w-full">
-            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
               <lucide-angular [img]="FileText" class="h-3 w-3" /> ការពិពណ៌នា (Description)
             </label>
-            <textarea placeholder="រៀបរាប់អំពីផលិតផលរបស់អ្នកនៅទីនេះ..." class="textarea w-full resize-none"
-              formControlName="description"></textarea>
+            <textarea
+              placeholder="រៀបរាប់អំពីផលិតផលរបស់អ្នកនៅទីនេះ..."
+              class="textarea w-full resize-none"
+              formControlName="description"
+            ></textarea>
           </div>
         </div>
 
         <div class="space-y-2.5 w-full">
-          <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <Label
+            class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+          >
             <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពផលិតផល (Product Image)
           </Label>
           <app-drop-zone class="w-full" (filesAdded)="handleFiles($event)"></app-drop-zone>
         </div>
         <button
           class="w-32 cursor-pointer text-white flex justify-center items-center float-end h-10 bg-green-700 hover:bg-green-700/90 font-black text-[15px] rounded-[10px]"
-          (click)="onCreateProduct()" type="button">
+          (click)="onCreateProduct()"
+          type="button"
+        >
           បង្កើតទំនិញថ្មី
         </button>
       </form>

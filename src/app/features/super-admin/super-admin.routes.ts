@@ -15,7 +15,7 @@ export const SUPER_ADMIN_ROUTES: Routes = [
           import('./pages/dashboard/dashboard.component').then((c) => c.Dashboard),
       },
       {
-        path: 'merchant',
+        path: 'stores',
         loadComponent: () =>
           import('./pages/merchant/merchant.component').then((c) => c.MerchantComponent),
       },
@@ -55,8 +55,12 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         loadChildren: () => import('./pages/users/users.routes').then((r) => r.routes),
       },
       {
-        path: 'admin-users',
-        loadChildren: () => import('./pages/admin-users/admin-users.route').then((c) => c.routes),
+        path: 'merchant',
+        loadChildren: () => import('./pages/admin-users/admin-users.route').then((r) => r.routes),
+      },
+      {
+        path: 'commission',
+        loadChildren: () => import('./pages/commissions/commission.route').then((r) => r.routes),
       },
     ],
   },

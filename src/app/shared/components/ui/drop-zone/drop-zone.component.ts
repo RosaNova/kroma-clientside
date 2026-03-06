@@ -14,7 +14,7 @@ import { LucideAngularModule, Upload } from 'lucide-angular';
 @Component({
   standalone: true,
   selector: 'app-drop-zone',
-  imports: [LucideAngularModule],
+  imports: [LucideAngularModule, CommonModule],
   templateUrl: './drop-zone.component.html',
   styleUrl: './drop-zone.component.css',
 })

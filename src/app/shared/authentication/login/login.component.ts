@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { AuthService } from '../services/auth-service';
 import { finalize } from 'rxjs';
 import { MoveRight, LucideAngularModule } from 'lucide-angular';
+import { UserRole } from '@/app/features/super-admin/enum/user-role.enum';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, LucideAngularModule],
@@ -12,7 +13,7 @@ import { MoveRight, LucideAngularModule } from 'lucide-angular';
   styleUrl: './login.component.css',
 })
 export class Login {
-  MoveRight = MoveRight
+  MoveRight = MoveRight;
 
   currentYear = new Date().getFullYear();
   isLoading = false;
@@ -23,7 +24,7 @@ export class Login {
   constructor(
     private router: Router,
     private authService: AuthService,
-  ) { }
+  ) {}
 
   onSubmit() {
     if (this.form.invalid) return;
@@ -40,6 +41,9 @@ export class Login {
   }
 
   private handleLoginSuccess(res: any) {
+    localStorage.setItem('fullName', res.user.fullName ? res.user.fullName : res.user.username);
+    localStorage.setItem('user_profile', res.user.userProfile);
+    if (res?.store) localStorage.setItem('store', res.store._id);
     if (res?.token) localStorage.setItem('token', res.token);
     const rawRole = res.user?.role || res.role || res.data?.role || '';
     const normalizedRole = rawRole.toString().replace(/-/g, '_').toUpperCase();
@@ -51,4 +55,3 @@ export class Login {
     }
   }
 }
-

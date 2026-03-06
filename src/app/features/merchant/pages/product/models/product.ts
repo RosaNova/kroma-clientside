@@ -7,6 +7,8 @@ export interface Product {
   price: number;
   qty: number;
   category: Category;
+  discount: number;
+  description?: string;
 }
 
 export interface ProductGrouped {

@@ -1,5 +1,6 @@
-export interface adminUser {
+export interface Merchant {
   _id: string;
+  fullName: string;
   username: string;
   email: string;
   password?: string;
@@ -7,5 +8,7 @@ export interface adminUser {
   role: string;
   createdAt: Date;
   phone: string;
-  profile_url: string;
+  address: string;
+  commission_rate: number;
+  profile_url?: string;
 }

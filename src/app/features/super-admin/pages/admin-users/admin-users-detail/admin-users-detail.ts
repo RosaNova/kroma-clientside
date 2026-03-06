@@ -11,6 +11,9 @@ import {
   MapPin,
   Calendar,
   KeyRound,
+  Form,
+  CirclePercent,
+  Mail,
 } from 'lucide-angular';
 import { AdminUsersService } from '../services/admin-users-service';
 
@@ -29,16 +32,21 @@ export class AdminUsersDetail {
   MapPin = MapPin;
   Calendar = Calendar;
   KeyRound = KeyRound;
+  CirclePercent = CirclePercent;
+  Mail = Mail;
   img_url: string = '';
   id: string = '';
   uploadFiles?: File;
   selectedImage: string = '';
   form = new FormGroup({
+    name: new FormControl(''),
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
     role: new FormControl(''),
     phone: new FormControl(''),
+    commission_rate: new FormControl(''),
+    address: new FormControl(''),
   });
   constructor(
     private adminUserService: AdminUsersService,
@@ -54,8 +62,12 @@ export class AdminUsersDetail {
     try {
       const res = await this.adminUserService.getUserById(id);
       if (res) {
+        console.log(res);
         this.img_url = res.profile_url;
         this.form.patchValue({
+          name: res.name,
+          address: res.address,
+          commission_rate: res.commission_rate,
           username: res.username,
           email: res.email,
           role: res.role,
@@ -82,7 +94,7 @@ export class AdminUsersDetail {
     }
   }
   onBack() {
-    this.router.navigate(['/super-admin/admin-users']);
+    this.router.navigate(['/super-admin/merchant']);
   }
   async onFileChange(event: Event) {
     try {

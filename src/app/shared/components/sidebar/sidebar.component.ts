@@ -1,7 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, LogOut, ChevronDown, LucideIconData, ChevronRight } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  LogOut,
+  ChevronDown,
+  LucideIconData,
+  ChevronRight,
+} from 'lucide-angular';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AccountDashboard } from '@/app/core/models/ui.types';
 
 interface NavItem {
   icon?: LucideIconData;
@@ -13,7 +20,7 @@ interface NavItem {
 
 export interface User {
   fullname: string;
-  role : string;
+  role: string;
   profile: string;
 }
 
@@ -27,16 +34,15 @@ export interface User {
 export class SidebarComponent {
   @Input() navbar!: NavItem[];
   @Input() user!: User;
-
   ChevronDown = ChevronDown;
   ChevronRight = ChevronRight;
   LogOut = LogOut;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // Auto-open dropdown if a child route is active
-    this.navbar.forEach(item => {
+    this.navbar.forEach((item) => {
       if (item.children) {
         item.isOpen = this.isParentActive(item);
       }
@@ -52,15 +58,13 @@ export class SidebarComponent {
   isParentActive(item: NavItem): boolean {
     if (!item.children) return false;
 
-    return item.children.some(child =>
-      this.router.isActive(child.route!, false)
-    );
+    return item.children.some((child) => this.router.isActive(child.route!, false));
   }
 
   logout(): void {
     // Implement logout logic here (e.g., clear auth tokens, redirect to login page)
     console.log('Logging out...');
-    // Example: this.authService.logout();
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 }

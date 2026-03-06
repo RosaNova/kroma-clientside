@@ -2,7 +2,7 @@
   <div class="bg-card border border-gray-300 rounded-xl shadow-lg">
     <div class="border-b border-gray-300 text-black p-4 flex items-center gap-2 font-semibold">
       <lucide-angular [img]="User" class="w-5 h-5 text-primary" />
-      ព័ត៌មានរបស់អ្នក
+      ព័ត៌មានរបស់អ្នកគ្រប់គ្រង
     </div>
 
     <div class="p-6 flex flex-col lg:flex-row gap-8">
@@ -41,9 +41,12 @@
 
       <!-- Profile Form -->
       <div class="flex-1 space-y-4" [formGroup]="form">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="flex flex-col w-full justify-start">
-            <label for="" class="text-gray-500 pb-2"> ឈ្មោះអ្នកប្រើប្រាស់ប្រព័ន្ធ</label>
+            <label for="" class="text-gray-500 flex gap-2 pb-2">
+              <lucide-angular [img]="User" class="text-gray-500 w-5"></lucide-angular>
+              ឈ្មោះអ្នកប្រើប្រាស់ប្រព័ន្ធ
+            </label>
             <input
               class="input bg-gray-200 w-full rounded-xl text-black"
               placeholder="ឈ្មោះអ្នកប្រើប្រាស់ប្រព័ន្ធ"
@@ -51,25 +54,14 @@
             />
           </div>
           <div class="flex flex-col justify-start">
-            <label for="" class="text-gray-500 pb-2">អ៊ីមែល</label>
+            <label for="" class="text-gray-500 flex gap-2 pb-2">
+              <lucide-angular [img]="Mail" class="text-gray-500 w-5"></lucide-angular>
+              អ៊ីមែល
+            </label>
             <input
               class="input bg-gray-200 w-full rounded-xl text-black"
               placeholder="អ៊ីមែល"
               formControlName="email"
-            />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="flex flex-col justify-start">
-            <label for="" class="text-gray-500 flex gap-2 pb-2">
-              <lucide-angular [img]="Phone" class="text-gray-500 w-5"></lucide-angular>
-              លេខទូរសព្ទ័</label
-            >
-            <input
-              class="input rounded-xl w-full bg-gray-200 text-black"
-              placeholder="លេខទូរស័ព្ទ"
-              formControlName="phone"
             />
           </div>
           <div class="flex flex-col justify-start">
@@ -85,9 +77,33 @@
             />
           </div>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="flex flex-col justify-start">
+            <label for="" class="text-gray-500 flex gap-2 pb-2">
+              <lucide-angular [img]="Phone" class="text-gray-500 w-5"></lucide-angular>
+              លេខទូរសព្ទ័</label
+            >
+            <input
+              class="input rounded-xl w-full bg-gray-200 text-black"
+              placeholder="លេខទូរស័ព្ទ"
+              formControlName="phone"
+            />
+          </div>
+          <div class="flex flex-col justify-start">
+            <label for="" class="text-gray-500 flex gap-2 pb-2">
+              <lucide-angular [img]="CirclePercent" class="text-gray-500 w-5"></lucide-angular>
+              ថ្លៃបង់ភាគរយ</label
+            >
+            <input
+              class="input rounded-xl w-full bg-gray-200 text-black"
+              placeholder="លេខទូរស័ព្ទ"
+              formControlName="commission_rate"
+            />
+          </div>
+        </div>
         <div class="flex justify-end gap-2">
           <button class="btn border-0 rounded-xl bg-emerald-700 flex gap-2" (click)="onBack()">
-            <lucide-angular [img]="User" class="w-4 h-4" />
             ចាកចេញ
           </button>
           <button class="btn border-0 rounded-xl bg-blue-700 flex gap-2" (click)="onSave()">

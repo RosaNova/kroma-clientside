@@ -1,365 +1,508 @@
 <div class="space-y-6 p-7">
-    <!-- Stat Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  <!-- Stat Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <app-stat-card
+      *ngFor="let s of SUPER_ADMIN_MERCHANT_STATS"
+      [icon]="s.icon"
+      [variant]="s.variant"
+      [value]="s.value"
+      [title]="s.title"
+      [change]="s.change"
+      [changeType]="s.changeType"
+    >
+    </app-stat-card>
+  </div>
 
-        <app-stat-card *ngFor="let s of SUPER_ADMIN_MERCHANT_STATS" [icon]="s.icon" [variant]="s.variant"
-            [value]="s.value" [title]="s.title" [change]="s.change" [changeType]="s.changeType">
-        </app-stat-card>
+  <!-- Table  -->
 
-    </div>
-
-    <!-- Table  -->
-
-    <!-- Table -->
-    <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
-        <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
-            <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអាជីវកម្ម ( Merchant ) </h2>
-            <div class="flex gap-2">
-                <button type="button"
-                    class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
-                    <lucide-angular [img]="Plus" class="w-4 h-4" />
-                    បញ្ចូលឯកសារ
-                </button>
-                <button type="button"
-                    class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100">
-                    <lucide-angular [img]="FileUp"></lucide-angular>
-                    នាំចេញជាឯកសារ
-                </button>
-                <div class="relative">
-                    <lucide-angular [img]="Search"
-                        class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground "></lucide-angular>
-                    <input type="text"
-                        class=" bg-gray-200  text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
-                        placeholder="ស្វែងរក..." [value]="searchTerm()"
-                        (input)="searchTerm.set($any($event.target).value)" />
-                </div>
-                <button (click)="openAdd()"
-                    class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white">
-                    + បន្ថែមថ្មី
-                </button>
-            </div>
+  <!-- Table -->
+  <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
+    <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
+      <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអាជីវកម្ម ( Merchant )</h2>
+      <div class="flex gap-2">
+        <button
+          type="button"
+          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
+        >
+          <lucide-angular [img]="Plus" class="w-4 h-4" />
+          បញ្ចូលឯកសារ
+        </button>
+        <button
+          type="button"
+          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+        >
+          <lucide-angular [img]="FileUp"></lucide-angular>
+          នាំចេញជាឯកសារ
+        </button>
+        <div class="relative">
+          <lucide-angular
+            [img]="Search"
+            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+          ></lucide-angular>
+          <input
+            type="text"
+            class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+            placeholder="ស្វែងរក..."
+            [value]="searchTerm()"
+            (input)="searchTerm.set($any($event.target).value)"
+          />
         </div>
-        <table class="w-full   ">
-            <thead class="bg-muted/20 text-gray-500">
-                <tr>
-                    <th class="p-2 text-center">ល.រ ▼</th>
-                    <th class="p-2 text-center">ឈ្មោះអាជីវកម្ម ▼</th>
-                    <th class="p-2 text-center">ម្ចាស់អាជីវកម្ម ▼</th>
-                    <th class="p-2 text-center">ចំនួនទំនិញ ▼</th>
-                    <th class="p-2 text-center">ចំនួនការបញ្ជាទិញ ▼</th>
-                    <th class="p-2 text-center">ប្រាក់ចំណូលសរុប ▼</th>
-                    <th class="p-2 text-center">ស្ថានភាព ▼</th>
-                    <th class="p-2 text-center">សកម្មភាព ▼</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let c of paginated()" class="border-t border-b border-gray-300 text-center">
-                    <td class="p-2 ">{{ c.id }}</td>
-                    <td class="p-2 ">{{ c.name }}</td>
-                    <td class="p-2  text-muted-foreground">{{ c.ownerName }}</td>
-                    <td class="p-2  text-muted-foreground">{{ c.totalProducts}}</td>
-                    <td class="p-2  text-muted-foreground">{{ c.totalOrders}}</td>
-                    <td class="p-2  text-muted-foreground">{{ c.totalRevenue}}</td>
-                    <td class="p-2">
-                        <span class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
-                            [class.bg-green-100]="c.status === 'active'" [class.text-green-700]="c.status === 'active'"
-                            [class.bg-orange-100]="c.status === 'inactive'"
-                            [class.text-orange-500]="c.status === 'inactive'">
-                            <span class="w-1.5 h-1.5 rounded-full inline-block"
-                                [class.bg-green-700]="c.status === 'active'"
-                                [class.bg-orange-700]="c.status === 'inactive'"></span>
-                            <span class="text-[13px] font-bold">{{ c.status }}</span>
-                        </span>
-                    </td>
-
-                    <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
-                        <button (click)="openDelete(c.name)"
-                            class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
-                            <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
-                            លុប</button>
-                        <button (click)="openView(c.id)"
-                            class="text-orange-400 bg-orange-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
-                            <lucide-angular [img]="Eye" class="w-4 h-4 mr-1" />
-                            មើលលម្អិត
-                        </button>
-                        <button (click)="openEdit()"
-                            class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center">
-                            <lucide-angular [img]="Edit" class="w-4 h-4 mr-1"></lucide-angular>
-                            កែសម្រួល</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Pagination -->
-        <div class="p-4 w-full flex items-center justify-end gap-4">
-
-            <!-- First / Previous -->
-            <div class="flex  items-center gap-2">
-                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-                    (click)="goToFirst()" [disabled]="currentPage() === 1">
-                    <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
-                </button>
-
-                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-                    (click)="prev()" [disabled]="currentPage() === 1">
-                    <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
-                </button>
-            </div>
-
-            <!-- Page info -->
-            <div class="flex items-center gap-3">
-                <select class="select select-neutral  bg-white border " [value]="itemsPerPage()"
-                    (change)="changeItemsPerPage($any($event.target).value)">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                </select>
-
-                <span class="text-sm text-muted-foreground">
-                    {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
-                </span>
-            </div>
-
-            <!-- Next / Last -->
-            <div class="flex items-center gap-2">
-                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-                    (click)="next()" [disabled]="currentPage() === totalPages()">
-                    <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
-                </button>
-
-                <button class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
-                    (click)="goToLast()" [disabled]="currentPage() === totalPages()">
-                    <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
-                </button>
-            </div>
-
-        </div>
-
-
+        <button
+          (click)="openAdd()"
+          class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white"
+        >
+          + បន្ថែមថ្មី
+        </button>
+      </div>
     </div>
+    <table class="w-full">
+      <thead class="bg-muted/20 text-gray-500">
+        <tr>
+          <th class="p-2 text-center">ល.រ</th>
+          <th class="p-2 text-center">ឈ្មោះអាជីវកម្ម</th>
+          <th class="p-2 text-center">ម្ចាស់អាជីវកម្ម</th>
+          <th class="p-2 text-center">ស្ថានភាព</th>
+          <th class="p-2 text-center">សកម្មភាព</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of stores(); let i = index"
+          class="border-t border-b border-gray-300 text-center"
+        >
+          <td class="p-2">{{ i + 1 }}</td>
+          <td class="p-2">{{ item.name }}</td>
+          <td class="p-2">{{ item.merchant.fullName }}</td>
+          <td class="p-2">
+            <span
+              class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
+              [class.bg-green-100]="item.isActive"
+              [class.text-green-700]="item.isActive"
+              [class.bg-orange-100]="!item.isActive"
+              [class.text-orange-500]="!item.isActive"
+            >
+              <span
+                class="w-1.5 h-1.5 rounded-full inline-block"
+                [class.bg-green-700]="item.isActive"
+                [class.bg-orange-700]="!item.isActive"
+              ></span>
+              <span class="text-[13px] font-bold">{{ item.isActive ? 'Active' : 'Inactive' }}</span>
+            </span>
+          </td>
 
+          <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
+            <button
+              (click)="openDelete(item.name, item._id)"
+              class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center"
+            >
+              <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
+              លុប
+            </button>
+            <button
+              (click)="openView(item._id)"
+              class="text-orange-400 bg-orange-50 rounded-[10px] cursor-pointer border px-3 flex items-center"
+            >
+              <lucide-angular [img]="Eye" class="w-4 h-4 mr-1" />
+              មើលលម្អិត
+            </button>
+            <button
+              (click)="openEdit(item._id!)"
+              class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center"
+            >
+              <lucide-angular [img]="Edit" class="w-4 h-4 mr-1"></lucide-angular>
+              កែសម្រួល
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="img flex flex-col justify-center items-center" *ngIf="stores().length == 0">
+      <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
+      <img
+        class="w-50 h-50 object-contain"
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
+        alt=""
+      />
+      <!-- </div> -->
+      <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
+    </div>
+    <!-- Pagination -->
+    <div class="p-4 w-full flex items-center justify-end gap-4">
+      <!-- First / Previous -->
+      <div class="flex items-center gap-2">
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="goToFirst()"
+          [disabled]="currentPage() === 1"
+        >
+          <lucide-angular [img]="ChevronsLeft" class="w-4 h-4"></lucide-angular>
+        </button>
+
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="prev()"
+          [disabled]="currentPage() === 1"
+        >
+          <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
+        </button>
+      </div>
+
+      <!-- Page info -->
+      <div class="flex items-center gap-3">
+        <select
+          class="select select-neutral bg-white border"
+          [value]="itemsPerPage()"
+          (change)="changeItemsPerPage($any($event.target).value)"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+
+        <span class="text-sm text-muted-foreground">
+          {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
+        </span>
+      </div>
+
+      <!-- Next / Last -->
+      <div class="flex items-center gap-2">
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="next()"
+          [disabled]="currentPage() === totalPages()"
+        >
+          <lucide-angular [img]="ChevronRight" class="w-4 h-4"></lucide-angular>
+        </button>
+
+        <button
+          class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
+          (click)="goToLast()"
+          [disabled]="currentPage() === totalPages()"
+        >
+          <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Delete Dialog -->
-<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
-    (confirm)="handleDelete()"></app-delete-dialog>
+<app-delete-dialog
+  [open]="showDeleteDialog"
+  [name]="selectedName"
+  (cancel)="handleCancel()"
+  (confirm)="handleDelete()"
+></app-delete-dialog>
 
 <!-- Edit Dialog -->
 <app-box-dialog title="កែសម្រួលព័ត៌មានអាជីវកម្ម" [open]="showEditDialog" (close)="closeEdit()">
+  <form [formGroup]="form">
     <div class="space-y-4">
-        <!-- Brand Name -->
+      <!-- Brand Name -->
+      <div class="flex flex-col gap-2">
+        <label class="text-card-foreground font-medium"
+          >ឈ្មោះអាជីវកម្ម <span class="text-destructive">*</span></label
+        >
+        <input
+          type="text"
+          placeholder="ឈ្មោះអាជីវកម្ម"
+          formControlName="name"
+          class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
+        />
+      </div>
+
+      <!-- Owner Name -->
+      <div class="flex flex-col gap-2">
+        <label class="text-card-foreground font-medium"
+          >ឈ្មោះម្ចាស់អាជីវកម្ម <span class="text-destructive">*</span></label
+        >
+        <select
+          class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+          formControlName="merchant"
+        >
+          <option *ngFor="let item of merchants()" [value]="item._id">{{ item.fullName }}</option>
+        </select>
+      </div>
+      <!-- Status -->
+      <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-2">
-            <label class="text-card-foreground font-medium">ឈ្មោះអាជីវកម្ម <span
-                    class="text-destructive">*</span></label>
-            <input type="text" placeholder="ឈ្មោះអាជីវកម្ម"
-                class="input border border-gray-300 bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
+          <label class="text-card-foreground font-medium"
+            >ប្រភេទអាជីវកម្ម <span class="text-destructive">*</span></label
+          >
+          <select
+            formControlName="store_category"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+          >
+            <option *ngFor="let item of storeCategories" [value]="item._id">{{ item.name }}</option>
+          </select>
         </div>
-
-        <!-- Owner Name -->
         <div class="flex flex-col gap-2">
-            <label class="text-card-foreground font-medium">ឈ្មោះម្ចាស់អាជីវកម្ម <span
-                    class="text-destructive">*</span></label>
-            <input type="text" placeholder="ឈ្មោះម្ចាស់អាជីវកម្ម"
-                class="input border border-gray-300 bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
+          <label class="text-card-foreground font-medium"
+            >ស្ថានភាព <span class="text-destructive">*</span></label
+          >
+          <select
+            formControlName="isActive"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+          >
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
         </div>
+      </div>
+      <div class="space-y-2.5 w-full">
+        <Label
+          class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+        >
+          <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពប្រភេទអាជីវកម្ម (Store Category
+          Image)
+        </Label>
+        <app-drop-zone
+          class="w-full"
+          (filesAdded)="handleFiles($event)"
+          [isImageUrl]="store()?.image_url"
+        ></app-drop-zone>
+      </div>
 
-        <!-- Phone & Email -->
-        <div class="grid grid-cols-2 gap-4">
-            <div class="flex flex-col gap-2">
-                <label class="text-card-foreground font-medium">លេខទូរស័ព្ទ</label>
-                <input type="text" placeholder="លេខទូរស័ព្ទ"
-                    class="input border border-gray-300 bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
-            </div>
-            <div class="flex flex-col gap-2">
-                <label class="text-card-foreground font-medium">អ៊ីមែល</label>
-                <input type="email" placeholder="អ៊ីមែល"
-                    class="input border border-gray-300 bg-input/10 placeholder:text-muted-foreground text-foreground input-bordered w-full">
-            </div>
-        </div>
-
-        <!-- Status -->
-        <div class="flex flex-col gap-2">
-            <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
-            <select class="select border border-gray-300  w-full bg-input/10 text-foreground">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-                <option value="suspended">Suspended</option>
-                <option value="pending">Pending</option>
-            </select>
-        </div>
-
-        <!-- Footer -->
-        <div class="flex justify-end pt-2">
-            <button class="btn btn-primary rounded-2xl" (click)="updateCategory()">រក្សាទុក</button>
-        </div>
+      <!-- Footer -->
+      <div class="flex justify-end pt-2">
+        <button class="btn btn-primary rounded-2xl" (click)="updateStore()">រក្សាទុក</button>
+      </div>
     </div>
+  </form>
 </app-box-dialog>
 
-
 <!-- Add Dialog -->
-<app-box-dialog title="បន្ថែមអាជីវកម្មថ្មី" [open]="showAddDialog" (close)="closeAdd()">
+<app-box-dialog title="បន្ថែមអាជីវកម្មថ្មី" [open]="showAddDialog()" (close)="closeAdd()">
+  <form [formGroup]="form">
     <div class="space-y-4">
-        <!-- Brand Name -->
+      <!-- Brand Name -->
+      <div class="flex flex-col gap-2">
+        <label class="text-card-foreground font-medium"
+          >ឈ្មោះអាជីវកម្ម <span class="text-destructive">*</span></label
+        >
+        <input
+          type="text"
+          placeholder="ឈ្មោះអាជីវកម្ម"
+          formControlName="name"
+          class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
+        />
+      </div>
+
+      <!-- Owner Name -->
+      <div class="flex flex-col gap-2">
+        <label class="text-card-foreground font-medium"
+          >ឈ្មោះម្ចាស់អាជីវកម្ម <span class="text-destructive">*</span></label
+        >
+        <select
+          class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+          formControlName="merchant"
+        >
+          <option *ngFor="let item of merchants()" [value]="item._id">{{ item.fullName }}</option>
+        </select>
+      </div>
+
+      <!-- Phone & Email -->
+      <!-- <div class="grid grid-cols-2 gap-4">
         <div class="flex flex-col gap-2">
-            <label class="text-card-foreground font-medium">ឈ្មោះអាជីវកម្ម <span
-                    class="text-destructive">*</span></label>
-            <input type="text" placeholder="ឈ្មោះអាជីវកម្ម"
-                class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full">
+          <label class="text-card-foreground font-medium">លេខទូរស័ព្ទ</label>
+          <input
+            type="text"
+            placeholder="លេខទូរស័ព្ទ"
+            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
+          />
         </div>
-
-        <!-- Owner Name -->
         <div class="flex flex-col gap-2">
-            <label class="text-card-foreground font-medium">ឈ្មោះម្ចាស់អាជីវកម្ម <span
-                    class="text-destructive">*</span></label>
-            <input type="text" placeholder="ឈ្មោះម្ចាស់អាជីវកម្ម"
-                class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full">
+          <label class="text-card-foreground font-medium">អ៊ីមែល</label>
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="អ៊ីមែល"
+            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
+          />
         </div>
+      </div> -->
 
-        <!-- Phone & Email -->
-        <div class="grid grid-cols-2 gap-4">
-            <div class="flex flex-col gap-2">
-                <label class="text-card-foreground font-medium">លេខទូរស័ព្ទ</label>
-                <input type="text" placeholder="លេខទូរស័ព្ទ"
-                    class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full">
-            </div>
-            <div class="flex flex-col gap-2">
-                <label class="text-card-foreground font-medium">អ៊ីមែល</label>
-                <input type="email" placeholder="អ៊ីមែល"
-                    class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full">
-            </div>
-        </div>
-
-        <!-- Status -->
+      <!-- Status -->
+      <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-2">
-            <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
-            <select class="select border border-gray-300 placeholder:text-gray-400  w-full bg-input/10 text-foreground">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-                <option value="suspended">Suspended</option>
-                <option value="pending">Pending</option>
-            </select>
+          <label class="text-card-foreground font-medium"
+            >ប្រភេទអាជីវកម្ម <span class="text-destructive">*</span></label
+          >
+          <select
+            formControlName="store_category"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+          >
+            <option *ngFor="let item of storeCategories" [value]="item._id">{{ item.name }}</option>
+          </select>
         </div>
+        <div class="flex flex-col gap-2">
+          <label class="text-card-foreground font-medium"
+            >ស្ថានភាព <span class="text-destructive">*</span></label
+          >
+          <select
+            formControlName="isActive"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+          >
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="space-y-2.5 w-full">
+        <Label
+          class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+        >
+          <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពប្រភេទអាជីវកម្ម (Store Category
+          Image)
+        </Label>
+        <app-drop-zone class="w-full" (filesAdded)="handleFiles($event)"></app-drop-zone>
+      </div>
 
-        <!-- Footer -->
-        <div class="flex justify-end pt-2">
-            <button class="btn btn-primary rounded-2xl" (click)="addCategory()">រក្សាទុក</button>
-        </div>
+      <!-- Footer -->
+      <div class="flex justify-end pt-2">
+        <button class="btn btn-primary rounded-2xl" (click)="addCategory()">រក្សាទុក</button>
+      </div>
     </div>
+  </form>
 </app-box-dialog>
 
 <!-- View Dialog -->
 <app-box-dialog title="ព័ត៌មានលម្អិតអំពីអាជីវកម្ម" [open]="showViewDialog" (close)="closeView()">
-    <div class="space-y-6" *ngIf="selectedMerchant">
-        <!-- Header: Brand & Profile -->
-        <div class="flex items-center gap-6 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-            <div class="relative">
-                <img [src]="selectedMerchant.brandImage" alt="Brand"
-                    class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow-sm">
-                <div class="absolute -bottom-2 -right-2 bg-white p-1 rounded-full shadow-md">
-                    <img [src]="selectedMerchant.profile" alt="Owner"
-                        class="w-8 h-8 rounded-full border border-gray-100">
-                </div>
-            </div>
-            <div class="flex-1">
-                <h4 class="text-xl font-bold text-gray-900">{{ selectedMerchant.name }}</h4>
-                <div class="flex items-center gap-2 mt-1">
-                    <span class="px-2 py-0.5 rounded-lg text-xs font-semibold uppercase tracking-wider"
-                        [class.bg-green-100]="selectedMerchant.status === 'active'"
-                        [class.text-green-700]="selectedMerchant.status === 'active'"
-                        [class.bg-orange-100]="selectedMerchant.status === 'inactive'"
-                        [class.text-orange-500]="selectedMerchant.status === 'inactive'"
-                        [class.bg-red-100]="selectedMerchant.status === 'suspended'"
-                        [class.text-red-700]="selectedMerchant.status === 'suspended'"
-                        [class.bg-yellow-100]="selectedMerchant.status === 'pending'"
-                        [class.text-yellow-700]="selectedMerchant.status === 'pending'">
-                        {{ selectedMerchant.status }}
-                    </span>
-                    <div class="flex items-center gap-1 ml-2 text-yellow-500">
-                        <lucide-angular [img]="Star" class="w-4 h-4 fill-current"></lucide-angular>
-                        <span class="text-sm font-bold">{{ selectedMerchant.rating }}</span>
-                    </div>
-                </div>
-            </div>
+  <div class="space-y-6">
+    <!-- Header: Brand & Profile -->
+    <div class="flex items-center gap-6 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+      <div class="relative">
+        <img
+          [src]="detailInfo()?.store_img"
+          alt="Brand"
+          class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow-sm"
+        />
+        <div class="absolute -bottom-2 -right-2 bg-white p-1 rounded-full shadow-md">
+          <img
+            [src]="detailInfo()?.merchant_profile"
+            alt="Owner"
+            class="w-8 h-8 rounded-full border border-gray-100"
+          />
         </div>
-
-        <!-- Info Grid -->
-        <div class="grid grid-cols-2 gap-x-8 gap-y-4 px-2">
-            <div class="flex items-center gap-3">
-                <div class="p-2 bg-blue-50 rounded-xl text-blue-600">
-                    <lucide-angular [img]="Edit" class="w-4 h-4"></lucide-angular>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-500 font-medium">ម្ចាស់អាជីវកម្ម</p>
-                    <p class="text-sm font-bold text-gray-800">{{ selectedMerchant.ownerName }}</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <div class="p-2 bg-purple-50 rounded-xl text-purple-600">
-                    <lucide-angular [img]="Calendar" class="w-4 h-4"></lucide-angular>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-500 font-medium">កាលបរិច្ឆេទចូលរួម</p>
-                    <p class="text-sm font-bold text-gray-800">{{ selectedMerchant.joinDate | date:'dd MMM yyyy' }}</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-3 font-battambang">
-                <div class="p-2 bg-green-50 rounded-xl text-green-600">
-                    <lucide-angular [img]="Phone" class="w-4 h-4"></lucide-angular>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-500 font-medium">លេខទូរស័ព្ទ</p>
-                    <p class="text-sm font-bold text-gray-800">{{ selectedMerchant.phone }}</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-3 font-battambang">
-                <div class="p-2 bg-orange-50 rounded-xl text-orange-600">
-                    <lucide-angular [img]="Mail" class="w-4 h-4"></lucide-angular>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-500 font-medium">អ៊ីមែល</p>
-                    <p class="text-sm font-bold text-gray-800">{{ selectedMerchant.email }}</p>
-                </div>
-            </div>
+      </div>
+      <div class="flex-1">
+        <h4 class="text-xl font-bold text-gray-900">{{ detailInfo()?.name }}</h4>
+        <div class="flex items-center gap-2 mt-1">
+          <!-- <span
+            class="px-2 py-0.5 rounded-lg text-xs font-semibold uppercase tracking-wider"
+            [class.bg-green-100]="selectedMerchant.status === 'active'"
+            [class.text-green-700]="selectedMerchant.status === 'active'"
+            [class.bg-orange-100]="selectedMerchant.status === 'inactive'"
+            [class.text-orange-500]="selectedMerchant.status === 'inactive'"
+            [class.bg-red-100]="selectedMerchant.status === 'suspended'"
+            [class.text-red-700]="selectedMerchant.status === 'suspended'"
+            [class.bg-yellow-100]="selectedMerchant.status === 'pending'"
+            [class.text-yellow-700]="selectedMerchant.status === 'pending'"
+          >
+            {{ selectedMerchant.status }}
+          </span> -->
+          <span
+            class="px-2 py-0.5 rounded-lg text-xs font-semibold uppercase tracking-wider"
+            [class.bg-green-100]="detailInfo()?.isActive"
+            [class.text-green-700]="detailInfo()?.isActive"
+            [class.bg-orange-100]="!detailInfo()?.isActive"
+            [class.text-orange-500]="!detailInfo()?.isActive"
+          >
+            {{ detailInfo()?.isActive }}
+          </span>
+          <div class="flex items-center gap-1 ml-2 text-yellow-500">
+            <lucide-angular [img]="Star" class="w-4 h-4 fill-current"></lucide-angular>
+            <span class="text-sm font-bold">{{ detailInfo()?.commission?.rate }}</span>
+          </div>
         </div>
-
-        <!-- Metrics Section -->
-        <div class="border-t border-gray-100 pt-6">
-            <h5 class="text-sm font-bold text-gray-700 mb-4 px-2 tracking-wide uppercase">Business Analytics</h5>
-            <div class="grid grid-cols-3 gap-4">
-                <div class="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 text-center">
-                    <p class="text-[10px] text-blue-600 font-bold uppercase tracking-wider mb-1">Products</p>
-                    <p class="text-2xl font-black text-blue-900">{{ selectedMerchant.totalProducts }}</p>
-                </div>
-                <div class="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100/50 text-center">
-                    <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider mb-1">Orders</p>
-                    <p class="text-2xl font-black text-emerald-900">{{ selectedMerchant.totalOrders }}</p>
-                </div>
-                <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100/50 text-center">
-                    <p class="text-[10px] text-amber-600 font-bold uppercase tracking-wider mb-1">Revenue</p>
-                    <p class="text-2xl font-black text-amber-900">${{ selectedMerchant.totalRevenue | number }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer Balance/Commission (Optional Professional Touch) -->
-        <div class="p-4 bg-gray-900 rounded-2xl flex justify-between items-center text-white">
-            <div class="flex items-center gap-3">
-                <div class="p-2 bg-white/10 rounded-xl">
-                    <lucide-angular [img]="WalletIcon" class="w-5 h-5 text-emerald-400"></lucide-angular>
-                </div>
-                <div>
-                    <p class="text-[10px] text-gray-400 font-bold uppercase">Commission Paid</p>
-                    <p class="text-lg font-bold">${{ selectedMerchant.commissionPaid | number }}</p>
-                </div>
-            </div>
-            <button (click)="closeView()"
-                class="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-bold transition-all">
-                Close
-            </button>
-        </div>
+      </div>
     </div>
+
+    <!-- Info Grid -->
+    <div class="grid grid-cols-2 gap-x-8 gap-y-4 px-2">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-blue-50 rounded-xl text-blue-600">
+          <lucide-angular [img]="Edit" class="w-4 h-4"></lucide-angular>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 font-medium">ម្ចាស់អាជីវកម្ម</p>
+          <p class="text-sm font-bold text-gray-800">{{ detailInfo()?.merchant?.name }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-purple-50 rounded-xl text-purple-600">
+          <lucide-angular [img]="Calendar" class="w-4 h-4"></lucide-angular>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 font-medium">កាលបរិច្ឆេទចូលរួម</p>
+          <p class="text-sm font-bold text-gray-800">
+            {{ detailInfo()?.merchant?.createdAt | date: 'dd MMM yyyy' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 font-battambang">
+        <div class="p-2 bg-green-50 rounded-xl text-green-600">
+          <lucide-angular [img]="Phone" class="w-4 h-4"></lucide-angular>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 font-medium">លេខទូរស័ព្ទ</p>
+          <p class="text-sm font-bold text-gray-800">{{ detailInfo()?.merchant?.phone }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 font-battambang">
+        <div class="p-2 bg-orange-50 rounded-xl text-orange-600">
+          <lucide-angular [img]="Mail" class="w-4 h-4"></lucide-angular>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 font-medium">អ៊ីមែល</p>
+          <p class="text-sm font-bold text-gray-800">{{ detailInfo()?.merchant?.email }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metrics Section -->
+    <div class="border-t border-gray-100 pt-6">
+      <h5 class="text-sm font-bold text-gray-700 mb-4 px-2 tracking-wide uppercase">
+        Business Analytics
+      </h5>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 text-center">
+          <p class="text-[10px] text-blue-600 font-bold uppercase tracking-wider mb-1">Products</p>
+          <p class="text-2xl font-black text-blue-900">{{ detailInfo()?.totalProduct }}</p>
+        </div>
+        <div class="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100/50 text-center">
+          <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider mb-1">Orders</p>
+          <p class="text-2xl font-black text-emerald-900">{{ detailInfo()?.totalOrder }}</p>
+        </div>
+        <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100/50 text-center">
+          <p class="text-[10px] text-amber-600 font-bold uppercase tracking-wider mb-1">Revenue</p>
+          <p class="text-2xl font-black text-amber-900">
+            ${{ detailInfo()?.totalIncome | number }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Balance/Commission (Optional Professional Touch) -->
+    <div class="p-4 bg-gray-900 rounded-2xl flex justify-between items-center text-white">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-white/10 rounded-xl">
+          <lucide-angular [img]="WalletIcon" class="w-5 h-5 text-emerald-400"></lucide-angular>
+        </div>
+        <div>
+          <p class="text-[10px] text-gray-400 font-bold uppercase">Commission Paid</p>
+          <p class="text-lg font-bold">${{ detailInfo()?.commission_paid | number }}</p>
+        </div>
+      </div>
+      <button
+        (click)="closeView()"
+        class="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-bold transition-all"
+      >
+        Close
+      </button>
+    </div>
+  </div>
 </app-box-dialog>
