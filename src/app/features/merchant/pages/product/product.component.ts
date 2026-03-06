@@ -7,6 +7,7 @@ import {
   ChangeDetectorRef,
   PLATFORM_ID,
 } from '@angular/core';
+
 import { LucideAngularModule, Package, Wallet, ShoppingCart, Box } from 'lucide-angular';
 import { ProductService } from './services/product-service';
 import { ProductGrouped } from './models/product';

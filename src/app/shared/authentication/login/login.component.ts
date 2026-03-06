@@ -34,7 +34,7 @@ export class Login {
       .subscribe({
         next: (res: any) => {
           localStorage.setItem('user_profile', res.user.userProfile);
-          localStorage.setItem('fullName', res.user.fullName);
+          localStorage.setItem('fullName', res.user.fullName || res.user.username);
           if (res?.token) localStorage.setItem('token', res.token);
           if (res?.store) localStorage.setItem('storeId', res.store);
           const roleFromRes = res.role || res.user.role || res.data.role;

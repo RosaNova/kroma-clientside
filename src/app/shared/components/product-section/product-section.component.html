@@ -1,14 +1,12 @@
 @for (item of products; track $index) {
-  <section class="my-8">
-    <div class="flex text-black items-center justify-between mb-4">
-      <h2 class="text-lg font-bold text-foreground">{{ item.name }}</h2>
-      <a
-        routerLink="/merchant/product/seemoreProduct/{{ item._id }}"
-        class="text-sm bg-gray-300 rounded-[10px] py-1 px-3 cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
-      >
-        មើលទាំងអស់
-      </a>
-    </div>
-    <app-product-card [products]="item.products" />
-  </section>
+<section class="my-8">
+  <div class="flex text-black items-center justify-between mb-4">
+    <h2 class="text-lg font-bold text-foreground">{{ item.name }}</h2>
+    <a routerLink="/merchant/product/seemoreProduct/{{ item._id }}"
+      class="text-sm bg-gray-300 rounded-[10px] py-1 px-3 cursor-pointer text-muted-foreground hover:text-foreground transition-colors">
+      មើលទាំងអស់
+    </a>
+  </div>
+  <app-product-card [products]="item.products" />
+</section>
 }

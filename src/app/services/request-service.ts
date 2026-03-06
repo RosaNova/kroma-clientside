@@ -16,7 +16,6 @@ export class requestService {
     if (!isPlatformBrowser(this.platformId)) {
       return new HttpHeaders();
     }
-
     const token = localStorage.getItem('token');
     if (token) {
       return new HttpHeaders({
