@@ -23,7 +23,7 @@ interface product {
 export class ProductSection {
   @Input() title!: string;
   @Input() products: ProductGrouped[] = [];
-  constructor() { }
+  constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['products']) {
       console.log('Products changed:', {

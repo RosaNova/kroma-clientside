@@ -1,11 +1,17 @@
-import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, Inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  Inject,
+  ChangeDetectorRef,
+  PLATFORM_ID,
+} from '@angular/core';
 import { LucideAngularModule, Package, Wallet, ShoppingCart, Box } from 'lucide-angular';
 import { ProductService } from './services/product-service';
 import { ProductGrouped } from './models/product';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { ProductSection } from '@/app/shared/components/product-section/product-section.component';
-
 interface StatType {
   title: string;
   value: string | number;
@@ -29,9 +35,11 @@ export class Product {
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
   ngOnInit(): void {
-    this.getProducts();
+    if (isPlatformBrowser(PLATFORM_ID)) {
+      this.getProducts();
+    }
   }
   async getProducts() {
     try {
@@ -39,13 +47,9 @@ export class Product {
 
       if (res && res.list) {
         this.products = res.list;
-        this.cdr.detectChanges(); // Manually trigger change detection
-      } else {
-        this.products = [];
       }
     } catch (e) {
       console.error('API ERROR:', e);
-      this.products = [];
     }
   }
 

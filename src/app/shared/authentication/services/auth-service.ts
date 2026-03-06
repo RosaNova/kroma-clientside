@@ -29,7 +29,7 @@ export class AuthService {
     if (typeof window === 'undefined') return null;
     return {
       fullname: localStorage.getItem('fullName') ?? '',
-      role: localStorage.getItem('role')?.toLowerCase() ?? '',
+      role: localStorage.getItem('role') ?? '',
       profile: localStorage.getItem('user_profile') || 'assets/images/default-profile.png',
     };
   }
