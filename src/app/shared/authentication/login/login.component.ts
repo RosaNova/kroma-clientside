@@ -41,6 +41,9 @@ export class Login {
   }
 
   private handleLoginSuccess(res: any) {
+    localStorage.setItem('fullName', res.user.fullName ? res.user.fullName : res.user.username);
+    localStorage.setItem('user_profile', res.user.userProfile);
+    if (res?.store) localStorage.setItem('store', res.store._id);
     if (res?.token) localStorage.setItem('token', res.token);
     const rawRole = res.user?.role || res.role || res.data?.role || '';
     const normalizedRole = rawRole.toString().replace(/-/g, '_').toUpperCase();

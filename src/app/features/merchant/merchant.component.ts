@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, RouterOutlet } from '@angular/router';
 import {
   LayoutDashboard,
   LucideAngularModule,
@@ -18,6 +18,9 @@ registerLocaleData(localeKm);
 
 import { AccountDashboard } from '@/app/core/models/ui.types';
 import { title } from 'process';
+import { AuthService } from '@/app/shared/authentication/services/auth-service';
+import { filter, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface NavItem {
   icon: any;
@@ -70,4 +73,22 @@ export class Merchant {
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
   today = new Date();
   notificationCount = 10;
+  private userSub!: Subscription;
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
+  ngOnInit(): void {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.authService.refreshUser();
+    });
+
+    this.userSub = this.authService.user$.subscribe((user) => {
+      this.sidebarUser = user;
+      console.log(user);
+    });
+  }
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe(); //prevent memory leaks
+  }
 }
