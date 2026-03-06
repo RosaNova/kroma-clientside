@@ -21,4 +21,10 @@ export class ProductService {
   createProducts(data: any) {
     return this.requestService.postFormData(this.path, data);
   }
+  updateProductInfo(id: string, data: any) {
+    return lastValueFrom(this.requestService.patchJSON(`${this.path}/${id}`, data));
+  }
+  updateProductImage(id: string, data: any) {
+    return lastValueFrom(this.requestService.patchFormData(`${this.path}/${id}`, data));
+  }
 }
