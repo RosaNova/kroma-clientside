@@ -24,27 +24,31 @@ export class Login {
     private router: Router,
     private authService: AuthService,
   ) { }
+
   onSubmit() {
     if (this.form.invalid) return;
     this.isLoading = true;
+    const payload = { email: this.form.value.email, password: this.form.value.password };
+
     this.authService
-      .login(this.form.value, 'MERCHANT')
+      .login(payload)
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
-        next: (res: any) => {
-          if (res?.token) localStorage.setItem('token', res.token);
-          const roleFromRes = res.role || res.user.role || res.data.role;
-          const roleToStore = roleFromRes || 'MERCHANT';
-          localStorage.setItem('role', roleToStore);
-          if (roleToStore === 'SUPER_ADMIN' || roleToStore === 'super-admin') {
-            this.router.navigate(['/super-admin']);
-          } else {
-            this.router.navigate(['/merchant']);
-          }
-        },
-        error: (err) => {
-          console.error('Login error', err);
-        }
+        next: (res: any) => this.handleLoginSuccess(res),
+        error: (err: any) => console.error('Login failed', err),
       });
   }
+
+  private handleLoginSuccess(res: any) {
+    if (res?.token) localStorage.setItem('token', res.token);
+    const rawRole = res.user?.role || res.role || res.data?.role || '';
+    const normalizedRole = rawRole.toString().replace(/-/g, '_').toUpperCase();
+    localStorage.setItem('role', normalizedRole);
+    if (normalizedRole === 'SUPER_ADMIN') {
+      this.router.navigate(['/super-admin']);
+    } else {
+      this.router.navigate(['/merchant']);
+    }
+  }
 }
+
