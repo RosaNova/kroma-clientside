@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  path: string = '/api/admins';
+  path: string = '/api/users';
   constructor(private requestService: requestService) {}
 
   // private roleToPath(role: string) {
@@ -28,9 +28,9 @@ export class AuthService {
   private getUserFromStorage() {
     if (typeof window === 'undefined') return null;
     return {
-      fullname: localStorage.getItem('fullName') ?? '',
+      fullname: localStorage.getItem('fullname') ?? '',
       role: localStorage.getItem('role') ?? '',
-      profile: localStorage.getItem('user_profile') || 'assets/images/default-profile.png',
+      profile: localStorage.getItem('profile_url') || 'assets/images/default-profile.png',
     };
   }
 

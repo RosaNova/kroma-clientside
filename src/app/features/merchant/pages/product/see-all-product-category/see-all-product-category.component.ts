@@ -213,9 +213,8 @@ export class SeeAllProductCategory {
   async onSearch(event: KeyboardEvent) {
     try {
       const inputKey = (event.target as HTMLInputElement).value;
-      const storeId = localStorage.getItem('store_id')!;
       if (inputKey != '') {
-        const res = await this.productService.search(inputKey, storeId);
+        const res = await this.productService.searchProduct(inputKey, this.categoryId);
         if (res.list) {
           this.products.set(res.list);
         } else {

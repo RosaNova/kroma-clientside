@@ -41,8 +41,8 @@ export class Login {
   }
 
   private handleLoginSuccess(res: any) {
-    localStorage.setItem('fullName', res.user.fullName ? res.user.fullName : res.user.username);
-    localStorage.setItem('user_profile', res.user.userProfile);
+    localStorage.setItem('fullname', res.user.fullname ? res.user.fullname : res.user.username);
+    localStorage.setItem('profile_url', res.user.profile_url);
     if (res?.store) localStorage.setItem('store', res.store._id);
     if (res?.token) localStorage.setItem('token', res.token);
     const rawRole = res.user?.role || res.role || res.data?.role || '';

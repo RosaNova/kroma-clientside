@@ -82,6 +82,7 @@ export class SuperAdmin implements OnInit {
     private router: Router,
   ) {}
   ngOnInit(): void {
+    this.authService.refreshUser();
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.authService.refreshUser();
     });
