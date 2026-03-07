@@ -4,18 +4,34 @@ import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-di
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild } from '@angular/core';
 
-import { LucideAngularModule, Package, PackageIcon, CarIcon, WalletIcon, BoxIcon, Plus, Wallet, ShoppingCart, Box, Search, Eye, FileUp, Trash2, Edit, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-angular';
-import { BoxDialogComponent } from "@/app/shared/components/ui/box-dialog/box-dialog.component";
+import {
+  LucideAngularModule,
+  Package,
+  PackageIcon,
+  CarIcon,
+  WalletIcon,
+  BoxIcon,
+  Plus,
+  Wallet,
+  ShoppingCart,
+  Box,
+  Search,
+  Eye,
+  FileUp,
+  Trash2,
+  Edit,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from 'lucide-angular';
+import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
+import { Category } from '../models/category';
+import { ProductService } from '../services/product-service';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { isActive } from '@angular/router';
 
-interface Category {
-  id: number;
-  name: string;
-  description: string;
-  productCount: string;
-  status: 'active' | 'inactive';
-}
-
-const MOCK_CATEGORIES: Category[] = [
+const MOCK_CATEGORIES: any[] = [
   {
     id: 101,
     name: 'បង្អែម',
@@ -74,11 +90,17 @@ const MOCK_CATEGORIES: Category[] = [
   },
 ];
 
-
-
 @Component({
   selector: 'app-product-category',
-  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
+  imports: [
+    StatCard,
+    CommonModule,
+    LucideAngularModule,
+    DeleteDialog,
+    BoxDialogComponent,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   templateUrl: './product-category.component.html',
   styleUrls: ['./product-category.component.css'],
 })
@@ -88,7 +110,6 @@ export class ProductCategory {
   WalletIcon = WalletIcon;
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
-
 
   Plus = Plus;
   Eye = Eye;
@@ -101,42 +122,51 @@ export class ProductCategory {
   ChevronRight = ChevronRight;
   ChevronsLeft = ChevronsLeft;
   ChevronsRight = ChevronsRight;
-
+  categories = signal<Category[]>([]);
+  form = new FormGroup({
+    name: new FormControl(''),
+    description: new FormControl(''),
+    isActive: new FormControl(true),
+  });
   // State
   searchTerm = signal('');
   currentPage = signal(1);
   itemsPerPage = signal(10);
-
+  showAddDialog: boolean = false;
+  showEditDialog: boolean = false;
+  storeId: string = '';
+  constructor(private productService: ProductService) {
+    this.getCategories();
+  }
+  async getCategories() {
+    try {
+      const res = await this.productService.getCategories();
+      if (res) {
+        this.categories.set(res.list);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   // Filter
   filtered = computed(() =>
-    MOCK_CATEGORIES.filter(c =>
-      c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-      c.id.toString().includes(this.searchTerm())
-    )
+    MOCK_CATEGORIES.filter(
+      (c) =>
+        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+        c.id.toString().includes(this.searchTerm()),
+    ),
   );
 
   // Pagination
-  totalPages = computed(() =>
-    Math.max(
-      Math.ceil(this.filtered().length / this.itemsPerPage()),
-      1
-    )
-  );
+  totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
 
-  startIndex = computed(() =>
-    (this.currentPage() - 1) * this.itemsPerPage()
-  );
+  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
   endIndex = computed(() =>
-    Math.min(
-      this.startIndex() + this.itemsPerPage(),
-      this.filtered().length
-    )
+    Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
   );
 
-  paginated = computed(() =>
-    this.filtered().slice(this.startIndex(), this.endIndex())
-  );
+  paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
 
   // Navigation
   goToFirst() {
@@ -148,11 +178,11 @@ export class ProductCategory {
   }
 
   prev() {
-    this.currentPage.update(p => Math.max(p - 1, 1));
+    this.currentPage.update((p) => Math.max(p - 1, 1));
   }
 
   next() {
-    this.currentPage.update(p => Math.min(p + 1, this.totalPages()));
+    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
   }
 
   changeItemsPerPage(value: number) {
@@ -164,9 +194,9 @@ export class ProductCategory {
   selectedName = '';
   name?: string;
 
-
   /* ---------- Delete ---------- */
-  openDelete(name: string) {
+  openDelete(name: string, id: string) {
+    this.storeId = id;
     this.selectedName = name;
     this.showDeleteDialog = true;
   }
@@ -175,38 +205,89 @@ export class ProductCategory {
     this.showDeleteDialog = false;
   }
 
-  handleDelete() {
-    this.showDeleteDialog = false;
-    console.log('Deleted:', this.selectedName);
+  async handleDelete() {
+    try {
+      const res = await this.productService.deleteProductCategory(this.storeId);
+      if (res) {
+        this.showDeleteDialog = false;
+        this.getCategories();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   /* ---------- Edit ---------- */
   @ViewChild(BoxDialogComponent) editDialog!: BoxDialogComponent;
   @ViewChild(BoxDialogComponent) addDialog!: BoxDialogComponent;
 
-  openEdit() {
-    this.editDialog.openModal();
+  openEdit(category: Category) {
+    this.showEditDialog = true;
+    this.storeId = category._id;
+    this.form.patchValue({
+      name: category.name,
+      description: category.description,
+      isActive: category.isActive,
+    });
   }
 
   closeEdit() {
     this.editDialog.closeModal();
   }
 
-  updateCategory() {
-    console.log('Category updated');
-    this.closeEdit();
+  async updateCategory() {
+    const body = {
+      ...this.form.value,
+    };
+    try {
+      const res = await this.productService.updateProductCategory(this.storeId, body);
+      if (res) {
+        this.getCategories();
+        this.showEditDialog = false;
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   openAdd() {
-    this.addDialog.openModal();
+    this.showAddDialog = true;
   }
 
   closeAdd() {
-    this.addDialog.closeModal();
+    this.showAddDialog = false;
   }
 
-  addCategory() {
-    console.log('Category added');
-    this.closeAdd();
+  async addCategory() {
+    const body = {
+      name: this.form.get('name')?.value,
+      description: this.form.get('description')?.value,
+    };
+    try {
+      const res = await this.productService.createProductCategory(body);
+      if (res) {
+        this.getCategories();
+        this.closeAdd();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async onSearch(event: KeyboardEvent) {
+    try {
+      const inputKey = (event.target as HTMLInputElement).value;
+      if (inputKey != '') {
+        const res = await this.productService.searchProductCategory(inputKey);
+        if (res.list) {
+          this.categories.set(res.list);
+        } else {
+          this.categories.set([]);
+        }
+      } else {
+        await this.getCategories();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

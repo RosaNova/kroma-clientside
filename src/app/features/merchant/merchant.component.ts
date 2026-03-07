@@ -79,13 +79,13 @@ export class Merchant {
     private router: Router,
   ) {}
   ngOnInit(): void {
+    this.authService.refreshUser();
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.authService.refreshUser();
     });
 
     this.userSub = this.authService.user$.subscribe((user) => {
       this.sidebarUser = user;
-      console.log(user);
     });
   }
   ngOnDestroy(): void {

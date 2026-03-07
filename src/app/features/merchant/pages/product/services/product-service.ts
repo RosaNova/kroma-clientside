@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class ProductService {
   path: string = '/api/products';
+  categoryPath: string = '/api/categories';
   constructor(private requestService: requestService) {}
 
   getProducts(data?: any) {
@@ -18,11 +19,19 @@ export class ProductService {
     return lastValueFrom(this.requestService.getJSON(this.path + '/grouped'));
   }
   getCategories() {
-    const path = '/api/categories';
-    return lastValueFrom(this.requestService.getJSON(path));
+    return lastValueFrom(this.requestService.getJSON(this.categoryPath));
   }
   createProducts(data: any) {
     return this.requestService.postFormData(this.path, data);
+  }
+  createProductCategory(data: any) {
+    return lastValueFrom(this.requestService.postJSON(this.categoryPath, data));
+  }
+  updateProductCategory(id: string, data: any) {
+    return lastValueFrom(this.requestService.patchJSON(`${this.categoryPath}/${id}`, data));
+  }
+  deleteProductCategory(id: string) {
+    return lastValueFrom(this.requestService.deleteJSON(`${this.categoryPath}/${id}`));
   }
   updateProductInfo(id: string, data: any) {
     return lastValueFrom(this.requestService.patchJSON(`${this.path}/update-info/${id}`, data));
@@ -33,9 +42,12 @@ export class ProductService {
   deleteProduct(id: string) {
     return lastValueFrom(this.requestService.deleteJSON(`${this.path}/${id}`));
   }
-  search(data: any, storeId: string) {
+  searchProduct(data: any, categoryId: string) {
     return lastValueFrom(
-      this.requestService.getJSON(`${this.path}/search`, { q: data, storeId: storeId }),
+      this.requestService.getJSON(`${this.path}/search`, { q: data, category: categoryId }),
     );
+  }
+  searchProductCategory(data: any) {
+    return lastValueFrom(this.requestService.getJSON(`${this.categoryPath}/search`, { q: data }));
   }
 }

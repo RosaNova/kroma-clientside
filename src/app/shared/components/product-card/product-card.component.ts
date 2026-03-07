@@ -69,7 +69,6 @@ export class ProductCard {
   }
 
   async handleDelete() {
-    console.log(this.storeId);
     try {
       const res = await this.productService.deleteProduct(this.storeId);
       if (res) {
