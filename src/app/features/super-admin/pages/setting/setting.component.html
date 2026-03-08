@@ -1,226 +1,266 @@
+<app-toast></app-toast>
 <div class="settings-container animate-in">
     <div class="max-w-6xl mx-auto space-y-6">
-        <!-- Header Section -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 py-2">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-800 tracking-tight">ការកំណត់ (Settings)</h1>
-                <p class="text-gray-500 mt-1">គ្រប់គ្រងព័ត៌មានផ្ទាល់ខ្លួន និងការកំណត់ប្រព័ន្ធរបស់អ្នក។</p>
+
+        <!-- Loading Spinner -->
+        <ng-container *ngIf="(isLoading$ | async) as loading; else content">
+            <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+        </ng-container>
+
+        <!-- Actual Content (hidden while loading) -->
+        <ng-template #content>
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 py-2">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 tracking-tight">ការកំណត់ (Settings)</h1>
+                    <p class="text-gray-500 mt-1">គ្រប់គ្រងព័ត៌មានផ្ទាល់ខ្លួន និងការកំណត់ប្រព័ន្ធរបស់អ្នក។</p>
+                </div>
+                <div class="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
+                    <lucide-angular [img]="ShieldCheck" class="text-primary w-5 h-5"></lucide-angular>
+                    <span class="text-sm font-semibold text-primary">Super Admin កំពុងសកម្ម</span>
+                </div>
             </div>
-            <div class="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
-                <lucide-angular [img]="ShieldCheck" class="text-primary w-5 h-5"></lucide-angular>
-                <span class="text-sm font-semibold text-primary">Super Admin កំពុងសកម្ម</span>
-            </div>
-        </div>
-
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-            <!-- Left Sidebar Navigation -->
-            <div class="lg:col-span-3 space-y-2">
-                <div class="glass-card p-4">
-                    <button (click)="switchTab('profile')" [class.active]="activeTab === 'profile'"
-                        class="tab-btn cursor-pointer">
-                        <lucide-angular [img]="User" class="w-5 h-5"></lucide-angular>
-                        <span class="font-medium">ព័ត៌មានផ្ទាល់ខ្លួន</span>
-                    </button>
-
-                    <button (click)="switchTab('security')" [class.active]="activeTab === 'security'"
-                        class="tab-btn cursor-pointer">
-                        <lucide-angular [img]="Key" class="w-5 h-5"></lucide-angular>
-                        <span class="font-medium">សុវត្ថិភាពគណនី</span>
-                    </button>
-                    <button (click)="switchTab('admin-tools')" [class.active]="activeTab === 'admin-tools'"
-                        class="tab-btn cursor-pointer">
-                        <lucide-angular [img]="Database" class="w-5 h-5"></lucide-angular>
-                        <span class="font-medium">ឧបករណ៍អ្នកគ្រប់គ្រង</span>
-                    </button>
-
-                    <div class="pt-4 mt-4 border-t border-gray-100">
-                        <button class="tab-btn cursor-pointer bg-red-500 hover:bg-red-600 group text-white w-full hover:text-gray-500">
-                            <lucide-angular [img]="LogOut" class="w-5 h-5 text-white group-hover:text-gray-500"></lucide-angular>
-                            <span class="font-medium group-hover:text-gray-500 text-white">ចាកចេញពីប្រព័ន្ធ</span>
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left Sidebar Navigation -->
+                <div class="lg:col-span-3 space-y-2">
+                    <div class="glass-card p-4">
+                        <button (click)="switchTab('profile')" [class.active]="activeTab === 'profile'"
+                            class="tab-btn cursor-pointer">
+                            <lucide-angular [img]="User" class="w-5 h-5"></lucide-angular>
+                            <span class="font-medium">ព័ត៌មានផ្ទាល់ខ្លួន</span>
                         </button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Right Content Area -->
-            <div class="lg:col-span-9">
+                        <button (click)="switchTab('security')" [class.active]="activeTab === 'security'"
+                            class="tab-btn cursor-pointer">
+                            <lucide-angular [img]="Key" class="w-5 h-5"></lucide-angular>
+                            <span class="font-medium">សុវត្ថិភាពគណនី</span>
+                        </button>
+                        <button (click)="switchTab('admin-tools')" [class.active]="activeTab === 'admin-tools'"
+                            class="tab-btn cursor-pointer">
+                            <lucide-angular [img]="Database" class="w-5 h-5"></lucide-angular>
+                            <span class="font-medium">ឧបករណ៍អ្នកគ្រប់គ្រង</span>
+                        </button>
 
-                <!-- Profile Tab -->
-                <div *ngIf="activeTab === 'profile'" class="glass-card p-8 animate-in">
-                    <div class="flex items-center justify-between mb-8">
-                        <h2 class="text-xl font-bold text-gray-800">ព័ត៌មានផ្ទាល់ខ្លួន (Profile Information)</h2>
-                        <span class="status-badge bg-green-100 text-green-700">គណនីបានផ្ទៀងផ្ទាត់</span>
-                    </div>
-
-                    <form [formGroup]="settingsForm" (ngSubmit)="updateProfile()" class="space-y-8">
-                        <div class="flex flex-col md:flex-row gap-8 items-start">
-                            <!-- Avatar Upload -->
-                            <div class="avatar-wrapper group">
-                                <img [src]="user?.profile_url"
-                                    class="w-40 h-33 rounded-full object-cover border-4 border-white shadow-lg"
-                                    alt="Avatar">
-                                <label class="avatar-overlay">
-                                    <input type="file" (change)="onFileSelected($event)" class="hidden"
-                                        accept="image/*">
-                                    <lucide-angular [img]="Camera" class="text-white w-6 h-6"></lucide-angular>
-                                </label>
-                            </div>
-
-                            <!-- Profile Fields -->
-                            <div class="grow grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                                <div class="form-input-group">
-                                    <label class="form-label">ឈ្មោះពេញ (Full Name)</label>
-                                    <div class="relative">
-                                        <!-- <lucide-angular [img]="User"
-                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
-                                        <input type="text" [value]="user?.fullname" formControlName="name" class="form-input pl-12"
-                                            placeholder="បញ្ចូលឈ្មោះពេញ">
-                                    </div>
-                                </div>
-
-                                <div class="form-input-group">
-                                    <label class="form-label">តួនាទី (User Role)</label>
-                                    <div class="relative">
-                                        <!-- <lucide-angular [img]="ShieldCheck"
-                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
-                                        <input type="text" [value]="user?.role"
-                                            class="form-input pl-12 bg-gray-100 cursor-not-allowed" readonly>
-                                    </div>
-                                </div>
-
-                                <div class="form-input-group">
-                                    <label class="form-label">អាសយដ្ឋានអីមែល (Email Address)</label>
-                                    <div class="relative">
-                                        <!-- <lucide-angular [img]="Mail"
-                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
-                                        <input type="email" formControlName="email" class="form-input pl-12"
-                                            placeholder="email@example.com">
-                                    </div>
-                                </div>
-
-                                <div class="form-input-group">
-                                    <label class="form-label">លេខទូរស័ព្ទ (Phone Number)</label>
-                                    <div class="relative">
-                                        <!-- <lucide-angular [img]="Phone"
-                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
-                                        <input type="text" formControlName="phone" class="form-input pl-12"
-                                            placeholder="012 345 678">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="pt-6 border-t border-gray-100 flex justify-end gap-3">
-                            <button type="button"
-                                class="btn-modern bg-gray-100 text-gray-700 cursor-pointer hover:bg-gray-200">បោះបង់</button>
-                            <button type="submit" [disabled]="settingsForm.invalid"
-                                class="btn-primary-modern cursor-pointer">រក្សាទុកការផ្លាស់ប្តូរ</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Security Tab -->
-                <div *ngIf="activeTab === 'security'" class="glass-card p-8 animate-in">
-                    <h2 class="text-xl font-bold text-gray-800 mb-8">សុវត្ថិភាពគណនី (Account Security)</h2>
-
-                    <div class="space-y-8">
-                        <!-- Password Section -->
-                        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" class="space-y-6 w-full">
-                            <div class="form-input-group">
-                                <label class="form-label">លេខសម្ងាត់បច្ចុប្បន្ន</label>
-                                <input type="password" formControlName="currentPassword" class="form-input"
-                                    placeholder="••••••••">
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="form-input-group">
-                                    <label class="form-label">លេខសម្ងាត់ថ្មី</label>
-                                    <input type="password" formControlName="newPassword" class="form-input"
-                                        placeholder="••••••••">
-                                </div>
-                                <div class="form-input-group w-full">
-                                    <label class="form-label">បញ្ជាក់លេខសម្ងាត់ថ្មី</label>
-                                    <input type="password" formControlName="confirmPassword" class="form-input w-full"
-                                        placeholder="••••••••">
-                                </div>
-                            </div>
-
-                            <div class="bg-blue-50/50 p-4 rounded-xl flex gap-3 items-start border border-blue-100">
-                                <lucide-angular [img]="AlertCircle"
-                                    class="w-5 h-5 text-blue-600 mt-0.5"></lucide-angular>
-                                <p class="text-sm text-blue-700">លេខសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ ៨ ខ្ទង់
-                                    និងមានការរួមបញ្ចូលនូវ អក្សរធំ អក្សរតូច និងលេខ។</p>
-                            </div>
-
-                            <button type="submit" [disabled]="passwordForm.invalid"
-                                class="btn-primary-modern cursor-pointer ">ផ្លាស់ប្តូរលេខសម្ងាត់</button>
-                        </form>
-
-                        <div class="pt-8 border-t border-gray-100">
-                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-                                <div class="flex gap-4 items-center">
-                                    <div class="p-3 bg-white rounded-xl shadow-sm">
-                                        <lucide-angular [img]="ShieldCheck"
-                                            class="w-6 h-6 text-primary"></lucide-angular>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-bold text-gray-800">ការផ្ទៀងផ្ទាត់ពីរជំហាន (2FA)</h3>
-                                        <p class="text-xs text-gray-500">
-                                            បន្ថែមស្រទាប់សុវត្ថិភាពបន្ថែមសម្រាប់គណនីរបស់អ្នក។</p>
-                                    </div>
-                                </div>
-                                <input type="checkbox" class="border checkbox checkbox-neutral" checked />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Admin Tools Tab -->
-                <div *ngIf="activeTab === 'admin-tools'" class="space-y-6 animate-in">
-                    <div class="glass-card p-8">
-                        <h2 class="text-xl font-bold text-gray-800 mb-6">ឧបករណ៍អ្នកគ្រប់គ្រង (Admin Tools)</h2>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div
-                                class="p-6 border border-gray-100 rounded-2xl hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group">
-                                <lucide-angular [img]="Database"
-                                    class="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform"></lucide-angular>
-                                <h3 class="font-bold text-gray-800 mb-1">បម្រុងទុកទិន្នន័យ (Backup Database)</h3>
-                                <p class="text-xs text-gray-500 mb-4">ទាញយកឯកសារបម្រុងទុកចុងក្រោយនៃ SQL Database។</p>
-                                <button class="text-sm font-bold text-primary flex items-center gap-1">
-                                    ចាប់ផ្តើមឥឡូវនេះ <lucide-angular [img]="AlertCircle"
-                                        class="w-4 h-4"></lucide-angular>
-                                </button>
-                            </div>
-
-                            <div
-                                class="p-6 border border-gray-100 rounded-2xl hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group">
-                                <lucide-angular [img]="History"
-                                    class="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform"></lucide-angular>
-                                <h3 class="font-bold text-gray-800 mb-1">កំណត់ហេតុសកម្មភាព (Activity Logs)</h3>
-                                <p class="text-xs text-gray-500 mb-4">មើលសកម្មភាពដែលបានកើតឡើងក្នុងប្រព័ន្ធទាំងមូល។</p>
-                                <button class="text-sm font-bold text-primary">មើលព័ត៌មានលម្អិត</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-6 bg-linear-to-br from-primary to-blue-700 text-white">
-                        <div class="flex justify-between items-center">
-                            <div class="space-y-1">
-                                <h3 class="font-bold text-lg">កំណត់ចំណាំប្រព័ន្ធ</h3>
-                                <p class="text-sm opacity-90 text-white/80">កំណែប្រព័ន្ធចុងក្រោយ: v2.5.4 (Stable)</p>
-                            </div>
-                            <button
-                                class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-bold transition-colors">
-                                ពិនិត្យមើលកំណែថ្មី
+                        <div class="pt-4 mt-4 border-t border-gray-100">
+                            <button (click)="logout()"
+                                class="tab-btn cursor-pointer bg-red-500 hover:bg-red-600 group text-white w-full hover:text-gray-500">
+                                <lucide-angular [img]="LogOut"
+                                    class="w-5 h-5 text-white group-hover:text-gray-500"></lucide-angular>
+                                <span class="font-medium group-hover:text-gray-500 text-white">ចាកចេញពីប្រព័ន្ធ</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
+                <!-- Right Content Area -->
+                <div class="lg:col-span-9">
+
+                    <!-- Profile Tab -->
+                    <div *ngIf="activeTab === 'profile'" class="glass-card p-8 animate-in">
+                        <div class="flex items-center justify-between mb-8">
+                            <h2 class="text-xl font-bold text-gray-800">ព័ត៌មានផ្ទាល់ខ្លួន (Profile Information)</h2>
+                            <span class="status-badge bg-green-100 text-green-700">គណនីបានផ្ទៀងផ្ទាត់</span>
+                        </div>
+
+                        <form [formGroup]="settingsForm" (ngSubmit)="updateInformation()" class="space-y-8">
+                            <div class="flex flex-col md:flex-row gap-8 items-start">
+                                <!-- Avatar Upload -->
+                                <div class="avatar-wrapper group">
+                                    <img [src]="user?.profile_url"
+                                        class="w-40 h-33 rounded-full object-cover border-4 border-white shadow-lg"
+                                        alt="Avatar">
+                                    <label class="avatar-overlay">
+                                        <input type="file" (change)="onFileSelected($event)" class="hidden"
+                                            accept="image/*">
+                                        <lucide-angular [img]="Camera" class="text-white w-6 h-6"></lucide-angular>
+                                    </label>
+                                </div>
+
+                                <!-- Profile Fields -->
+                                <div class="grow grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                                    <div class="form-input-group">
+                                        <label class="form-label">ឈ្មោះពេញ (Full Name)</label>
+                                        <div class="relative">
+                                            <!-- <lucide-angular [img]="User"
+                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
+                                            <input type="text" formControlName="fullname" class="form-input pl-12"
+                                                placeholder="បញ្ចូលឈ្មោះពេញ">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-input-group">
+                                        <label class="form-label">តួនាទី (User Role)</label>
+                                        <div class="relative">
+                                            <!-- <lucide-angular [img]="ShieldCheck"
+                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
+                                            <input type="text" [value]="user?.role"
+                                                class="form-input pl-12 bg-gray-100 cursor-not-allowed" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-input-group">
+                                        <label class="form-label">អាសយដ្ឋានអីមែល (Email Address)</label>
+                                        <div class="relative">
+                                            <!-- <lucide-angular [img]="Mail"
+                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
+                                            <input type="email" formControlName="email" class="form-input pl-12"
+                                                placeholder="email@example.com">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-input-group">
+                                        <label class="form-label">លេខទូរស័ព្ទ (Phone Number)</label>
+                                        <div class="relative">
+                                            <!-- <lucide-angular [img]="Phone"
+                                            class="absolute left-4 top-3.5 w-5 h-5 text-gray-400"></lucide-angular> -->
+                                            <input type="text" maxlength="11" formControlName="phone"
+                                                class="form-input pl-12" placeholder="012 345 678">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-6 border-t border-gray-100 flex justify-end gap-3">
+                                <button type="button" (click)="cancelInformation()"
+                                    class="btn-modern bg-gray-100 text-gray-700 cursor-pointer hover:bg-gray-200">បោះបង់</button>
+                                <button type="submit" [disabled]="settingsForm.invalid"
+                                    class="btn-primary-modern cursor-pointer">រក្សាទុកការផ្លាស់ប្តូរ</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Tab -->
+                    <div *ngIf="activeTab === 'security'" class="glass-card p-8 animate-in">
+                        <h2 class="text-xl font-bold text-gray-800 mb-8">សុវត្ថិភាពគណនី (Account Security)</h2>
+
+                        <div class="space-y-8">
+                            <!-- Password Section -->
+                            <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="space-y-6 w-full">
+                                <div class="form-input-group">
+                                    <label class="form-label">លេខសម្ងាត់បច្ចុប្បន្ន</label>
+                                    <div class="relative">
+                                        <input [type]="showCurrentPassword ? 'text' : 'password'"
+                                            formControlName="currentPassword" class="form-input pr-10"
+                                            placeholder="••••••••">
+                                        <button type="button" (click)="showCurrentPassword = !showCurrentPassword"
+                                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary cursor-pointer">
+                                            <lucide-angular [name]="showCurrentPassword ? EyeOff : Eye"
+                                                class="w-5 h-5"></lucide-angular>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="form-input-group">
+                                        <label class="form-label">លេខសម្ងាត់ថ្មី</label>
+                                        <div class="relative">
+                                            <input [type]="showNewPassword ? 'text' : 'password'"
+                                                formControlName="newPassword" class="form-input pr-10"
+                                                placeholder="••••••••">
+                                            <button type="button" (click)="showNewPassword = !showNewPassword"
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary cursor-pointer">
+                                                <lucide-angular [name]="showNewPassword ? EyeOff : Eye"
+                                                    class="w-5 h-5"></lucide-angular>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-input-group w-full">
+                                        <label class="form-label">បញ្ជាក់លេខសម្ងាត់ថ្មី</label>
+                                        <div class="relative">
+                                            <input [type]="showConfirmPassword ? 'text' : 'password'"
+                                                formControlName="confirmPassword" class="form-input w-full pr-10"
+                                                placeholder="••••••••">
+                                            <button type="button" (click)="showConfirmPassword = !showConfirmPassword"
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary cursor-pointer">
+                                                <lucide-angular [name]="showConfirmPassword ? EyeOff : Eye"
+                                                    class="w-5 h-5"></lucide-angular>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-blue-50/50 p-4 rounded-xl flex gap-3 items-start border border-blue-100">
+                                    <lucide-angular [img]="AlertCircle"
+                                        class="w-5 h-5 text-blue-600 mt-0.5"></lucide-angular>
+                                    <p class="text-sm text-blue-700">លេខសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ ៨ ខ្ទង់
+                                        និងមានការរួមបញ្ចូលនូវ អក្សរធំ អក្សរតូច និងលេខ។</p>
+                                </div>
+
+                                <div class="flex">
+                                    <button type="submit"
+                                        class="btn-primary-modern cursor-pointer w-auto px-10">ផ្លាស់ប្តូរលេខសម្ងាត់</button>
+                                </div>
+                            </form>
+
+                            <div class="pt-8 border-t border-gray-100">
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="p-3 bg-white rounded-xl shadow-sm">
+                                            <lucide-angular [img]="ShieldCheck"
+                                                class="w-6 h-6 text-primary"></lucide-angular>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-gray-800">ការផ្ទៀងផ្ទាត់ពីរជំហាន (2FA)</h3>
+                                            <p class="text-xs text-gray-500">
+                                                បន្ថែមស្រទាប់សុវត្ថិភាពបន្ថែមសម្រាប់គណនីរបស់អ្នក។</p>
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" formControlName="twoFactor" (change)="toggleTwoFactor()"
+                                        class="border checkbox checkbox-neutral" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Tools Tab -->
+                    <div *ngIf="activeTab === 'admin-tools'" class="space-y-6 animate-in">
+                        <div class="glass-card p-8">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">ឧបករណ៍អ្នកគ្រប់គ្រង (Admin Tools)</h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div
+                                    class="p-6 border border-gray-100 rounded-2xl hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group">
+                                    <lucide-angular [img]="Database"
+                                        class="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform"></lucide-angular>
+                                    <h3 class="font-bold text-gray-800 mb-1">បម្រុងទុកទិន្នន័យ (Backup Database)</h3>
+                                    <p class="text-xs text-gray-500 mb-4">ទាញយកឯកសារបម្រុងទុកចុងក្រោយនៃ SQL Database។
+                                    </p>
+                                    <button class="text-sm font-bold text-primary flex items-center gap-1">
+                                        ចាប់ផ្តើមឥឡូវនេះ <lucide-angular [img]="AlertCircle"
+                                            class="w-4 h-4"></lucide-angular>
+                                    </button>
+                                </div>
+
+                                <div
+                                    class="p-6 border border-gray-100 rounded-2xl hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group">
+                                    <lucide-angular [img]="History"
+                                        class="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform"></lucide-angular>
+                                    <h3 class="font-bold text-gray-800 mb-1">កំណត់ហេតុសកម្មភាព (Activity Logs)</h3>
+                                    <p class="text-xs text-gray-500 mb-4">មើលសកម្មភាពដែលបានកើតឡើងក្នុងប្រព័ន្ធទាំងមូល។
+                                    </p>
+                                    <button class="text-sm font-bold text-primary">មើលព័ត៌មានលម្អិត</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 bg-linear-to-br from-primary to-blue-700 text-white">
+                            <div class="flex justify-between items-center">
+                                <div class="space-y-1">
+                                    <h3 class="font-bold text-lg">កំណត់ចំណាំប្រព័ន្ធ</h3>
+                                    <p class="text-sm opacity-90 text-white/80">កំណែប្រព័ន្ធចុងក្រោយ: v2.5.4 (Stable)
+                                    </p>
+                                </div>
+                                <button
+                                    class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-bold transition-colors">
+                                    ពិនិត្យមើលកំណែថ្មី
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
+        </ng-template>
     </div>
 </div>
