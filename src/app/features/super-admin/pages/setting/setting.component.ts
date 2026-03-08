@@ -76,7 +76,7 @@ export class Setting implements OnInit {
 
   private fetchSuperAdmin(userId: string) {
     this.requestService.getJSON('/api/admins', null, true).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res && Array.isArray(res.list)) {
           const acct = res.list.find((u: any) =>
             (u.id?.toString() === userId || u._id?.toString() === userId)
@@ -181,7 +181,7 @@ export class Setting implements OnInit {
   }
 
   async updatePassword() {
-     const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
+    const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
 
     if (!currentPassword || !newPassword || !confirmPassword) {
       this.toastService.error('សូមបំពេញព័ត៌មានសម្ងាត់ឱ្យបានគ្រប់គ្រាន់');
