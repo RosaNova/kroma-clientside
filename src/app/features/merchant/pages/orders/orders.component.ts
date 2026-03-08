@@ -24,7 +24,7 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 import { MerchantService } from '../../service/merchant-service';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
-
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 type OrderStatus = 'completed' | 'processing' | 'pending' | 'shipped' | 'cancelled';
 type PaymentStatus = 'paid' | 'pending' | 'failed';
 
@@ -53,7 +53,7 @@ interface StatCardType {
 
 @Component({
   selector: 'app-orders',
-  imports: [CommonModule, LucideAngularModule, FormsModule, StatCard, RouterLink],
+  imports: [CommonModule, LucideAngularModule, FormsModule, StatCard, MatPaginatorModule],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
 })
@@ -70,12 +70,12 @@ export class Orders {
   Edit = Edit;
   Trash2 = Trash2;
   ShoppingBag = ShoppingBag;
-  orderInfo = signal<Order[]>([]);
+  displayOrderInfo: Order[] = [];
   searchTerm = '';
   statusFilter: 'all' | OrderStatus = 'all';
-  currentPage = 1;
+  currentPage = 0;
   itemsPerPage = 5;
-
+  pageSize = 5;
   orders: any[] = [
     {
       id: '#ORD-001',
@@ -151,99 +151,121 @@ export class Orders {
   //   pending: { label: 'រង់ចាំ', className: 'bg-amber-500/10 text-amber-600' },
   //   failed: { label: 'បរាជ័យ', className: 'bg-red-500/10 text-red-600' },
   // };
+  // Keep full list separate from displayed list
+  private allOrders = signal<Order[]>([]);
+  orderInfo = signal<Order[]>([]);
+  totalOrders = signal<number>(0);
+
   constructor(
     private merchantService: MerchantService,
     private router: Router,
   ) {
     this.getOrder();
   }
+
   async getOrder() {
     try {
       const res = await this.merchantService.getOrder();
       if (res) {
-        this.orderInfo.set(res.list);
+        this.allOrders.set(res.list);
+        this.totalOrders.set(res.list.length!);
+        this.updateDisplayedOrders();
       }
     } catch (e) {
       console.log(e);
     }
   }
+
   async onSearch(event: KeyboardEvent) {
     try {
       const inputKey = (event.target as HTMLInputElement).value;
       if (inputKey != '') {
         const res = await this.merchantService.getOrder({ q: inputKey });
-        if (res.list) {
-          this.orderInfo.set(res.list);
-        } else {
-          this.orderInfo.set([]);
-        }
+        this.allOrders.set(res.list ?? []);
       } else {
         await this.getOrder();
+        return;
       }
+      this.totalOrders.set(this.allOrders().length);
+      this.currentPage = 0;
+      this.updateDisplayedOrders();
     } catch (e) {
       console.log(e);
     }
   }
+
   async onFilter(event: Event) {
     try {
       const value = (event.target as HTMLSelectElement).value;
       if (value != '') {
         const res = await this.merchantService.getOrder({ q: value });
-        if (res.list) {
-          this.orderInfo.set(res.list);
-        } else {
-          this.orderInfo.set([]);
-        }
+        this.allOrders.set(res.list ?? []);
       } else {
-        this.getOrder();
+        await this.getOrder();
+        return;
       }
+      this.totalOrders.set(this.allOrders().length);
+      this.currentPage = 0;
+      this.updateDisplayedOrders();
     } catch (e) {
       console.log(e);
     }
   }
-  get filteredOrders(): Order[] {
-    return this.orders.filter((o) => {
-      const matchSearch =
-        o.customer.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        o.id.toLowerCase().includes(this.searchTerm.toLowerCase());
 
-      const matchStatus = this.statusFilter === 'all' || o.status === this.statusFilter;
-
-      return matchSearch && matchStatus;
-    });
+  updateDisplayedOrders() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.orderInfo.set(this.allOrders().slice(startIndex, endIndex));
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.filteredOrders.length / this.itemsPerPage);
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedOrders();
   }
+  // get filteredOrders(): Order[] {
+  //   return this.orders.filter((o) => {
+  //     const matchSearch =
+  //       o.customer.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+  //       o.id.toLowerCase().includes(this.searchTerm.toLowerCase());
 
-  get paginatedOrders(): Order[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredOrders.slice(start, start + this.itemsPerPage);
-  }
+  //     const matchStatus = this.statusFilter === 'all' || o.status === this.statusFilter;
 
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+  //     return matchSearch && matchStatus;
+  //   });
+  // }
 
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
+  // get totalPages(): number {
+  //   return Math.ceil(this.filteredOrders.length / this.itemsPerPage);
+  // }
 
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
+  // get paginatedOrders(): Order[] {
+  //   const start = (this.currentPage - 1) * this.itemsPerPage;
+  //   return this.filteredOrders.slice(start, start + this.itemsPerPage);
+  // }
 
-  goToPage(page: number): void {
-    this.currentPage = page;
-  }
-  get paginatedEndIndex(): number {
-    return Math.min(this.currentPage * this.itemsPerPage, this.filteredOrders.length);
-  }
+  // get pages(): number[] {
+  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  // }
+
+  // prevPage(): void {
+  //   if (this.currentPage > 1) {
+  //     this.currentPage--;
+  //   }
+  // }
+
+  // nextPage(): void {
+  //   if (this.currentPage < this.totalPages) {
+  //     this.currentPage++;
+  //   }
+  // }
+
+  // goToPage(page: number): void {
+  //   this.currentPage = page;
+  // }
+  // get paginatedEndIndex(): number {
+  //   return Math.min(this.currentPage * this.itemsPerPage, this.filteredOrders.length);
+  // }
 
   statCards: StatCardType[] = [
     {

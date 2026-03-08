@@ -141,9 +141,15 @@
         </tr>
       </tbody>
     </table>
-
-    <!-- Pagination -->
-    <div class="p-5 border-t border-gray-500/50">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [length]="totalOrders()"
+      [pageSize]="pageSize"
+      (page)="changePage($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+    <!-- <div class="p-5 border-t border-gray-500/50">
       <div class="flex items-center justify-between">
         <p class="text-sm text-gray-500">
           បង្ហាញ
@@ -156,7 +162,6 @@
         </p>
 
         <div class="flex items-center gap-2">
-          <!-- Previous -->
           <button
             class="px-3 py-1.5 text-black cursor-pointer rounded-xl bg-gray-200 border border-gray-500/50 text-sm"
             (click)="prevPage()"
@@ -164,8 +169,6 @@
           >
             មុន
           </button>
-
-          <!-- Page Numbers -->
           <button
             *ngFor="let page of pages"
             class="px-3 py-1.5 rounded-xl text-black text-sm border"
@@ -176,8 +179,6 @@
           >
             {{ page }}
           </button>
-
-          <!-- Next -->
           <button
             class="px-3 py-1.5 cursor-pointer rounded-xl bg-gray-200 border border-gray-500/50 text-black text-sm"
             (click)="nextPage()"
@@ -187,6 +188,6 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
