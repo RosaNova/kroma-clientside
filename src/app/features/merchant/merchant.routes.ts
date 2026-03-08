@@ -72,6 +72,11 @@ export const MERCHANT_ROUTES: Routes = [
         loadComponent: () => import('./pages/orders/orders.component').then((c) => c.Orders),
       },
       {
+        path: 'order/:id',
+        loadComponent: () =>
+          import('./pages/orders/orders-detail/orders-detail').then((c) => c.OrdersDetail),
+      },
+      {
         path: 'report',
         loadComponent: () => import('./pages/report/report.component').then((c) => c.Report),
       },

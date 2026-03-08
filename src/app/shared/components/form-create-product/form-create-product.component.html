@@ -35,23 +35,23 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="space-y-2.5">
+        <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- <div class="space-y-2.5">
             <label
               class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
             >
               <lucide-angular [img]="Hash" class="h-3 w-3" /> ចំនួនស្តុក (Stock)
             </label>
             <input type="number" placeholder="0" class="input" formControlName="qty" />
-          </div>
-          <div class="space-y-2.5">
+          </div> -->
+          <div class="space-y-2.5 w-full">
             <Label
               class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
             >
               <lucide-angular [img]="ListTree" class="h-3 w-3" /> ប្រភេទ (Category)
             </Label>
 
-            <select class="select" formControlName="category">
+            <select class="select w-full" formControlName="category">
               <!-- <selectedcontent class="h-12 bg-muted/5 border-muted">
                        placeholder="ជ្រើសរើសប្រភេទ" />
                     </selectedcontent> -->
@@ -67,14 +67,14 @@
             </Label>
             <input type="text" placeholder="Brand...." class="input" />
           </div> -->
-          <div class="space-y-2.5">
+          <div class="space-y-2.5 w-full">
             <Label
               class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
             >
               <lucide-angular [img]="ListTree" class="h-3 w-3" /> ហាង (Store)
             </Label>
 
-            <select class="select" formControlName="store">
+            <select class="select w-full" formControlName="store">
               <!-- <selectedcontent class="h-12 bg-muted/5 border-muted">
                        placeholder="ជ្រើសរើសប្រភេទ" />
                     </selectedcontent> -->

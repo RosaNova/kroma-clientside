@@ -1,0 +1,40 @@
+<div class="space-y-6">
+  <div class="flex justify-start m-6">
+    <button class="btn rounded-xl bg-blue-700 border-0 flex gap-2" (click)="onBack()">
+      <lucide-angular [img]="ArrowBigLeftIcon" class="w-4 h-4" />
+      ត្រឡប់ទៅវិញ
+    </button>
+  </div>
+  <div class="bg-card rounded-2xl m-6 border overflow-x-auto">
+    <table class="w-full text-gray-500">
+      <thead class="text-gray-500">
+        <tr class="border-b text-muted-foreground text-md">
+          <th class="p-3 text-center">ល.រ</th>
+          <th class="p-3 text-center">រូបភាពទំនិញ</th>
+          <th class="p-3 text-center">ឈ្មោះទំនិញ</th>
+          <th class="p-3 text-center">ចំនួន</th>
+          <th class="p-3 text-center">តម្លៃ</th>
+          <th class="p-3 text-center">តម្លៃសរុបបណ្តោះអាសន្ន</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="let pro of products(); let i = index"
+          class="border-t text-center hover:bg-muted/30"
+        >
+          <td class="p-3 font-semibold text-primary">{{ i + 1 }}</td>
+          <td class="p-3 font-semibold text-primary flex align-middle justify-center">
+            <img class="w-20 h-20 object-contain" [src]="pro.imageUrl" alt="" />
+          </td>
+          <td class="p-3 text-black">{{ pro.name }}</td>
+          <td class="p-3 text-black">{{ pro.qty }}</td>
+
+          <td class="p-3 text-black">{{ pro.price | currency }}</td>
+
+          <td class="p-3 text-black">{{ pro.subtotal | currency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

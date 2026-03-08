@@ -232,7 +232,7 @@ export class ProductCategory {
   }
 
   closeEdit() {
-    this.editDialog.closeModal();
+    this.showEditDialog = false;
   }
 
   async updateCategory() {

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Order } from './model/order';
 import {
   ShoppingCart,
   DollarSign,
@@ -11,7 +12,6 @@ import {
   Eye,
   Edit,
   Trash2,
-
   LucideAngularModule,
   ShoppingBag,
   DollarSignIcon,
@@ -21,23 +21,26 @@ import {
 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
-
+import { MerchantService } from '../../service/merchant-service';
+import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 type OrderStatus = 'completed' | 'processing' | 'pending' | 'shipped' | 'cancelled';
 type PaymentStatus = 'paid' | 'pending' | 'failed';
 
 type ChangeType = 'positive' | 'negative';
 type Variant = 'pink' | 'yellow' | 'green' | 'blue' | 'purple';
 
-interface Order {
-  id: string;
-  customer: string;
-  email: string;
-  date: string;
-  items: number;
-  amount: string;
-  payment: PaymentStatus;
-  status: OrderStatus;
-}
+// interface Order {
+//   id: string;
+//   customer: string;
+//   email: string;
+//   date: string;
+//   items: number;
+//   amount: string;
+//   payment: PaymentStatus;
+//   status: OrderStatus;
+// }
 
 interface StatCardType {
   title: string;
@@ -48,10 +51,9 @@ interface StatCardType {
   variant: Variant;
 }
 
-
 @Component({
   selector: 'app-orders',
-  imports: [CommonModule, LucideAngularModule, FormsModule, StatCard],
+  imports: [CommonModule, LucideAngularModule, FormsModule, StatCard, MatPaginatorModule],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
 })
@@ -68,79 +70,202 @@ export class Orders {
   Edit = Edit;
   Trash2 = Trash2;
   ShoppingBag = ShoppingBag;
-
+  displayOrderInfo: Order[] = [];
   searchTerm = '';
   statusFilter: 'all' | OrderStatus = 'all';
-  currentPage = 1;
+  currentPage = 0;
   itemsPerPage = 5;
-
-  orders: Order[] = [
-    { id: '#ORD-001', customer: 'ចាន់ សុភា', email: 'sophat@email.com', date: '២៣ មករា ២០២៦', items: 3, amount: '$125.00', payment: 'paid', status: 'completed' },
-    { id: '#ORD-002', customer: 'សុខ វិសាល', email: 'visal@email.com', date: '២២ មករា ២០២៦', items: 5, amount: '$289.50', payment: 'paid', status: 'processing' },
-    { id: '#ORD-003', customer: 'រស្មី ពេជ្រ', email: 'pich@email.com', date: '២២ មករា ២០២៦', items: 2, amount: '$78.00', payment: 'pending', status: 'pending' },
-    { id: '#ORD-004', customer: 'មុំ សារ៉ា', email: 'sara@email.com', date: '២១ មករា ២០២៦', items: 4, amount: '$456.75', payment: 'paid', status: 'completed' },
-    { id: '#ORD-005', customer: 'គង់ ដារ៉ា', email: 'dara@email.com', date: '២១ មករា ២០២៦', items: 1, amount: '$45.00', payment: 'failed', status: 'cancelled' },
+  pageSize = 5;
+  orders: any[] = [
+    {
+      id: '#ORD-001',
+      customer: 'ចាន់ សុភា',
+      email: 'sophat@email.com',
+      date: '២៣ មករា ២០២៦',
+      items: 3,
+      amount: '$125.00',
+      payment: 'paid',
+      status: 'completed',
+    },
+    {
+      id: '#ORD-002',
+      customer: 'សុខ វិសាល',
+      email: 'visal@email.com',
+      date: '២២ មករា ២០២៦',
+      items: 5,
+      amount: '$289.50',
+      payment: 'paid',
+      status: 'processing',
+    },
+    {
+      id: '#ORD-003',
+      customer: 'រស្មី ពេជ្រ',
+      email: 'pich@email.com',
+      date: '២២ មករា ២០២៦',
+      items: 2,
+      amount: '$78.00',
+      payment: 'pending',
+      status: 'pending',
+    },
+    {
+      id: '#ORD-004',
+      customer: 'មុំ សារ៉ា',
+      email: 'sara@email.com',
+      date: '២១ មករា ២០២៦',
+      items: 4,
+      amount: '$456.75',
+      payment: 'paid',
+      status: 'completed',
+    },
+    {
+      id: '#ORD-005',
+      customer: 'គង់ ដារ៉ា',
+      email: 'dara@email.com',
+      date: '២១ មករា ២០២៦',
+      items: 1,
+      amount: '$45.00',
+      payment: 'failed',
+      status: 'cancelled',
+    },
   ];
 
-  statusConfig: Record<OrderStatus, { label: string; className: string }> = {
-    completed: { label: 'បានបញ្ចប់', className: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' },
-    processing: { label: 'កំពុងដំណើរការ', className: 'bg-blue-500/10 text-blue-600 border-blue-500/20' },
-    pending: { label: 'រង់ចាំ', className: 'bg-amber-500/10 text-amber-600 border-amber-500/20' },
-    shipped: { label: 'បានដឹកជញ្ជូន', className: 'bg-purple-500/10 text-purple-600 border-purple-500/20' },
-    cancelled: { label: 'បានលុបចោល', className: 'bg-red-500/10 text-red-600 border-red-500/20' },
-  };
+  // statusConfig: Record<OrderStatus, { label: string; className: string }> = {
+  //   completed: {
+  //     label: 'បានបញ្ចប់',
+  //     className: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
+  //   },
+  //   processing: {
+  //     label: 'កំពុងដំណើរការ',
+  //     className: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
+  //   },
+  //   pending: { label: 'រង់ចាំ', className: 'bg-amber-500/10 text-amber-600 border-amber-500/20' },
+  //   shipped: {
+  //     label: 'បានដឹកជញ្ជូន',
+  //     className: 'bg-purple-500/10 text-purple-600 border-purple-500/20',
+  //   },
+  //   cancelled: { label: 'បានលុបចោល', className: 'bg-red-500/10 text-red-600 border-red-500/20' },
+  // };
 
-  paymentConfig: Record<PaymentStatus, { label: string; className: string }> = {
-    paid: { label: 'បានបង់', className: 'bg-emerald-500/10 text-emerald-600' },
-    pending: { label: 'រង់ចាំ', className: 'bg-amber-500/10 text-amber-600' },
-    failed: { label: 'បរាជ័យ', className: 'bg-red-500/10 text-red-600' },
-  };
+  // paymentConfig: Record<PaymentStatus, { label: string; className: string }> = {
+  //   paid: { label: 'បានបង់', className: 'bg-emerald-500/10 text-emerald-600' },
+  //   pending: { label: 'រង់ចាំ', className: 'bg-amber-500/10 text-amber-600' },
+  //   failed: { label: 'បរាជ័យ', className: 'bg-red-500/10 text-red-600' },
+  // };
+  // Keep full list separate from displayed list
+  private allOrders = signal<Order[]>([]);
+  orderInfo = signal<Order[]>([]);
+  totalOrders = signal<number>(0);
 
-  get filteredOrders(): Order[] {
-    return this.orders.filter(o => {
-      const matchSearch =
-        o.customer.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        o.id.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-      const matchStatus =
-        this.statusFilter === 'all' || o.status === this.statusFilter;
-
-      return matchSearch && matchStatus;
-    });
+  constructor(
+    private merchantService: MerchantService,
+    private router: Router,
+  ) {
+    this.getOrder();
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.filteredOrders.length / this.itemsPerPage);
-  }
-
-  get paginatedOrders(): Order[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredOrders.slice(start, start + this.itemsPerPage);
-  }
-
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+  async getOrder() {
+    try {
+      const res = await this.merchantService.getOrder();
+      if (res) {
+        this.allOrders.set(res.list);
+        this.totalOrders.set(res.list.length!);
+        this.updateDisplayedOrders();
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
+  async onSearch(event: KeyboardEvent) {
+    try {
+      const inputKey = (event.target as HTMLInputElement).value;
+      if (inputKey != '') {
+        const res = await this.merchantService.getOrder({ q: inputKey });
+        this.allOrders.set(res.list ?? []);
+      } else {
+        await this.getOrder();
+        return;
+      }
+      this.totalOrders.set(this.allOrders().length);
+      this.currentPage = 0;
+      this.updateDisplayedOrders();
+    } catch (e) {
+      console.log(e);
     }
   }
 
-  goToPage(page: number): void {
-    this.currentPage = page;
-  }
-  get paginatedEndIndex(): number {
-    return Math.min(this.currentPage * this.itemsPerPage, this.filteredOrders.length);
+  async onFilter(event: Event) {
+    try {
+      const value = (event.target as HTMLSelectElement).value;
+      if (value != '') {
+        const res = await this.merchantService.getOrder({ q: value });
+        this.allOrders.set(res.list ?? []);
+      } else {
+        await this.getOrder();
+        return;
+      }
+      this.totalOrders.set(this.allOrders().length);
+      this.currentPage = 0;
+      this.updateDisplayedOrders();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
+  updateDisplayedOrders() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.orderInfo.set(this.allOrders().slice(startIndex, endIndex));
+  }
+
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedOrders();
+  }
+  // get filteredOrders(): Order[] {
+  //   return this.orders.filter((o) => {
+  //     const matchSearch =
+  //       o.customer.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+  //       o.id.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+  //     const matchStatus = this.statusFilter === 'all' || o.status === this.statusFilter;
+
+  //     return matchSearch && matchStatus;
+  //   });
+  // }
+
+  // get totalPages(): number {
+  //   return Math.ceil(this.filteredOrders.length / this.itemsPerPage);
+  // }
+
+  // get paginatedOrders(): Order[] {
+  //   const start = (this.currentPage - 1) * this.itemsPerPage;
+  //   return this.filteredOrders.slice(start, start + this.itemsPerPage);
+  // }
+
+  // get pages(): number[] {
+  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  // }
+
+  // prevPage(): void {
+  //   if (this.currentPage > 1) {
+  //     this.currentPage--;
+  //   }
+  // }
+
+  // nextPage(): void {
+  //   if (this.currentPage < this.totalPages) {
+  //     this.currentPage++;
+  //   }
+  // }
+
+  // goToPage(page: number): void {
+  //   this.currentPage = page;
+  // }
+  // get paginatedEndIndex(): number {
+  //   return Math.min(this.currentPage * this.itemsPerPage, this.filteredOrders.length);
+  // }
 
   statCards: StatCardType[] = [
     {
@@ -149,7 +274,7 @@ export class Orders {
       change: 'កើន​ ១២% ពីខែមុន',
       changeType: 'positive',
       icon: ShoppingCart,
-      variant: 'blue'
+      variant: 'blue',
     },
     {
       title: 'ប្រាក់ចំណូល',
@@ -157,7 +282,7 @@ export class Orders {
       change: '5% ពីខែមុន',
       changeType: 'positive',
       icon: DollarSignIcon,
-      variant: 'yellow'
+      variant: 'yellow',
     },
     {
       title: 'កំពុងរង់ចាំទូទាត់',
@@ -165,7 +290,7 @@ export class Orders {
       change: '1% ពីខែមុន',
       changeType: 'negative',
       icon: Clock3,
-      variant: 'pink'
+      variant: 'pink',
     },
     {
       title: 'បានបញ្ចប់ការទូទាត់',
@@ -173,9 +298,20 @@ export class Orders {
       change: '0% ពីខែមុន',
       changeType: 'negative',
       icon: CircleCheckBig,
-      variant: 'green'
-    }
+      variant: 'green',
+    },
   ];
-
-
+  onViewDetail(id: string) {
+    this.router.navigate([`merchant/order/${id}`]);
+  }
+  async onDelete(id: string) {
+    try {
+      const res = await this.merchantService.deleteOrder(id);
+      if (res) {
+        this.getOrder();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
