@@ -7,7 +7,7 @@
         <img
           [src]="item.image_url"
           [alt]="item.name"
-          class="w-full rounded-[10px] h-full object-cover"
+          class="w-full rounded-[10px] h-full object-contain"
         />
       </div>
 
@@ -15,13 +15,13 @@
         <div class="flex items-start justify-between mb-2">
           <h4 class="font-semibold text-card-foreground text-sm">{{ item.name }}</h4>
           <span class="font-bold text-destructive text-sm whitespace-nowrap">
-            {{ item.price | khmerNumber }} រៀល
+            {{ item.price | khmerNumber }} ដុលា្លរ
           </span>
         </div>
 
-        <p class="text-xs text-muted-foreground mb-4">
+        <!-- <p class="text-xs text-muted-foreground mb-4">
           ចំនួនក្នុងស្តុក: {{ item.qty | khmerNumber }}
-        </p>
+        </p> -->
 
         <div class="flex gap-2">
           <!-- Delete -->
@@ -84,48 +84,51 @@
       </label>
 
       <!-- Form -->
-      <div class="grid grid-cols-2 text-card-foreground gap-4 flex-1">
-        <div class="flex flex-col gap-3">
-          <label class="label-text text-card-foreground"
-            >ឈ្មោះផលិតផល <span class="text-destructive">*</span></label
-          >
-          <input
-            formControlName="name"
-            placeholder="ឈ្មោះទំនិញ"
-            class="input bg-gray-300 outline-gray-400 placeholder:text-muted-foreground text-foreground input-bordered w-full"
-          />
+      <div class="grid grid-cols-1 text-card-foreground gap-4 flex-1">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-3">
+            <label class="label-text text-card-foreground"
+              >ឈ្មោះផលិតផល <span class="text-destructive">*</span></label
+            >
+            <input
+              formControlName="name"
+              placeholder="ឈ្មោះទំនិញ"
+              class="input bg-gray-300 outline-gray-400 placeholder:text-muted-foreground text-foreground input-bordered w-full"
+            />
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <label class="label-text text-card-foreground"
+              >តម្លៃ <span class="text-destructive">*</span></label
+            >
+            <input
+              formControlName="price"
+              placeholder="$"
+              class="input bg-gray-300 outline-gray-400 placeholder:text-muted-foreground text-foreground input-bordered w-full"
+            />
+          </div>
         </div>
 
-        <div class="flex flex-col gap-3">
-          <label class="label-text text-card-foreground"
-            >តម្លៃ <span class="text-destructive">*</span></label
-          >
-          <input
-            formControlName="price"
-            placeholder="$"
-            class="input bg-gray-300 outline-gray-400 placeholder:text-muted-foreground text-foreground input-bordered w-full"
-          />
-        </div>
-
-        <div class="flex flex-col gap-3">
-          <label class="label-text text-card-foreground"
-            >ប្រភេទ <span class="text-destructive">*</span></label
-          >
-          <select
-            name=""
-            class="select w-full bg-gray-300 outline-gray-400 text-foreground"
-            id=""
-            formControlName="category"
-          >
-            @for (item of categories(); track $index) {
-              <option [value]="item._id">{{ item.name }}</option>
-            }
-            <!-- <option value="accessories">គ្រឿងអលង្ការ</option>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-3">
+            <label class="label-text text-card-foreground"
+              >ប្រភេទ <span class="text-destructive">*</span></label
+            >
+            <select
+              name=""
+              class="select w-full bg-gray-300 outline-gray-400 text-foreground"
+              id=""
+              formControlName="category"
+            >
+              @for (item of categories(); track $index) {
+                <option [value]="item._id">{{ item.name }}</option>
+              }
+              <!-- <option value="accessories">គ្រឿងអលង្ការ</option>
           <option value="souvenirs">វត្ថុអនុស្សាវរីយ៍</option> -->
-          </select>
-        </div>
+            </select>
+          </div>
 
-        <div class="flex flex-col gap-3">
+          <!-- <div class="flex flex-col gap-3">
           <label class="label-text text-card-foreground"
             >ចំនួនស្តុក <span class="text-destructive">*</span></label
           >
@@ -137,21 +140,22 @@
             class="input bg-gray-300 outline-gray-400 text-foreground w-full"
             id=""
           />
-        </div>
+        </div> -->
 
-        <!-- Gender -->
-        <div class="flex flex-col gap-3">
-          <label class="label-text text-card-foreground"
-            >បញ្ចុះតម្លៃ <span class="text-destructive">*</span></label
-          >
-          <input
-            formControlName="discount"
-            type="number"
-            placeholder="%"
-            name=""
-            class="input bg-gray-300 outline-gray-400 w-full text-foreground"
-            id=""
-          />
+          <!-- Gender -->
+          <div class="flex flex-col gap-3">
+            <label class="label-text text-card-foreground"
+              >បញ្ចុះតម្លៃ % <span class="text-destructive">*</span></label
+            >
+            <input
+              formControlName="discount"
+              type="number"
+              placeholder="%"
+              name=""
+              class="input bg-gray-300 outline-gray-400 w-full text-foreground"
+              id=""
+            />
+          </div>
         </div>
         <div class="flex flex-col gap-3">
           <label for="" class="text-card-foreground"

@@ -52,14 +52,14 @@ export class Merchant {
         { label: 'ផលិតផលទាំងអស់', route: '/merchant/product', icon: '' },
         { label: 'បន្ថែមផលិតផល', route: '/merchant/product/addproduct', icon: '' },
         { label: 'ប្រភេទផលិតផល', route: '/merchant/product/productcategory', icon: '' },
-        { label: 'អស់ស្តុក', route: '/merchant/product/productoutstock', icon: '' },
-        { label: 'បញ្ចុះតម្លៃ & គូប៉ុង', route: '/merchant/product/productdiscount', icon: '' },
+        // { label: 'អស់ស្តុក', route: '/merchant/product/productoutstock', icon: '' },
+        // { label: 'បញ្ចុះតម្លៃ & គូប៉ុង', route: '/merchant/product/productdiscount', icon: '' },
       ],
     },
     { icon: ShoppingCart, label: 'ការបញ្ជាទិញ', route: 'order' },
     { icon: FileText, label: 'របាយការណ៍', route: 'report' },
     { icon: MessageSquareText, label: 'មតិកែលម្អ', route: 'feedback' },
-    { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
+    // { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
     { icon: Settings, label: 'ការកំណត់', route: '/merchant/setting' },
   ];
 

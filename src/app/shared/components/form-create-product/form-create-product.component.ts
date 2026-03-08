@@ -42,7 +42,7 @@ export class FormCreateProductComponent {
     price: new FormControl(''),
     description: new FormControl(''),
     category: new FormControl(''),
-    qty: new FormControl(''),
+    // qty: new FormControl(''),
     isActive: new FormControl(true),
     discount: new FormControl(''),
     store: new FormControl(''),
