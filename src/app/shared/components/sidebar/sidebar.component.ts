@@ -8,7 +8,6 @@ import {
   ChevronRight,
 } from 'lucide-angular';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AccountDashboard } from '@/app/core/models/ui.types';
 
 interface NavItem {
   icon?: LucideIconData;
@@ -18,10 +17,11 @@ interface NavItem {
   isOpen?: boolean;
 }
 
-export interface User {
+export interface UserDashboradAccount{
   fullname: string;
   role: string;
-  profile: string;
+  profile_url?: string;
+  profile?: string;
 }
 
 @Component({
@@ -33,7 +33,10 @@ export interface User {
 })
 export class SidebarComponent {
   @Input() navbar!: NavItem[];
-  @Input() user!: User;
+  @Input() user!: UserDashboradAccount;
+  @Input() canLogout: boolean = true;
+  @Input() onLogout?: () => void;
+
   ChevronDown = ChevronDown;
   ChevronRight = ChevronRight;
   LogOut = LogOut;
@@ -65,6 +68,21 @@ export class SidebarComponent {
     // Implement logout logic here (e.g., clear auth tokens, redirect to login page)
     console.log('Logging out...');
     localStorage.clear();
+  }
+  doLogout(): void {
+    if (this.onLogout) {
+      try { this.onLogout(); } catch (e) { console.error('onLogout handler error', e); }
+      return;
+    }
+    // default logout behavior
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('role');
+      }
+    } catch (e) {
+      console.error('Error clearing storage during logout', e);
+    }
     this.router.navigate(['/login']);
   }
 }
