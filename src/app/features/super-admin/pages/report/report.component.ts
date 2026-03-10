@@ -2,7 +2,7 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 import { TableComponent } from '@/app/shared/components/table/table.component';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { CommonModule } from '@angular/common';
-import { Component, signal, computed, ViewChild } from '@angular/core';
+import { Component, signal, computed, ViewChild, OnInit } from '@angular/core';
 
 import { LucideAngularModule, Package, PackageIcon, CarIcon, WalletIcon, BoxIcon, Plus, Wallet, ShoppingCart, Box, Search, Eye, FileUp, Trash2, Edit, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Phone, Mail, Calendar, Star, ArrowUpRight, ArrowDownLeft, CheckCircle, Clock, AlertCircle } from 'lucide-angular';
 import { BoxDialogComponent } from "@/app/shared/components/ui/box-dialog/box-dialog.component";
@@ -11,15 +11,24 @@ import { BoxDialogComponent } from "@/app/shared/components/ui/box-dialog/box-di
 import { Merchant } from '@/app/core/models/ui.types';
 import { MONTHLY_REVENUE_STATS, TOP_CUSTOMERS, TOP_VENDORS, RECENT_TRANSACTIONS } from '@/app/core/mocks/super-admin/report-revenue';
 import { MOCK_MERCHANTS } from '@/app/core/mocks/super-admin/merchant.mock';
+import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent],
+  imports: [StatCard, CommonModule, LucideAngularModule, DeleteDialog, BoxDialogComponent, LoadingSpinner],
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css'],
 })
-export class Report {
+export class Report implements OnInit {
+  isLoading = true;
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 600);
+  }
+
   MONTHLY_REVENUE_STATS = MONTHLY_REVENUE_STATS;
   TOP_CUSTOMERS = TOP_CUSTOMERS;
   TOP_VENDORS = TOP_VENDORS;

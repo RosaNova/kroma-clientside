@@ -41,9 +41,14 @@ app.use(
 app.use((req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((response) => {
+      if (response) {
+        writeResponseToNodeResponse(response, res);
+      } else {
+        // If SSR did not produce a response, serve the browser index.html
+        res.sendFile(join(browserDistFolder, 'index.html'));
+      }
+    })
     .catch(next);
 });
 

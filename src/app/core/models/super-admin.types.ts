@@ -4,6 +4,6 @@ export interface SuperAdminAccountType {
     email: string;
     phone: string;
     role: string;
-    profile_url?: string;
+    profile_url: string;
     createdAt: string;
 }

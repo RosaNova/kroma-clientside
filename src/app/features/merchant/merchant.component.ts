@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, RouterOutlet } from '@angular/router';
 import {
   LayoutDashboard,
@@ -11,17 +11,17 @@ import {
   User,
 } from 'lucide-angular';
 import { SidebarComponent } from '@/app/shared/components/sidebar/sidebar.component';
+import { UserDashboradAccount } from '@/app/shared/components/sidebar/sidebar.component';
 import { KrHeader } from '@/app/shared/components/kr-header/kr-header.component';
 import localeKm from '@angular/common/locales/km';
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localeKm);
+import { UserStateService } from '@/app/core/services/user-state.service';
 
-import { AccountDashboard } from '@/app/core/models/ui.types';
 import { title } from 'process';
 import { AuthService } from '@/app/shared/authentication/services/auth-service';
 import { filter, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-
 interface NavItem {
   icon: any;
   label: string;
@@ -37,7 +37,26 @@ interface NavItem {
   styleUrls: ['./merchant.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class Merchant {
+export class Merchant implements OnInit, OnDestroy {
+  private userSub!: Subscription;
+  constructor(private router: Router, private userStateService: UserStateService) { }
+
+  ngOnInit(): void {
+    // Subscribe to centralized user state for instant profile updates
+    this.userSub = this.userStateService.currentUser$.subscribe(user => {
+      if (user) {
+        this.sidebarUser = {
+          fullname: user.fullname || '',
+          role: user.role === 'SUPER_ADMIN' ? 'Super Admin' : 'Merchant',
+          profile_url: user.profile_url || 'assets/images/default-profile.png',
+        };
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
+  }
   navItems: NavItem[] = [
     {
       icon: LayoutDashboard,
@@ -63,9 +82,9 @@ export class Merchant {
     { icon: Settings, label: 'ការកំណត់', route: '/merchant/setting' },
   ];
 
-  sidebarUser: any = {
+  sidebarUser: UserDashboradAccount = {
     fullname: '',
-    role: '',
+    role: 'Merchant',
     profile_url: 'assets/images/default-profile.png',
   };
 
@@ -73,22 +92,15 @@ export class Merchant {
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
   today = new Date();
   notificationCount = 10;
-  private userSub!: Subscription;
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
-  ngOnInit(): void {
-    this.authService.refreshUser();
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.authService.refreshUser();
-    });
 
-    this.userSub = this.authService.user$.subscribe((user) => {
-      this.sidebarUser = user;
-    });
-  }
-  ngOnDestroy(): void {
-    this.userSub?.unsubscribe(); //prevent memory leaks
+  logout(): void {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.clear();
+      }
+    } catch (e) {
+      console.error('Error clearing storage during logout', e);
+    }
+    this.router.navigate(['/login']);
   }
 }

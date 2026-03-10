@@ -4,8 +4,11 @@ import { CategoryChart } from '@/app/shared/components/category-chart/category-c
 import { RecentOrder } from '@/app/shared/components/recent-order/recent-order.component';
 import { MessagingComponent } from '@/app/shared/components/messaging/messaging.component';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp, Store, Activity, ShieldAlert } from 'lucide-angular';
+import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
+import { LoadingService } from '@/app/core/services/loading.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +19,8 @@ import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp, Store,
     StatCard,
     SaleChart,
     CategoryChart,
+    LoadingSpinner,
+    AsyncPipe,
     // RecentOrder,
     // MessagingComponent,
   ],
@@ -23,7 +28,11 @@ import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp, Store,
   styleUrls: ['./dashboard.component.css'],
 })
 export class Dashboard {
+  private loadingService = inject(LoadingService);
+  isLoading$ = this.loadingService.isLoading$;
+
   DollarSign = DollarSign;
+
   ShoppingBag = ShoppingBag;
   Users = Users;
   TrendingUp = TrendingUp;
