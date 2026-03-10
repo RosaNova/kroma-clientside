@@ -1,24 +1,4 @@
 <main class="min-h-screen  flex justify-center items-center bg-white">
-  <!-- Left Side -->
-  <!-- <div class="hidden lg:flex flex-col bg-khaki items-center justify-center">
-
-    <div class="w-30 h-30 bg-gray-300 rounded-[20px] flex items-center justify-center">
-      <img class="w-25 h-25 object-cover "
-        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771199560/591fc31c-a48e-46eb-8a7e-061a9a06f215.png"
-        alt="">
-    </div> -->
-  <!-- <h1 class="font-bold text-white text-[18px] pt-5">Kroma</h1> -->
-  <!-- <p class="text-gray-500 font-medium">ប្រព័ន្ធគ្រប់គ្រងការលក់ផលិតផលខ្មែរ</p> -->
-
-  <!-- <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul> -->
-
-  <!-- </div> -->
-
-  <!-- Right Side -->
   <div class="flex items-center w-full justify-center p-8">
     <div class="w-full max-w-md bg-gray-100  py-4 px-5 space-y-5">
       <!-- Logo -->
@@ -42,39 +22,95 @@
       </div>
 
       <!-- Form -->
-      <form class="space-y-3" [formGroup]="form">
-        <div class="space-y-2">
-          <label for="username" class="text-gray-700 font-medium">
+      <form class="space-y-4" [formGroup]="form" [@shake]="shakeState" novalidate>
+        <!-- Email Field -->
+        <div class="space-y-1">
+          <label for="email" class="text-gray-700 font-medium text-sm pl-1">
             ឈ្មោះគណនី <span class="text-red-500">*</span>
           </label>
-          <input id="username" type="text" formControlName="email" name="username" required
-            placeholder="បញ្ចូលឈ្មោះគណនី"
-            class="h-10 w-full mt-2 rounded-md border border-khaki/40 px-3 focus:outline-none focus:ring-2 focus:ring-khaki" />
-        </div>
-        <div class="space-y-2">
-          <label for="password" class="text-gray-700  font-medium">
-            ពាក្យសម្ងាត់ <span class="text-red-500">*</span>
-          </label>
-          <input id="password" type="password" formControlName="password" name="password" required
-            placeholder="បញ្ចូលពាក្យសម្ងាត់"
-            class="h-10 w-full rounded-md border mt-2 border-khaki/40 px-3 focus:outline-none focus:ring-2 focus:ring-khaki" />
+          <input id="email" type="email" formControlName="email" name="email" placeholder="បញ្ចូលឈ្មោះគណនីអុីមែល"
+            [ngClass]="{
+              'border-red-500 ring-2 ring-red-100': (email?.invalid && (email?.touched || email?.dirty)) || (errorMessage && !errorMessage.includes('ពាក្យសម្ងាត់')),
+              'border-green-500 ring-2 ring-green-100': isSuccess
+            }"
+            class="h-11 w-full rounded-lg border border-gray-300 px-4 focus:outline-none focus:ring-2 focus:ring-khaki transition-all shadow-sm bg-white" />
+
+          <!-- Field Specific Error (Instant on Dirty) -->
+          <div *ngIf="email?.invalid && (email?.touched || email?.dirty)" [@errorAnimation]
+            class="text-red-600 text-[11px] mt-1 flex items-center gap-1.5 font-bold pl-1">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span *ngIf="email?.errors?.['required']">សូមបញ្ចូលឈ្មោះគណនី!</span>
+            <span *ngIf="email?.errors?.['email']">ទម្រង់អុីមែលមិនត្រឹមត្រូវ!</span>
+          </div>
         </div>
 
-        <button (click)="onSubmit()" type="button" [disabled]="isLoading"
-          class="w-full h-10 bg-khaki mt-8 hover:bg-khaki/90 disabled:bg-khaki/90 cursor-pointer hover:bg-khaki-dark text-white text-sm font-medium flex items-center justify-center gap-2 transition-colors rounded-md disabled:opacity-80 disabled:cursor-not-allowed">
+        <!-- Password Field -->
+        <div class="space-y-1 mt-1">
+          <label for="password" class="text-gray-700 font-medium text-sm pl-1">
+            ពាក្យសម្ងាត់ <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" name="password"
+              placeholder="បញ្ចូលពាក្យសម្ងាត់" [ngClass]="{
+                'border-red-500 ring-2 ring-red-100': (password?.invalid && (password?.touched || password?.dirty)) || (errorMessage && (errorMessage.includes('ពាក្យសម្ងាត់') || errorMessage.includes('ត្រឹមត្រូវ'))),
+                'border-green-500 ring-2 ring-green-100': isSuccess
+              }"
+              class="h-11 w-full rounded-lg border border-gray-300 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-khaki transition-all shadow-sm bg-white" />
+            <button type="button" (click)="togglePasswordVisibility()"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-khaki cursor-pointer transition-colors p-1">
+              <lucide-angular [img]="showPassword ? EyeOff : Eye" class="w-5 h-5"></lucide-angular>
+            </button>
+          </div>
+
+          <!-- Field Specific Error (Instant on Dirty) -->
+          <div *ngIf="password?.invalid && (password?.touched || password?.dirty)" [@errorAnimation]
+            class="text-red-600 text-[11px] mt-1 flex items-center gap-1.5 font-bold pl-1">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span>សូមបញ្ចូលពាក្យសម្ងាត់!</span>
+          </div>
+        </div>
+
+        <!-- Global Messages (Error/Success) -->
+        <div *ngIf="errorMessage" [@errorAnimation]
+          class="bg-red-50 border-2 border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm flex items-start gap-3 shadow-md mt-4">
+          <svg class="w-5 h-5 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="font-bold flex-1">{{ errorMessage }}</span>
+        </div>
+
+        <div *ngIf="isSuccess" [@errorAnimation]
+          class="bg-green-50 border-2 border-green-200 text-green-600 px-4 py-3 rounded-lg text-sm flex items-center gap-3 shadow-md mt-4">
+          <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shrink-0">
+            <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <span class="font-bold text-base">ចូលប្រើប្រាស់បានជោគជ័យ!</span>
+        </div>
+
+        <button (click)="onSubmit()" type="button" [disabled]="isLoading || isSuccess"
+          class="w-full h-12 bg-khaki mt-6 hover:bg-khaki/90 disabled:bg-gray-300 cursor-pointer text-white text-base font-bold flex items-center justify-center gap-2 transition-all rounded-lg active:scale-[0.98]">
           <ng-container *ngIf="isLoading; else normalText">
-            <lucide-angular class="moveRight w-5" [name]="MoveRight"></lucide-angular>
-            <span>សូមមេត្តារង់ចាំ</span>
-            <div class="dot-animation">
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-            </div>
+            <svg class="animate-spin h-5 w-5 text-white mr-2" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            <span>កំពុងផ្ទៀងផ្ទាត់...</span>
           </ng-container>
-          <ng-template #normalText>ចូលប្រើប្រាស់</ng-template>
+          <ng-template #normalText>
+            <span *ngIf="!isSuccess">ចូលប្រើប្រាស់</span>
+            <span *ngIf="isSuccess">ស្វាគមន៍</span>
+          </ng-template>
         </button>
       </form>
       <!-- Footer -->
