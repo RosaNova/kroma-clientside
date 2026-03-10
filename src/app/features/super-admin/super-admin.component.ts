@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
   LayoutDashboard,
@@ -11,13 +11,14 @@ import {
   DatabaseBackup,
 } from 'lucide-angular';
 import localeKm from '@angular/common/locales/km';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, isPlatformBrowser } from '@angular/common';
 import { SidebarComponent } from '@/app/shared/components/sidebar/sidebar.component';
-import { User as SidebarUser } from '@/app/shared/components/sidebar/sidebar.component';
+import { UserDashboradAccount } from '@/app/shared/components/sidebar/sidebar.component';
 import { requestService } from '@/app/services/request-service';
 import { KrHeader } from '@/app/shared/components/kr-header/kr-header.component';
+import { UserStateService } from '@/app/core/services/user-state.service';
 registerLocaleData(localeKm);
-import { AccountDashboard } from '@/app/core/models/ui.types';
+
 import { AuthService } from '@/app/shared/authentication/services/auth-service';
 import { filter, Subscription } from 'rxjs';
 
@@ -36,7 +37,8 @@ interface NavItem {
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SuperAdmin implements OnInit {
+export class SuperAdmin implements OnInit, OnDestroy {
+  private userSub!: Subscription;
   navItems: NavItem[] = [
     {
       icon: LayoutDashboard,
@@ -70,49 +72,47 @@ export class SuperAdmin implements OnInit {
     { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
 
-  sidebarUser: SidebarUser = {
+  sidebarUser: UserDashboradAccount = {
     fullname: '',
     role: 'Super-Admin',
-    profile: 'assets/images/default-profile.png',
+    profile_url: 'assets/images/default-profile.png',
   };
-  private userSub!: Subscription;
-  constructor(
-    private requestService: requestService,
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+
+  constructor(private requestService: requestService, private router: Router, private userStateService: UserStateService) { }
   ngOnInit(): void {
-    this.authService.refreshUser();
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.authService.refreshUser();
+    // Subscribe to centralized user state for instant profile updates
+    this.userSub = this.userStateService.currentUser$.subscribe(user => {
+      if (user) {
+        this.sidebarUser = {
+          fullname: user.fullname || '',
+          role: user.role === 'SUPER_ADMIN' ? 'Super Admin' : 'Merchant',
+          profile_url: user.profile_url || 'assets/images/default-profile.png',
+        };
+      }
     });
 
-    this.userSub = this.authService.user$.subscribe((user) => {
-      this.sidebarUser = user;
-    });
-
-    // Fetch super-admin account info from API and map to sidebar user
-    // this.requestService.getJSON('/api/admins').subscribe({
-    //   next: (res) => {
-    //     if (res && Array.isArray(res.list) && res.list.length > 0) {
-    //       const superAdmin: AccountDashboard = res.list[0];
-    //       this.sidebarUser = {
-    //         fullname: superAdmin.fullname || '',
-    //         role: superAdmin.role || 'Super-Admin',
-    //         profile: localStorage.getItem('userProfile') || 'assets/images/default-profile.png',
-    //       };
-    //     }
-    //   },
-    //   error: () => {
-    //     // keep default user if request fails
-    //   },
-    // });
+    const isBrowser = typeof window !== 'undefined' && window.localStorage;
+    const email = isBrowser ? localStorage.getItem('email') : null;
+    const role = isBrowser ? localStorage.getItem('role') : null;
   }
+
   ngOnDestroy(): void {
-    this.userSub?.unsubscribe(); //prevent memory leaks
+    this.userSub?.unsubscribe();
   }
+
   title = 'ផ្ទាំងគ្រប់គ្រង';
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
   today = new Date();
   notificationCount = 10;
+
+  logout(): void {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.clear();
+      }
+    } catch (e) {
+      console.error('Error clearing storage during logout', e);
+    }
+    this.router.navigate(['/login']);
+  }
 }

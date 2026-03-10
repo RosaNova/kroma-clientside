@@ -1,48 +1,31 @@
 import { requestService } from '@/app/services/request-service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
+import { UserStateService } from '@/app/core/services/user-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  path: string = '/api/users';
-  constructor(private requestService: requestService) {}
+  constructor(private requestService: requestService, private userStateService: UserStateService) { }
 
-  // private roleToPath(role: string) {
-  //   if (!role) return '/api/admin-users';
-  //   const r = role.toUpperCase();
-  //   switch (r) {
-  //     case 'MERCHANT':
-  //       return '/api/merchants';
-  //     case 'SUPER_ADMIN':
-  //       return '/api/admin-users';
-  //     default:
-  //       return '/api/admin-users';
-  //   }
-  // }
-  private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
+  private roleToPath(role: string) {
+    if (!role) return '/api/users';
+    const r = role.toUpperCase();
 
-  user$ = this.userSubject.asObservable();
-
-  private getUserFromStorage() {
-    if (typeof window === 'undefined') return null;
-    return {
-      fullname: localStorage.getItem('fullname') ?? '',
-      role: localStorage.getItem('role') ?? '',
-      profile: localStorage.getItem('profile_url') || 'assets/images/default-profile.png',
-    };
+    switch (r) {
+      case 'MERCHANT':
+        return '/api/merchants';
+      case 'SUPER-ADMIN':
+        return '/api/users';
+      default:
+        return '/api/users';
+    }
   }
 
-  refreshUser() {
-    this.userSubject.next(this.getUserFromStorage());
+  login(data: any, role: string = 'super-admin') {
+    const base = this.roleToPath(role);
+    return this.requestService.postJSON(`${base}/login`, data);
   }
-  login(data: any) {
-    // const base = this.roleToPath(role);
-    return this.requestService.postJSON(`${this.path}/login`, data);
-  }
-  // register(data: any, role: string) {
-  //   const base = this.roleToPath(role);
-  //   return this.requestService.postJSON(`${base}/register`, data);
-  // }
+
 }

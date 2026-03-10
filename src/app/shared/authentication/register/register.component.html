@@ -17,27 +17,15 @@
 
       <div>
         <label class="text-sm font-medium">Email</label>
-        <input
-          formControlName="email"
-          type="email"
-          class="w-full h-10 rounded-md border px-3 mt-2"
-        />
+        <input formControlName="email" type="email" class="w-full h-10 rounded-md border px-3 mt-2" />
       </div>
 
       <div>
         <label class="text-sm font-medium">Password</label>
-        <input
-          formControlName="password"
-          type="password"
-          class="w-full h-10 rounded-md border px-3 mt-2"
-        />
+        <input formControlName="password" type="password" class="w-full h-10 rounded-md border px-3 mt-2" />
       </div>
 
-      <button
-        type="submit"
-        [disabled]="isLoading"
-        class="w-full h-10 bg-khaki text-white rounded-md"
-      >
+      <button type="submit" [disabled]="isLoading" class="w-full h-10 bg-khaki text-white rounded-md">
         <span *ngIf="!isLoading">Register</span>
         <span *ngIf="isLoading">Registering...</span>
       </button>

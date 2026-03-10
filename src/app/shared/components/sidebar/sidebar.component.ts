@@ -17,11 +17,10 @@ interface NavItem {
   isOpen?: boolean;
 }
 
-export interface UserDashboradAccount{
+export interface UserDashboradAccount {
   fullname: string;
   role: string;
-  profile_url?: string;
-  profile?: string;
+  profile_url?: string
 }
 
 @Component({
@@ -41,7 +40,7 @@ export class SidebarComponent {
   ChevronRight = ChevronRight;
   LogOut = LogOut;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     // Auto-open dropdown if a child route is active
@@ -65,20 +64,18 @@ export class SidebarComponent {
   }
 
   logout(): void {
-    // Implement logout logic here (e.g., clear auth tokens, redirect to login page)
-    console.log('Logging out...');
-    localStorage.clear();
-  }
-  doLogout(): void {
     if (this.onLogout) {
-      try { this.onLogout(); } catch (e) { console.error('onLogout handler error', e); }
+      try {
+        this.onLogout();
+      } catch (e) {
+        console.error('onLogout handler error', e);
+      }
       return;
     }
     // default logout behavior
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
-        window.localStorage.removeItem('token');
-        window.localStorage.removeItem('role');
+        window.localStorage.clear();
       }
     } catch (e) {
       console.error('Error clearing storage during logout', e);

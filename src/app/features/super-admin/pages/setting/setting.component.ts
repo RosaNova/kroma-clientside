@@ -75,45 +75,37 @@ export class Setting implements OnInit {
   }
 
   private fetchSuperAdmin(userId: string) {
-    this.requestService.getJSON('/api/admins', null, true).subscribe({
+    this.requestService.getJSON(`/api/admins/${userId}`).subscribe({
       next: (res: any) => {
-        if (res && Array.isArray(res.list)) {
-          const acct = res.list.find((u: any) =>
-            (u.id?.toString() === userId || u._id?.toString() === userId)
-          );
+        if (res) {
+          // Handle inconsistent naming from backend
+          const fullname = res.fullname || res.fullName || res.name || '';
 
-          if (acct) {
-            this.user = {
-              id: (acct.id || acct._id)?.toString(),
-              fullname: acct.fullname,
-              email: acct.email,
-              phone: acct.phone,
-              role: acct.role,
-              profile_url: acct.profile_url,
-              joinDate: acct.createdAt,
-            } as any;
+          this.user = {
+            id: (res.id || res._id || userId).toString(),
+            fullname: fullname,
+            email: res.email,
+            phone: res.phone,
+            role: res.role,
+            profile_url: res.profile_url,
+            joinDate: res.createdAt,
+          } as any;
 
-            // update form values
-            if (this.settingsForm) {
-              this.settingsForm.patchValue({ // Changed from userForm to settingsForm
-                fullname: this.user?.fullname,
-                email: this.user?.email,
-                phone: this.user?.phone,
-              });
-            }
-
-            // Sync API data back to UserStateService
-            this.userStateService.updateUser({
-              id: this.user.id,
-              fullname: this.user.fullname,
-              email: this.user.email,
-              profile_url: this.user.profile_url
+          // update form values
+          if (this.settingsForm) {
+            this.settingsForm.patchValue({
+              fullname: this.user?.fullname,
+              email: this.user?.email,
+              phone: this.user?.phone,
             });
           }
+
+          // Sync API data back to UserStateService
+          this.userStateService.updateUser(this.user);
         }
       },
-      error: () => {
-        // Handle error
+      error: (err) => {
+        console.error('Failed to fetch user info', err);
       },
     });
   }
@@ -152,13 +144,15 @@ export class Setting implements OnInit {
     if (this.settingsForm.valid && this.user) {
       const payload = {
         fullname: this.settingsForm.value.fullname,
+        fullName: this.settingsForm.value.fullname, // Send both variants
+        name: this.settingsForm.value.fullname,     // Send name variant too
         email: this.settingsForm.value.email,
         phone: this.settingsForm.value.phone,
       };
 
       this.requestService.patchJSON(`/api/admins/update-info/${this.user.id}`, payload).subscribe({
         next: (res) => {
-          this.requestService.clearCache();
+          // this.requestService.clearCache();
           this.toastService.success('ព័ត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ');
 
           this.userStateService.updateUser({

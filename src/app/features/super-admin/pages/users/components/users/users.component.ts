@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, computed, ChangeDetectorRef } from '@angular/core';
+import { Component, signal, computed, ChangeDetectorRef, inject } from '@angular/core';
 
 import {
   LucideAngularModule,
@@ -26,6 +26,9 @@ import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-di
 import { SUPER_ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
+import { LoadingService } from '@/app/core/services/loading.service';
+import { AsyncPipe } from '@angular/common';
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -36,6 +39,8 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
     RouterModule,
     DeleteDialog,
     MatSnackBarModule,
+    LoadingSpinner,
+    AsyncPipe
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
@@ -66,6 +71,8 @@ export class Users {
   currentPage = signal(1);
   itemsPerPage = signal(10);
   users: mobileUser[] = [];
+  private loadingService = inject(LoadingService);
+  isLoading$ = this.loadingService.isLoading$;
   showDeleteDialog = false;
   selectedName = '';
   storeId: string = '';

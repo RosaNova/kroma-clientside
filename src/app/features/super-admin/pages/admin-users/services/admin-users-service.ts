@@ -6,7 +6,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class AdminUsersService {
   path: string = '/api/admins';
-  constructor(private requestService: requestService) {}
+  constructor(private requestService: requestService) { }
   getUsers() {
     return lastValueFrom(this.requestService.getJSON(this.path));
   }
@@ -30,4 +30,8 @@ export class AdminUsersService {
   searchUser(data: any) {
     return lastValueFrom(this.requestService.getJSON(`${this.path}/search`, { q: data }));
   }
+  changePassword(id: string, data: any) {
+    return lastValueFrom(this.requestService.patchJSON(`${this.path}/update-password/${id}`, data));
+  }
+
 }
