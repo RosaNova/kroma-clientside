@@ -12,8 +12,8 @@ export interface StatCardType {
 
 //  Merchant 
 export interface Merchant {
-  id: number;
-  name: string;
+  _id: string;
+  fullname: string;
   brandImage: string;
   ownerName: string;
   profile: string;

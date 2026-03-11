@@ -40,8 +40,8 @@ export const SUPER_ADMIN_MERCHANT_STATS: StatCardType[] = [
 
 export const MOCK_MERCHANTS: Merchant[] = [
     {
-        id: 1001,
-        name: 'Krama Mart',
+        _id: "1001",
+        fullname: 'Krama Mart',
         brandImage: "https://via.placeholder.com/150",
         ownerName: 'Sok Dara',
         profile: "https://via.placeholder.com/150",
@@ -56,8 +56,8 @@ export const MOCK_MERCHANTS: Merchant[] = [
         rating: 4.6
     },
     {
-        id: 1002,
-        name: 'Cambodia Fresh',
+        _id: "1002",
+        fullname: 'Cambodia Fresh',
         brandImage: "https://via.placeholder.com/150",
         ownerName: 'Chan Rithy',
         profile: "https://via.placeholder.com/150",
@@ -72,8 +72,8 @@ export const MOCK_MERCHANTS: Merchant[] = [
         rating: 4.2
     },
     {
-        id: 1003,
-        name: 'Sweet Home Bakery',
+        _id: "1003",
+        fullname: 'Sweet Home Bakery',
         brandImage: "https://via.placeholder.com/150",
         ownerName: 'Ly Nika',
         profile: "https://via.placeholder.com/150",
@@ -88,8 +88,8 @@ export const MOCK_MERCHANTS: Merchant[] = [
         rating: 3.8
     },
     {
-        id: 1004,
-        name: 'Ocean Seafood',
+        _id: "1004",
+        fullname: 'Ocean Seafood',
         brandImage: "https://via.placeholder.com/150",
         ownerName: 'Vannak',
         profile: "https://via.placeholder.com/150",
