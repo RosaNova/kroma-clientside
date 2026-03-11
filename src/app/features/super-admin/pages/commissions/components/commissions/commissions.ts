@@ -95,8 +95,8 @@ export class Commissions {
   filtered = computed(() =>
     MOCK_MERCHANTS.filter(
       (c) =>
-        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c.id.toString().includes(this.searchTerm()),
+        c.fullname.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+        c._id.toString().includes(this.searchTerm()),
     ),
   );
 
