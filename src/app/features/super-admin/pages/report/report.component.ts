@@ -71,8 +71,8 @@ export class Report implements OnInit {
   // Filter
   filtered = computed(() =>
     MOCK_MERCHANTS.filter(c =>
-      c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-      c.id.toString().includes(this.searchTerm())
+      c.fullname.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+      c._id.toString().includes(this.searchTerm())
     )
   );
 
@@ -175,8 +175,8 @@ export class Report implements OnInit {
   showViewDialog = false;
   selectedMerchant?: Merchant;
 
-  openView(id: number) {
-    this.selectedMerchant = MOCK_MERCHANTS.find(m => m.id === id);
+  openView(id: string) {
+    this.selectedMerchant = MOCK_MERCHANTS.find(m => m._id === id);
     this.showViewDialog = true;
   }
 
