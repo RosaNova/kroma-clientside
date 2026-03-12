@@ -29,6 +29,7 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
 import { LoadingService } from '@/app/core/services/loading.service';
 import { AsyncPipe } from '@angular/common';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -40,7 +41,8 @@ import { AsyncPipe } from '@angular/common';
     DeleteDialog,
     MatSnackBarModule,
     LoadingSpinner,
-    AsyncPipe
+    AsyncPipe,
+    MatPaginatorModule,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
@@ -68,70 +70,81 @@ export class Users {
 
   // State
   searchTerm = signal('');
-  currentPage = signal(1);
-  itemsPerPage = signal(10);
-  users: mobileUser[] = [];
+  users = signal<mobileUser[]>([]);
+  allMobileUsers = signal<mobileUser[]>([]);
+  totalMobileUsers = signal<number>(0);
   private loadingService = inject(LoadingService);
   isLoading$ = this.loadingService.isLoading$;
   showDeleteDialog = false;
   selectedName = '';
   storeId: string = '';
-  constructor(
-    private userService: UserService,
-    private cdr: ChangeDetectorRef,
-  ) {
+  currentPage = 0;
+  itemsPerPage = 5;
+  pageSize = 5;
+  constructor(private userService: UserService) {
     this.getUsers();
   }
   async getUsers() {
     try {
       const res = await this.userService.getMany();
-      if (res) {
-        this.users = res.list;
-        this.cdr.detectChanges();
+      if (res && res.list) {
+        this.allMobileUsers.set(res.list);
+        this.totalMobileUsers.set(res.list.length!);
+        this.updateDisplayedMobileUsers();
       }
     } catch (e) {
       console.log(e);
     }
   }
+  updateDisplayedMobileUsers() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.users.set(this.allMobileUsers().slice(startIndex, endIndex));
+  }
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedMobileUsers();
+  }
   // Filter
-  filtered = computed(() =>
-    this.users.filter(
-      (c) =>
-        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c._id.toString().includes(this.searchTerm()),
-    ),
-  );
+  // filtered = computed(() =>
+  //   this.users.filter(
+  //     (c) =>
+  //       c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+  //       c._id.toString().includes(this.searchTerm()),
+  //   ),
+  // );
 
-  // Pagination
-  totalPages = computed(() => Math.max(Math.ceil(this.users.length / this.itemsPerPage()), 1));
+  // // Pagination
+  // totalPages = computed(() => Math.max(Math.ceil(this.users.length / this.itemsPerPage()), 1));
 
-  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
+  // startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
-  endIndex = computed(() => Math.min(this.startIndex() + this.itemsPerPage(), this.users.length));
+  // endIndex = computed(() => Math.min(this.startIndex() + this.itemsPerPage(), this.users.length));
 
-  paginated = computed(() => this.users.slice(this.startIndex(), this.endIndex()));
+  // paginated = computed(() => this.users.slice(this.startIndex(), this.endIndex()));
 
   // Navigation
-  goToFirst() {
-    this.currentPage.set(1);
-  }
+  // goToFirst() {
+  //   this.currentPage.set(1);
+  // }
 
-  goToLast() {
-    this.currentPage.set(this.totalPages());
-  }
+  // goToLast() {
+  //   this.currentPage.set(this.totalPages());
+  // }
 
-  prev() {
-    this.currentPage.update((p) => Math.max(p - 1, 1));
-  }
+  // prev() {
+  //   this.currentPage.update((p) => Math.max(p - 1, 1));
+  // }
 
-  next() {
-    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
-  }
+  // next() {
+  //   this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
+  // }
 
-  changeItemsPerPage(value: number) {
-    this.itemsPerPage.set(value);
-    this.currentPage.set(1);
-  }
+  // changeItemsPerPage(value: number) {
+  //   this.itemsPerPage.set(value);
+  //   this.currentPage.set(1);
+  // }
   openDelete(name: string, id: string) {
     this.selectedName = name;
     this.storeId = id;
@@ -148,17 +161,20 @@ export class Users {
     }
   }
   async onSearch(event: KeyboardEvent) {
-    const inputKey = (event.target as HTMLInputElement).value;
-    if (inputKey != '') {
-      // const res = await this.userService.searchUser(inputKey);
-      // if (res.list) {
-      //   this.users = res.list;
-      //   this.cdr.detectChanges();
-      // } else {
-      //   this.users = [];
-      // }
-    } else {
-      await this.getUsers();
+    try {
+      const inputKey = (event.target as HTMLInputElement).value;
+      if (inputKey != '') {
+        const res = await this.userService.search(inputKey);
+        this.allMobileUsers.set(res.list ?? []);
+      } else {
+        await this.getUsers();
+        return;
+      }
+      this.totalMobileUsers.set(this.allMobileUsers().length);
+      this.currentPage = 0;
+      this.updateDisplayedMobileUsers();
+    } catch (e) {
+      console.log(e);
     }
   }
 }

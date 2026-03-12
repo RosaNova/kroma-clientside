@@ -6,9 +6,9 @@ import { lastValueFrom } from 'rxjs';
 })
 export class AdminUsersService {
   path: string = '/api/admins';
-  constructor(private requestService: requestService) { }
+  constructor(private requestService: requestService) {}
   getUsers() {
-    return lastValueFrom(this.requestService.getJSON(this.path));
+    return lastValueFrom(this.requestService.getJSON(`${this.path}/display`));
   }
   createUser(data: any) {
     return lastValueFrom(this.requestService.postFormData(this.path, data));
@@ -33,5 +33,4 @@ export class AdminUsersService {
   changePassword(id: string, data: any) {
     return lastValueFrom(this.requestService.patchJSON(`${this.path}/update-password/${id}`, data));
   }
-
 }

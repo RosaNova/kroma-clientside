@@ -66,12 +66,12 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let c of storeCategories; let i = index"
+          *ngFor="let c of storeCategories(); let i = index"
           class="border-t border-b border-gray-300 text-center"
         >
           <td class="p-2">{{ i + 1 }}</td>
           <td class="p-2">{{ c.name }}</td>
-          <td class="p-2 text-muted-foreground">{{ c.des }}</td>
+          <td class="p-2 text-muted-foreground">{{ c.description }}</td>
           <td class="p-2">
             <span
               class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
@@ -115,10 +115,16 @@
         </tr>
       </tbody>
     </table>
-
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [length]="totalStoreCategories()"
+      [pageSize]="pageSize"
+      (page)="changePage($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
     <!-- Pagination -->
-    <div class="p-4 w-full flex items-center justify-end gap-4">
-      <!-- First / Previous -->
+    <!-- <div class="p-4 w-full flex items-center justify-end gap-4">
       <div class="flex items-center gap-2">
         <button
           class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
@@ -136,8 +142,6 @@
           <lucide-angular [img]="ChevronLeft" class="w-4 h-4"></lucide-angular>
         </button>
       </div>
-
-      <!-- Page info -->
       <div class="flex items-center gap-3">
         <select
           class="select select-neutral bg-white border"
@@ -153,8 +157,6 @@
           {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
         </span>
       </div>
-
-      <!-- Next / Last -->
       <div class="flex items-center gap-2">
         <button
           class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
@@ -172,7 +174,7 @@
           <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -205,9 +207,9 @@
           >ការបរិយាយ <span class="text-destructive">*</span></label
         >
         <input
-          formControlName="des"
+          formControlName="description"
           type="text"
-          placeholder="ឈ្មោះប្រភេទទំនិញ"
+          placeholder="ការបរិយាយ"
           class="input border border-gray-300 bg-input/10 placeholder:text-gray-400 text-foreground input-bordered w-full"
         />
       </div>
@@ -275,7 +277,7 @@
               <input
                 placeholder="Description"
                 class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="des"
+                formControlName="description"
               />
             </div>
           </div>

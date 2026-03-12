@@ -1,6 +1,6 @@
 export interface Merchant {
   _id: string;
-  fullName: string;
+  fullname: string;
   username: string;
   email: string;
   password?: string;

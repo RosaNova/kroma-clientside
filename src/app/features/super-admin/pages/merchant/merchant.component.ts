@@ -54,6 +54,7 @@ import { AdminUsersService } from '../admin-users/services/admin-users-service';
 import { StoreCategoriesService } from '../store-category/service/store-categories-service';
 import { storeCategory } from '../store-category/models/store-categories';
 import { isActive } from '@angular/router';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-merchant',
   standalone: true,
@@ -66,21 +67,28 @@ import { isActive } from '@angular/router';
     DropZoneComponent,
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
   ],
   templateUrl: './merchant.component.html',
   styleUrls: ['./merchant.component.css'],
 })
 export class MerchantComponent {
   stores = signal<Store[]>([]);
+  allStores = signal<Store[]>([]);
   detailInfo = signal<any>({});
   merchants = signal<Merchant[]>([]);
+
   store = signal<Store>({} as any);
-  storeCategories: storeCategory[] = [];
+  storeCategories = signal<storeCategory[]>([]);
+  totalStores = signal<number>(0);
   form = new FormGroup({
     name: new FormControl(''),
     merchant: new FormControl(''),
     isActive: new FormControl(''),
     store_category: new FormControl(''),
+    lat: new FormControl(''),
+    long: new FormControl(''),
+    is_delivery_fee: new FormControl(true),
   });
   uploadFiles?: File;
   store_id: string = '';
@@ -111,8 +119,9 @@ export class MerchantComponent {
 
   // State
   searchTerm = signal('');
-  currentPage = signal(1);
-  itemsPerPage = signal(10);
+  currentPage = 0;
+  itemsPerPage = 5;
+  pageSize = 5;
   constructor(
     private merchantService: MerchantService,
     private cdr: ChangeDetectorRef,
@@ -127,7 +136,9 @@ export class MerchantComponent {
     try {
       const res = await this.merchantService.getMany();
       if (res) {
-        this.stores.set(res.list);
+        this.allStores.set(res.list);
+        this.totalStores.set(res.list.length!);
+        this.updateDisplayedStores();
       }
     } catch (e) {
       console.log(e);
@@ -147,54 +158,63 @@ export class MerchantComponent {
     try {
       const res = await this.storeCategoriesService.getStoreCategories();
       if (res) {
-        this.storeCategories = res.list;
-        this.cdr.detectChanges();
+        this.storeCategories.set(res.list);
       }
     } catch (e) {
       console.log(e);
     }
   }
+  updateDisplayedStores() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.stores.set(this.allStores().slice(startIndex, endIndex));
+  }
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedStores();
+  }
   // Filter
-  filtered = computed(() =>
-    MOCK_MERCHANTS.filter(
-      (c) =>
-        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c.id.toString().includes(this.searchTerm()),
-    ),
-  );
+  // filtered = computed(() =>
+  //   MOCK_MERCHANTS.filter(
+  //     (c) =>
+  //       c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+  //       c.id.toString().includes(this.searchTerm()),
+  //   ),
+  // );
 
-  // Pagination
-  totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
+  // // Pagination
+  // totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
 
-  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
+  // startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
-  endIndex = computed(() =>
-    Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
-  );
+  // endIndex = computed(() =>
+  //   Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
+  // );
 
-  paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
+  // paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
 
-  // Navigation
-  goToFirst() {
-    this.currentPage.set(1);
-  }
+  // // Navigation
+  // goToFirst() {
+  //   this.currentPage.set(1);
+  // }
 
-  goToLast() {
-    this.currentPage.set(this.totalPages());
-  }
+  // goToLast() {
+  //   this.currentPage.set(this.totalPages());
+  // }
 
-  prev() {
-    this.currentPage.update((p) => Math.max(p - 1, 1));
-  }
+  // prev() {
+  //   this.currentPage.update((p) => Math.max(p - 1, 1));
+  // }
 
-  next() {
-    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
-  }
+  // next() {
+  //   this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
+  // }
 
-  changeItemsPerPage(value: number) {
-    this.itemsPerPage.set(value);
-    this.currentPage.set(1);
-  }
+  // changeItemsPerPage(value: number) {
+  //   this.itemsPerPage.set(value);
+  //   this.currentPage.set(1);
+  // }
 
   showDeleteDialog = false;
   showAddDialog = signal(false);
@@ -303,10 +323,11 @@ export class MerchantComponent {
     }
   }
   async addCategory() {
-    const body: any = { ...this.form.value };
+    const body: any = { ...this.form.value, isActive: true };
     if (this.uploadFiles) {
       body.store_img = this.uploadFiles;
     }
+    console.log(body);
     try {
       const res = await this.merchantService.create(body);
       if (res) {

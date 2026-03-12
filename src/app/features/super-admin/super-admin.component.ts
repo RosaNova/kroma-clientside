@@ -51,7 +51,7 @@ export class SuperAdmin implements OnInit, OnDestroy {
       children: [
         { icon: Package, label: 'ប្រភេទអាជីវកម្ម', route: '/super-admin/store-category' },
         { icon: Package, label: 'អាជីវកម្មទាំងអស់', route: '/super-admin/stores' },
-        { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '/super-admin/product-category' },
+        // { icon: Package, label: 'ប្រភេទទំនិញទាំងអស់', route: '/super-admin/product-category' },
       ],
     },
     {
@@ -63,11 +63,11 @@ export class SuperAdmin implements OnInit, OnDestroy {
         { icon: User, label: 'ថ្លៃបង់ភាគរយ', route: '/super-admin/commission' },
       ],
     },
-    {
-      icon: FileText,
-      label: 'របាយការណ៍',
-      children: [{ icon: Package, label: 'របាយការណ៍ទូទៅទាំងអស់', route: '/super-admin/report' }],
-    },
+    // {
+    //   icon: FileText,
+    //   label: 'របាយការណ៍',
+    //   children: [{ icon: Package, label: 'របាយការណ៍ទូទៅទាំងអស់', route: '/super-admin/report' }],
+    // },
     { icon: MessageSquareText, label: 'គ្រប់គ្រងមតិកែលម្អ', route: '/super-admin/feedback' },
     { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
@@ -78,14 +78,18 @@ export class SuperAdmin implements OnInit, OnDestroy {
     profile_url: 'assets/images/default-profile.png',
   };
 
-  constructor(private requestService: requestService, private router: Router, private userStateService: UserStateService) { }
+  constructor(
+    private requestService: requestService,
+    private router: Router,
+    private userStateService: UserStateService,
+  ) {}
   ngOnInit(): void {
     // Subscribe to centralized user state for instant profile updates
-    this.userSub = this.userStateService.currentUser$.subscribe(user => {
+    this.userSub = this.userStateService.currentUser$.subscribe((user) => {
       if (user) {
         this.sidebarUser = {
           fullname: user.fullname || '',
-          role: user.role === 'SUPER_ADMIN' ? 'Super Admin' : 'Merchant',
+          role: user.role,
           profile_url: user.profile_url || 'assets/images/default-profile.png',
         };
       }

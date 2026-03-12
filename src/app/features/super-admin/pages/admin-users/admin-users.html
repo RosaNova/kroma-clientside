@@ -52,7 +52,7 @@
         </button>
       </div>
     </div>
-    <table *ngIf="users.length > 0" class="w-full">
+    <table *ngIf="users().length > 0" class="w-full">
       <thead class="bg-muted/20 text-gray-500">
         <tr>
           <th class="p-2 text-center">ល.រ.</th>
@@ -63,13 +63,13 @@
           <th class="p-2 text-center">សកម្មភាព</th>
         </tr>
       </thead>
-      <tbody *ngIf="users.length > 0">
+      <tbody *ngIf="users().length > 0">
         <tr
-          *ngFor="let item of users; let i = index"
+          *ngFor="let item of users(); let i = index"
           class="border-t border-b border-gray-300 text-center"
         >
           <td class="p-2">{{ i + 1 }}</td>
-          <td class="p-2">{{ item.username }}</td>
+          <td class="p-2">{{ item.fullname }}</td>
           <td class="p-2 text-muted-foreground">{{ item.email }}</td>
           <td class="p-2 text-muted-foreground">{{ item.phone }}</td>
           <td class="p-2 text-muted-foreground">{{ item.createdAt | date: 'dd/MM/yyyy' }}</td>
@@ -94,7 +94,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="img flex flex-col justify-center items-center" *ngIf="users.length == 0">
+    <div class="img flex flex-col justify-center items-center" *ngIf="users().length == 0">
       <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
       <img
         class="w-50 h-50 object-contain"
@@ -102,11 +102,18 @@
         alt=""
       />
       <!-- </div> -->
-      <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
+      <h2 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h2>
     </div>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [length]="totalUsers()"
+      [pageSize]="pageSize"
+      (page)="changePage($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
     <!-- Pagination -->
-    <div class="p-4 flex items-center justify-end gap-4">
-      <!-- First / Previous -->
+    <!-- <div class="p-4 flex items-center justify-end gap-4">
       <div class="flex items-center gap-2">
         <button
           class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
@@ -125,7 +132,6 @@
         </button>
       </div>
 
-      <!-- Page info -->
       <div class="flex items-center gap-3">
         <select
           class="select select-neutral bg-white border"
@@ -141,8 +147,6 @@
           {{ startIndex() + 1 }}–{{ endIndex() }} of {{ filtered().length }}
         </span>
       </div>
-
-      <!-- Next / Last -->
       <div class="flex items-center gap-2">
         <button
           class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
@@ -160,7 +164,7 @@
           <lucide-angular [img]="ChevronsRight" class="w-4 h-4"></lucide-angular>
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 <!-- Create Admin form  -->
@@ -180,7 +184,7 @@
                 type="text"
                 placeholder="ឈ្មោះអ្នកប្រើប្រាស់"
                 class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="fullName"
+                formControlName="fullname"
               />
             </div>
             <div class="space-y-2.5">

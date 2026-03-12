@@ -39,6 +39,7 @@ import { DropZoneComponent } from '@/app/shared/components/ui/drop-zone/drop-zon
 import { isActive } from '@angular/router';
 import { StoreCategoriesService } from '../../service/store-categories-service';
 import { storeCategory } from '../../models/store-categories';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-store-categories',
   imports: [
@@ -49,6 +50,7 @@ import { storeCategory } from '../../models/store-categories';
     BoxDialogComponent,
     ReactiveFormsModule,
     DropZoneComponent,
+    MatPaginatorModule,
   ],
   templateUrl: './store-categories.html',
   styleUrl: './store-categories.css',
@@ -62,7 +64,9 @@ export class StoreCategories {
   BoxIcon = BoxIcon;
   Box = Box;
   ShoppingCart = ShoppingCart;
-  storeCategories: storeCategory[] = [];
+  storeCategories = signal<storeCategory[]>([]);
+  allStoreCategories = signal<storeCategory[]>([]);
+  totalStoreCategories = signal<number>(0);
   storeCategory: storeCategory = {} as storeCategory;
   Phone = Phone;
   Mail = Mail;
@@ -87,13 +91,14 @@ export class StoreCategories {
   name?: string;
   showViewDialog = false;
   searchTerm = signal('');
-  currentPage = signal(1);
-  itemsPerPage = signal(10);
+  currentPage = 0;
+  itemsPerPage = 5;
+  pageSize = 5;
   uploadFiles: any;
   storeId: string = '';
   form = new FormGroup({
     name: new FormControl(''),
-    des: new FormControl(''),
+    description: new FormControl(''),
     isActive: new FormControl(true),
   });
   constructor(
@@ -106,53 +111,64 @@ export class StoreCategories {
     try {
       const res = await this.storeCategoryService.getStoreCategories();
       if (res) {
-        this.storeCategories = res.list;
-        this.cdr.detectChanges();
+        this.allStoreCategories.set(res.list);
+        this.totalStoreCategories.set(res.list.length);
+        this.updateDisplayedStoreCategories();
       }
     } catch (e) {
       console.log(e);
     }
   }
-  filtered = computed(() =>
-    MOCK_PRODUCT_CATEGORIES.filter(
-      (c) =>
-        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c.id.toString().includes(this.searchTerm()),
-    ),
-  );
-
-  // Pagination
-  totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
-
-  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
-
-  endIndex = computed(() =>
-    Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
-  );
-
-  paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
-
-  // Navigation
-  goToFirst() {
-    this.currentPage.set(1);
+  updateDisplayedStoreCategories() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.storeCategories.set(this.allStoreCategories().slice(startIndex, endIndex));
   }
-
-  goToLast() {
-    this.currentPage.set(this.totalPages());
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedStoreCategories();
   }
+  // filtered = computed(() =>
+  //   MOCK_PRODUCT_CATEGORIES.filter(
+  //     (c) =>
+  //       c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+  //       c.id.toString().includes(this.searchTerm()),
+  //   ),
+  // );
 
-  prev() {
-    this.currentPage.update((p) => Math.max(p - 1, 1));
-  }
+  // // Pagination
+  // totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
 
-  next() {
-    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
-  }
+  // startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
-  changeItemsPerPage(value: number) {
-    this.itemsPerPage.set(value);
-    this.currentPage.set(1);
-  }
+  // endIndex = computed(() =>
+  //   Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
+  // );
+
+  // paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
+
+  // // Navigation
+  // goToFirst() {
+  //   this.currentPage.set(1);
+  // }
+
+  // goToLast() {
+  //   this.currentPage.set(this.totalPages());
+  // }
+
+  // prev() {
+  //   this.currentPage.update((p) => Math.max(p - 1, 1));
+  // }
+
+  // next() {
+  //   this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
+  // }
+
+  // changeItemsPerPage(value: number) {
+  //   this.itemsPerPage.set(value);
+  //   this.currentPage.set(1);
+  // }
 
   /* ---------- Delete ---------- */
   openDelete(name: string, id: string) {
@@ -187,7 +203,7 @@ export class StoreCategories {
       if (res) {
         this.form.patchValue({
           name: res.name,
-          des: res.des,
+          description: res.description,
           isActive: res.isActive,
         });
         this.storeCategory = res;
@@ -203,10 +219,9 @@ export class StoreCategories {
     if (inputKey != '') {
       const res = await this.storeCategoryService.search(inputKey);
       if (res.list) {
-        this.storeCategories = res.list;
-        this.cdr.detectChanges();
+        this.storeCategories.set(res.list);
       } else {
-        this.storeCategories = [];
+        this.storeCategories.set([]);
       }
     } else {
       await this.getList();
@@ -216,7 +231,7 @@ export class StoreCategories {
     this.showEditDialog = false;
     this.form.patchValue({
       name: '',
-      des: '',
+      description: '',
       isActive: true,
     });
   }
@@ -224,7 +239,7 @@ export class StoreCategories {
   async updateCategory() {
     const body = {
       name: this.form.get('name')?.value,
-      des: this.form.get('des')?.value,
+      description: this.form.get('description')?.value,
       isActive: this.form.get('isActive')?.value,
     };
     this.closeEdit();
@@ -251,7 +266,7 @@ export class StoreCategories {
     try {
       const body = {
         name: this.form.get('name')?.value,
-        des: this.form.get('des')?.value,
+        description: this.form.get('description')?.value,
         isActive: this.form.get('isActive')?.value,
         image: this.uploadFiles,
       };

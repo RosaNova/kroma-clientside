@@ -38,6 +38,7 @@ import { UserRole } from './models/role.enum';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { AdminUsersService } from './services/admin-users-service';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-admin-users',
   imports: [
@@ -51,6 +52,7 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
     DropZoneComponent,
     DeleteDialog,
     MatSnackBarModule,
+    MatPaginatorModule,
   ],
   templateUrl: './admin-users.html',
   styleUrls: ['./admin-users.css'],
@@ -84,9 +86,12 @@ export class AdminUsers {
 
   // State
   searchTerm = signal('');
-  currentPage = signal(1);
-  itemsPerPage = signal(10);
-  users: Merchant[] = [];
+  currentPage = 0;
+  itemsPerPage = 5;
+  pageSize = 5;
+  users = signal<Merchant[]>([]);
+  allUsers = signal<Merchant[]>([]);
+  totalUsers = signal<number>(0);
   showDeleteDialog = false;
   showAddDialog = signal(false);
   selectedName = '';
@@ -103,52 +108,63 @@ export class AdminUsers {
     try {
       const res = await this.adminUserService.getUsers();
       if (res) {
-        this.users = res.list;
-        this.cdr.detectChanges();
+        this.allUsers.set(res.list);
+        this.totalUsers.set(res.list.length!);
+        this.updateDisplayedUsers();
       }
     } catch (e) {
       console.log(e);
     }
   }
+  updateDisplayedUsers() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.users.set(this.allUsers().slice(startIndex, endIndex));
+  }
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedUsers();
+  }
   // Filter
-  filtered = computed(() =>
-    this.users.filter(
-      (c) =>
-        c.username.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c._id.toString().includes(this.searchTerm()),
-    ),
-  );
+  // filtered = computed(() =>
+  //   this.users.filter(
+  //     (c) =>
+  //       c.username.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+  //       c._id.toString().includes(this.searchTerm()),
+  //   ),
+  // );
 
   // Pagination
-  totalPages = computed(() => Math.max(Math.ceil(this.users.length / this.itemsPerPage()), 1));
+  // totalPages = computed(() => Math.max(Math.ceil(this.users.length / this.itemsPerPage()), 1));
 
-  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
+  // startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
-  endIndex = computed(() => Math.min(this.startIndex() + this.itemsPerPage(), this.users.length));
+  // endIndex = computed(() => Math.min(this.startIndex() + this.itemsPerPage(), this.users.length));
 
-  paginated = computed(() => this.users.slice(this.startIndex(), this.endIndex()));
+  // paginated = computed(() => this.users.slice(this.startIndex(), this.endIndex()));
 
-  // Navigation
-  goToFirst() {
-    this.currentPage.set(1);
-  }
+  // // Navigation
+  // goToFirst() {
+  //   this.currentPage.set(1);
+  // }
 
-  goToLast() {
-    this.currentPage.set(this.totalPages());
-  }
+  // goToLast() {
+  //   this.currentPage.set(this.totalPages());
+  // }
 
-  prev() {
-    this.currentPage.update((p) => Math.max(p - 1, 1));
-  }
+  // prev() {
+  //   this.currentPage.update((p) => Math.max(p - 1, 1));
+  // }
 
-  next() {
-    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
-  }
+  // next() {
+  //   this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
+  // }
 
-  changeItemsPerPage(value: number) {
-    this.itemsPerPage.set(value);
-    this.currentPage.set(1);
-  }
+  // changeItemsPerPage(value: number) {
+  //   this.itemsPerPage.set(value);
+  //   this.currentPage.set(1);
+  // }
 
   openAdd() {
     this.showAddDialog.set(true);
@@ -184,10 +200,9 @@ export class AdminUsers {
     if (inputKey != '') {
       const res = await this.adminUserService.searchUser(inputKey);
       if (res.list) {
-        this.users = res.list;
-        this.cdr.detectChanges();
+        this.users.set(res.list);
       } else {
-        this.users = [];
+        this.users.set([]);
       }
     } else {
       await this.getUsers();
@@ -197,7 +212,7 @@ export class AdminUsers {
   // Form
   uploadFiles: any;
   form = new FormGroup({
-    fullName: new FormControl(''),
+    fullname: new FormControl(''),
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),

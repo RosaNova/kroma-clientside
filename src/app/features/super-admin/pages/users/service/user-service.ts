@@ -11,4 +11,7 @@ export class UserService {
   getMany() {
     return lastValueFrom(this.requestService.getJSON(this.path));
   }
+  search(data: any) {
+    return lastValueFrom(this.requestService.getJSON(`${this.path}/search`, { q: data }));
+  }
 }

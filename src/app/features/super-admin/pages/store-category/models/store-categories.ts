@@ -1,7 +1,7 @@
 export interface storeCategory {
   _id: string;
   name: string;
-  des: string;
+  description: string;
   isActive: boolean;
   image: File;
   image_url?: string;
