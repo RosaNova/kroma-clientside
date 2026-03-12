@@ -6,8 +6,7 @@
       <p class="text-sm text-gray-500">គ្រប់គ្រងការបញ្ជាទិញរបស់អ្នក</p>
     </div>
     <button
-      class="flex items-center gap-2 px-4 py-2 rounded-xl cursor-pointer hover:bg-primary/80 duration-200 bg-primary text-white"
-    >
+      class="flex items-center gap-2 px-4 py-2 rounded-xl cursor-pointer hover:bg-primary/80 duration-200 bg-primary text-white">
       <lucide-icon [name]="Download" class="w-4 h-4" />
       នាំចេញ
     </button>
@@ -15,15 +14,8 @@
 
   <!-- Stats Cards -->
   <div class="grid grid-cols-1 m-6 md:grid-cols-2 pb-10 lg:grid-cols-4 gap-4">
-    <app-stat-card
-      *ngFor="let card of statCards"
-      [title]="card.title"
-      [value]="card.value"
-      [change]="card.change"
-      [changeType]="card.changeType"
-      [icon]="card.icon"
-      [variant]="card.variant"
-    >
+    <app-stat-card *ngFor="let card of statCards" [title]="card.title" [value]="card.value" [change]="card.change"
+      [changeType]="card.changeType" [icon]="card.icon" [variant]="card.variant">
     </app-stat-card>
   </div>
 
@@ -32,22 +24,14 @@
     <!-- Search & Filter -->
     <div class="flex gap-3 m-6 text-black">
       <div class="relative">
-        <lucide-angular
-          [img]="Search"
-          class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-        ></lucide-angular>
-        <input
-          type="text"
+        <lucide-angular [img]="Search"
+          class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-angular>
+        <input type="text"
           class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
-          placeholder="ស្វែងរក..."
-          (keyup)="onSearch($event)"
-        />
+          placeholder="ស្វែងរក..." (keyup)="onSearch($event)" />
       </div>
 
-      <select
-        (change)="onFilter($event)"
-        class="select bg-gray-200 w-32 rounded-xl outline-primary"
-      >
+      <select (change)="onFilter($event)" class="select bg-gray-200 w-32 rounded-xl outline-primary">
         <option value="">ទាំងអស់</option>
         <option value="completed">បានបញ្ចប់</option>
         <!-- <option value="processing">កំពុងដំណើរការ</option> -->
@@ -73,10 +57,7 @@
       </thead>
 
       <tbody>
-        <tr
-          *ngFor="let order of orderInfo(); let i = index"
-          class="border-t text-center hover:bg-muted/30"
-        >
+        <tr *ngFor="let order of orderInfo(); let i = index" class="border-t text-center hover:bg-muted/30">
           <td class="p-3 font-semibold text-primary">{{ i + 1 }}</td>
 
           <td class="p-3">
@@ -112,15 +93,10 @@
           </td>
 
           <td class="p-3">
-            <span
-              class="px-2.5 py-1 rounded-full text-xs border"
-              [class.bg-green-100]="order.status == 'completed'"
-              [class.text-green-700]="order.status == 'completed'"
-              [class.bg-orange-100]="order.status == 'pending'"
-              [class.text-orange-500]="order.status == 'pending'"
-              [class.bg-red-100]="order.status == 'canceled'"
-              [class.text-red-500]="order.status == 'canceled'"
-            >
+            <span class="px-2.5 py-1 rounded-full text-xs border" [class.bg-green-100]="order.status == 'completed'"
+              [class.text-green-700]="order.status == 'completed'" [class.bg-orange-100]="order.status == 'pending'"
+              [class.text-orange-500]="order.status == 'pending'" [class.bg-red-100]="order.status == 'canceled'"
+              [class.text-red-500]="order.status == 'canceled'">
               {{ order.status }}
             </span>
           </td>
@@ -141,13 +117,16 @@
         </tr>
       </tbody>
     </table>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      [length]="totalOrders()"
-      [pageSize]="pageSize"
-      (page)="changePage($event)"
-      showFirstLastButtons
-    >
+    <div class="img flex flex-col justify-center items-center" *ngIf="orderInfo().length == 0">
+      <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
+      <img class="w-50 h-50 object-contain"
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
+        alt="" />
+      <!-- </div> -->
+      <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalOrders()" [pageSize]="pageSize"
+      (page)="changePage($event)" showFirstLastButtons>
     </mat-paginator>
     <!-- <div class="p-5 border-t border-gray-500/50">
       <div class="flex items-center justify-between">

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { signal } from '@angular/core';
 import {
   LucideAngularModule,
   User,
@@ -34,12 +35,12 @@ export class AdminUsersDetail {
   KeyRound = KeyRound;
   CirclePercent = CirclePercent;
   Mail = Mail;
-  img_url: string = '';
+  img_url = signal<string>('');
   id: string = '';
   uploadFiles?: File;
   selectedImage: string = '';
   form = new FormGroup({
-    name: new FormControl(''),
+    fullname: new FormControl(''),
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
@@ -62,10 +63,9 @@ export class AdminUsersDetail {
     try {
       const res = await this.adminUserService.getUserById(id);
       if (res) {
-        console.log(res);
-        this.img_url = res.profile_url;
+        this.img_url.set(res.profile_url);
         this.form.patchValue({
-          name: res.name,
+          fullname: res.fullname,
           address: res.address,
           commission_rate: res.commission_rate,
           username: res.username,

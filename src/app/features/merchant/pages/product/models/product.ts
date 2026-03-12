@@ -9,6 +9,7 @@ export interface Product {
   category: Category;
   discount: number;
   description?: string;
+  price_after_discount: number;
 }
 
 export interface ProductGrouped {

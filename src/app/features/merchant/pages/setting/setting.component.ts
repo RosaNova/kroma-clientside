@@ -86,7 +86,7 @@ export class Setting {
   uploadFiles?: File;
   selectedImage: string = '';
   form = new FormGroup({
-    name: new FormControl(''),
+    fullname: new FormControl(''),
     username: new FormControl(''),
     // email: new FormControl(''),
     phone: new FormControl(''),
@@ -113,7 +113,7 @@ export class Setting {
         this.form.get('createdAt')?.disable();
         this.form.get('commission_rate')?.disable();
         this.form.patchValue({
-          name: res.name,
+          fullname: res.fullname,
           username: res.username,
           // email: res.email,
           phone: res.phone,

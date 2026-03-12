@@ -214,7 +214,6 @@ export class StoreCategories {
     }
   }
   async onSearch(event: KeyboardEvent) {
-    console.log(event);
     const inputKey = (event.target as HTMLInputElement).value;
     if (inputKey != '') {
       const res = await this.storeCategoryService.search(inputKey);

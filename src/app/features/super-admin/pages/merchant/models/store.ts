@@ -2,7 +2,7 @@ export interface Store {
   _id: string;
   name: string;
   merchant: Merchant;
-  store_type: string;
+  store_category: any;
   isActive: boolean;
   store_image?: File;
   image_url: string;

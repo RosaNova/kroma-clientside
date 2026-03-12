@@ -26,8 +26,8 @@ import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-di
 import { SUPER_ADMIN_USER_STATS } from '@/app/core/mocks/super-admin/users.mock';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
-import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
-import { LoadingService } from '@/app/core/services/loading.service';
+// import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
+// import { LoadingService } from '@/app/core/services/loading.service';
 import { AsyncPipe } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
@@ -40,8 +40,6 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
     RouterModule,
     DeleteDialog,
     MatSnackBarModule,
-    LoadingSpinner,
-    AsyncPipe,
     MatPaginatorModule,
   ],
   templateUrl: './users.component.html',
@@ -73,8 +71,8 @@ export class Users {
   users = signal<mobileUser[]>([]);
   allMobileUsers = signal<mobileUser[]>([]);
   totalMobileUsers = signal<number>(0);
-  private loadingService = inject(LoadingService);
-  isLoading$ = this.loadingService.isLoading$;
+  // private loadingService = inject(LoadingService);
+  // isLoading$ = this.loadingService.isLoading$;
   showDeleteDialog = false;
   selectedName = '';
   storeId: string = '';

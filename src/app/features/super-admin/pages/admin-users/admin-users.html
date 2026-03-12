@@ -1,14 +1,7 @@
 <div class="space-y-6 p-7">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <app-stat-card
-      *ngFor="let stat of ADMIN_USER_STATS"
-      [title]="stat.title"
-      [value]="stat.value"
-      [icon]="stat.icon"
-      [change]="stat.change"
-      [changeType]="stat.changeType"
-      [variant]="stat.variant"
-    ></app-stat-card>
+    <app-stat-card *ngFor="let stat of ADMIN_USER_STATS" [title]="stat.title" [value]="stat.value" [icon]="stat.icon"
+      [change]="stat.change" [changeType]="stat.changeType" [variant]="stat.variant"></app-stat-card>
     <!-- Table -->
   </div>
 
@@ -17,37 +10,25 @@
     <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
       <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអ្នកគ្រប់គ្រងប្រព័ន្ធ ( Admin Accounts )</h2>
       <div class="flex gap-2">
-        <button
-          type="button"
-          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
-        >
+        <button type="button"
+          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
           <lucide-angular [img]="Plus" class="w-4 h-4" />
           បញ្ចូលឯកសារ
         </button>
-        <button
-          type="button"
-          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
-        >
+        <button type="button"
+          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100">
           <lucide-angular [img]="FileUp"></lucide-angular>
           នាំចេញជាឯកសារ
         </button>
         <div class="relative">
-          <lucide-angular
-            [img]="Search"
-            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-          ></lucide-angular>
-          <input
-            type="text"
+          <lucide-angular [img]="Search"
+            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-angular>
+          <input type="text"
             class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
-            placeholder="ស្វែងរក..."
-            (keyup)="onSearch($event)"
-          />
+            placeholder="ស្វែងរក..." (keyup)="onSearch($event)" />
         </div>
-        <button
-          class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white"
-          type="button"
-          (click)="openAdd()"
-        >
+        <button class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white"
+          type="button" (click)="openAdd()">
           + បន្ថែមថ្មី
         </button>
       </div>
@@ -64,29 +45,21 @@
         </tr>
       </thead>
       <tbody *ngIf="users().length > 0">
-        <tr
-          *ngFor="let item of users(); let i = index"
-          class="border-t border-b border-gray-300 text-center"
-        >
+        <tr *ngFor="let item of users(); let i = index" class="border-t border-b border-gray-300 text-center">
           <td class="p-2">{{ i + 1 }}</td>
-          <td class="p-2">{{ item.fullname }}</td>
+          <td class="p-2">{{ item.fullname || item.username }}</td>
           <td class="p-2 text-muted-foreground">{{ item.email }}</td>
           <td class="p-2 text-muted-foreground">{{ item.phone }}</td>
           <td class="p-2 text-muted-foreground">{{ item.createdAt | date: 'dd/MM/yyyy' }}</td>
           <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
-            <button
-              type="button"
+            <button type="button"
               class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center"
-              (click)="openDelete(item.username, item._id)"
-            >
+              (click)="openDelete(item.username, item._id)">
               <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
               លុប
             </button>
-            <button
-              type="button"
-              routerLink="{{ item._id }}"
-              class="text-sky-400 px-3 rounded-[10px] bg-sky-50 border cursor-pointer flex items-center"
-            >
+            <button type="button" routerLink="{{ item._id }}"
+              class="text-sky-400 px-3 rounded-[10px] bg-sky-50 border cursor-pointer flex items-center">
               <lucide-angular [img]="Eye" class="w-4 h-4 mr-1"></lucide-angular>
               មើលព័ត៌មានលម្អិត
             </button>
@@ -96,21 +69,14 @@
     </table>
     <div class="img flex flex-col justify-center items-center" *ngIf="users().length == 0">
       <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
-      <img
-        class="w-50 h-50 object-contain"
+      <img class="w-50 h-50 object-contain"
         src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
-        alt=""
-      />
+        alt="" />
       <!-- </div> -->
       <h2 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h2>
     </div>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      [length]="totalUsers()"
-      [pageSize]="pageSize"
-      (page)="changePage($event)"
-      showFirstLastButtons
-    >
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalUsers()" [pageSize]="pageSize"
+      (page)="changePage($event)" showFirstLastButtons>
     </mat-paginator>
     <!-- Pagination -->
     <!-- <div class="p-4 flex items-center justify-end gap-4">
@@ -175,96 +141,59 @@
         <form class="p-2 space-y-3" [formGroup]="form">
           <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2.5">
-              <label
-                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-              >
+              <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                 <lucide-angular [img]="User" class="h-3 w-3" /> ឈ្មោះអ្នកប្រើប្រាស់ (Name)
               </label>
-              <input
-                type="text"
-                placeholder="ឈ្មោះអ្នកប្រើប្រាស់"
-                class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="fullname"
-              />
+              <input type="text" placeholder="ឈ្មោះអ្នកប្រើប្រាស់" class="input bg-gray-300 outline-gray-400 w-full"
+                formControlName="fullname" />
             </div>
             <div class="space-y-2.5">
-              <label
-                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-              >
+              <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                 <lucide-angular [img]="User" class="h-3 w-3" /> ឈ្មោះគណនី (Username)
               </label>
-              <input
-                type="text"
-                placeholder="ឈ្មោះគណនី"
-                class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="username"
-              />
+              <input type="text" placeholder="ឈ្មោះគណនី" class="input bg-gray-300 outline-gray-400 w-full"
+                formControlName="username" />
             </div>
           </div>
           <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2.5">
-              <label
-                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-              >
+              <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                 <lucide-angular [img]="Mail" class="h-3 w-3" /> អ៊ីមែល (Email)
               </label>
-              <input
-                placeholder="អ៊ីមែល"
-                class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="email"
-              />
+              <input placeholder="អ៊ីមែល" class="input bg-gray-300 outline-gray-400 w-full" formControlName="email" />
             </div>
             <div class="space-y-2.5">
               <label class="text-[13px] font-bold text-muted-foreground flex items-center gap-2">
                 <lucide-angular [img]="KeyRound" class="h-5 w-5" /> លេខសម្ងាត់
               </label>
-              <input
-                type="password"
-                placeholder="លេខសម្ងាត់"
-                class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="password"
-              />
+              <input type="password" placeholder="លេខសម្ងាត់" class="input bg-gray-300 outline-gray-400 w-full"
+                formControlName="password" />
             </div>
           </div>
 
           <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2.5">
-              <label
-                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-              >
+              <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                 <lucide-angular [img]="CirclePercent" class="h-3 w-3" /> ថ្លៃបង់ភាគរយ (Commission
                 Rate)
               </label>
-              <input
-                placeholder="ថ្លៃបង់ភាគរយ"
-                class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="commission_rate"
-              />
+              <input placeholder="ថ្លៃបង់ភាគរយ" class="input bg-gray-300 outline-gray-400 w-full"
+                formControlName="commission_rate" />
             </div>
             <div class="space-y-2.5">
               <label class="text-[13px] font-bold text-muted-foreground flex items-center gap-2">
                 <lucide-angular [img]="Phone" class="h-5 w-5" /> លេខទូរស័ព្ទ
               </label>
-              <input
-                type="text"
-                placeholder="លេខទូរស័ព្ទ"
-                class="input bg-gray-300 outline-gray-400 w-full"
-                formControlName="phone"
-              />
+              <input type="text" placeholder="លេខទូរស័ព្ទ" class="input bg-gray-300 outline-gray-400 w-full"
+                formControlName="phone" />
             </div>
           </div>
           <div class="space-y-2.5 w-full">
-            <label
-              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-            >
+            <label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
               <lucide-angular [img]="MapPinHouse" class="h-3 w-3" /> អាស័យដ្ឋាន (Address)
             </label>
-            <input
-              type="text"
-              placeholder="លេខទូរស័ព្ទ"
-              class="input bg-gray-300 outline-gray-400 w-full"
-              formControlName="address"
-            />
+            <input type="text" placeholder="លេខទូរស័ព្ទ" class="input bg-gray-300 outline-gray-400 w-full"
+              formControlName="address" />
           </div>
           <div class="space-y-2.5 w-full">
             <Label class="text-[13px] font-bold text-muted-foreground flex items-center gap-2">
@@ -275,17 +204,12 @@
           <div class="flex gap-2 float-end mt-5">
             <button
               class="px-3 cursor-pointer text-white flex justify-center items-center h-9 bg-red-700 hover:bg-red-700/90 text-[13px] font-battambang rounded-[10px]"
-              type="button"
-              (click)="closeAdd()"
-            >
+              type="button" (click)="closeAdd()">
               បោះបង់
             </button>
-            <button
-              type="button"
+            <button type="button"
               class="px-3 cursor-pointer text-white flex justify-center items-center h-9 bg-green-700 hover:bg-green-700/90 text-[13px] font-battambang rounded-[10px]"
-              (click)="onCreateUser()"
-              type="button"
-            >
+              (click)="onCreateUser()" type="button">
               បង្កើត
             </button>
           </div>
@@ -294,9 +218,5 @@
     </div>
   </div>
 </app-box-dialog>
-<app-delete-dialog
-  [open]="showDeleteDialog"
-  [name]="selectedName"
-  (cancel)="handleCancel()"
-  (confirm)="handleDelete()"
-></app-delete-dialog>
+<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
+  (confirm)="handleDelete()"></app-delete-dialog>

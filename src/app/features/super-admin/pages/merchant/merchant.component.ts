@@ -84,7 +84,7 @@ export class MerchantComponent {
   form = new FormGroup({
     name: new FormControl(''),
     merchant: new FormControl(''),
-    isActive: new FormControl(''),
+    isActive: new FormControl(true),
     store_category: new FormControl(''),
     lat: new FormControl(''),
     long: new FormControl(''),
@@ -124,7 +124,6 @@ export class MerchantComponent {
   pageSize = 5;
   constructor(
     private merchantService: MerchantService,
-    private cdr: ChangeDetectorRef,
     private adminUserService: AdminUsersService,
     private storeCategoriesService: StoreCategoriesService,
   ) {
@@ -253,11 +252,14 @@ export class MerchantComponent {
       this.showEditDialog = true;
       const res = await this.merchantService.getById(this.store_id);
       if (res) {
+        this.form.get('merchant')?.disable();
         this.form.patchValue({
           name: res.name,
           merchant: res.merchant._id,
           isActive: res.isActive,
           store_category: res.store_category,
+          lat: res.address.latitude,
+          long: res.address.longitude,
         });
         this.store.set(res);
       }
@@ -295,6 +297,14 @@ export class MerchantComponent {
 
   openAdd() {
     this.showAddDialog.set(true);
+    this.form.patchValue({
+      name: '',
+      merchant: '',
+      isActive: true,
+      store_category: '',
+      lat: '',
+      long: '',
+    });
   }
 
   closeAdd() {

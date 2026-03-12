@@ -6,7 +6,7 @@ import { lastValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class MerchantService {
-  path: string = '/api/merchants';
+  path: string = '/api/admins';
   constructor(private requestService: requestService) {}
   getUserDetail() {
     return lastValueFrom(this.requestService.getJSON(`${this.path}/get-detail`));

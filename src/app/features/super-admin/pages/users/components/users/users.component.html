@@ -1,28 +1,19 @@
-<ng-container *ngIf="isLoading$ | async as loading; else content">
+<!-- <ng-container *ngIf="isLoading$ | async as loading; else content">
   <app-loading-spinner *ngIf="loading"></app-loading-spinner>
-</ng-container>
+</ng-container> -->
+<div class="space-y-6 p-7">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <app-stat-card *ngFor="let stat of SUPER_ADMIN_USER_STATS" [title]="stat.title" [value]="stat.value"
+      [icon]="stat.icon" [change]="stat.change" [changeType]="stat.changeType" [variant]="stat.variant"></app-stat-card>
+    <!-- Table -->
+  </div>
 
-<ng-template #content>
-  <div class="space-y-6 p-7">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <app-stat-card
-        *ngFor="let stat of SUPER_ADMIN_USER_STATS"
-        [title]="stat.title"
-        [value]="stat.value"
-        [icon]="stat.icon"
-        [change]="stat.change"
-        [changeType]="stat.changeType"
-        [variant]="stat.variant"
-      ></app-stat-card>
-      <!-- Table -->
-    </div>
-
-    <!-- Table  -->
-    <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
-      <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
-        <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអ្នកប្រើប្រាស់ប្រព័ន្ធ ( User Accounts )</h2>
-        <div class="flex gap-2">
-          <!-- <button
+  <!-- Table  -->
+  <div class="bg-white text-black shadow rounded-2xl border border-gray-300 overflow-hidden">
+    <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
+      <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអ្នកប្រើប្រាស់ប្រព័ន្ធ ( User Accounts )</h2>
+      <div class="flex gap-2">
+        <!-- <button
             type="button"
             class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
           >
@@ -36,63 +27,48 @@
             <lucide-angular [img]="FileUp"></lucide-angular>
             នាំចេញជាឯកសារ
           </button> -->
-          <div class="relative">
-            <lucide-angular
-              [img]="Search"
-              class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-            ></lucide-angular>
-            <input
-              type="text"
-              class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
-              placeholder="ស្វែងរក..."
-              (keyup)="onSearch($event)"
-            />
-          </div>
+        <div class="relative">
+          <lucide-angular [img]="Search"
+            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-angular>
+          <input type="text"
+            class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+            placeholder="ស្វែងរក..." (keyup)="onSearch($event)" />
         </div>
       </div>
-      <table class="w-full">
-        <thead class="bg-muted/20 text-gray-500">
-          <tr>
-            <th class="p-2 text-center">ល.រ.</th>
-            <th class="p-2 text-center">ឈ្មោះអ្នកប្រើប្រាស់ប្រព័ន្ធ</th>
-            <th class="p-2 text-center">អ៊ីមែល</th>
-            <th class="p-2 text-center">លេខទូរស័ព្ទ</th>
-            <th class="p-2 text-center">ថ្ងៃបង្កើត</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="users().length > 0">
-          <tr
-            *ngFor="let item of users(); let i = index"
-            class="border-t border-b border-gray-300 text-center"
-          >
-            <td class="p-2">{{ i + 1 }}</td>
-            <td class="p-2">{{ item!.name }}</td>
-            <td class="p-2 text-muted-foreground">{{ item.email }}</td>
-            <td class="p-2 text-muted-foreground">{{ item.phone }}</td>
-            <td class="p-2 text-muted-foreground">{{ item.createdAt | date: 'dd/MM/yyyy' }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="img flex flex-col justify-center items-center" *ngIf="users().length == 0">
-        <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
-        <img
-          class="w-50 h-50 object-contain"
-          src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
-          alt=""
-        />
-        <!-- </div> -->
-        <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
-      </div>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20]"
-        [length]="totalMobileUsers()"
-        [pageSize]="pageSize"
-        (page)="changePage($event)"
-        showFirstLastButtons
-      >
-      </mat-paginator>
-      <!-- Pagination -->
-      <!-- <div class="p-4 flex items-center justify-end gap-4">
+    </div>
+    <table class="w-full">
+      <thead class="bg-muted/20 text-gray-500">
+        <tr>
+          <th class="p-2 text-center">ល.រ.</th>
+          <th class="p-2 text-center">ឈ្មោះអ្នកប្រើប្រាស់ប្រព័ន្ធ</th>
+          <th class="p-2 text-center">អ៊ីមែល</th>
+          <th class="p-2 text-center">លេខទូរស័ព្ទ</th>
+          <th class="p-2 text-center">ថ្ងៃបង្កើត</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="users().length > 0">
+        <tr *ngFor="let item of users(); let i = index" class="border-t border-b border-gray-300 text-center">
+          <td class="p-2">{{ i + 1 }}</td>
+          <td class="p-2">{{ item!.name }}</td>
+          <td class="p-2 text-muted-foreground">{{ item.email }}</td>
+          <td class="p-2 text-muted-foreground">{{ item.phone }}</td>
+          <td class="p-2 text-muted-foreground">{{ item.createdAt | date: 'dd/MM/yyyy' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="img flex flex-col justify-center items-center" *ngIf="users().length == 0">
+      <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
+      <img class="w-50 h-50 object-contain"
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
+        alt="" />
+      <!-- </div> -->
+      <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalMobileUsers()" [pageSize]="pageSize"
+      (page)="changePage($event)" showFirstLastButtons>
+    </mat-paginator>
+    <!-- Pagination -->
+    <!-- <div class="p-4 flex items-center justify-end gap-4">
         <div class="flex items-center gap-2">
           <button
             class="h-8 w-8 flex items-center justify-center rounded hover:bg-muted disabled:opacity-50"
@@ -143,12 +119,7 @@
           </button>
         </div>
       </div> -->
-    </div>
   </div>
-</ng-template>
-<app-delete-dialog
-  [open]="showDeleteDialog"
-  [name]="selectedName"
-  (cancel)="handleCancel()"
-  (confirm)="handleDelete()"
-></app-delete-dialog>
+</div>
+<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
+  (confirm)="handleDelete()"></app-delete-dialog>

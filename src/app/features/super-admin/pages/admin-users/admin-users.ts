@@ -219,7 +219,7 @@ export class AdminUsers {
     phone: new FormControl(''),
     address: new FormControl(''),
     commission_rate: new FormControl(''),
-    role: new FormControl(UserRole.ShopOwner),
+    role: new FormControl(UserRole.Merchant),
   });
 
   handleFiles(files: File[]) {

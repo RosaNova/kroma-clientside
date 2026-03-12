@@ -3,7 +3,7 @@ import { TableComponent } from '@/app/shared/components/table/table.component';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { CommonModule } from '@angular/common';
 import { Component, signal, computed, ViewChild } from '@angular/core';
-
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import {
   LucideAngularModule,
   Package,
@@ -100,6 +100,7 @@ const MOCK_CATEGORIES: any[] = [
     BoxDialogComponent,
     ReactiveFormsModule,
     FormsModule,
+    MatPaginatorModule,
   ],
   templateUrl: './product-category.component.html',
   styleUrls: ['./product-category.component.css'],
@@ -123,6 +124,8 @@ export class ProductCategory {
   ChevronsLeft = ChevronsLeft;
   ChevronsRight = ChevronsRight;
   categories = signal<Category[]>([]);
+  allCategories = signal<Category[]>([]);
+  totalCategories = signal<number>(0);
   form = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
@@ -130,8 +133,9 @@ export class ProductCategory {
   });
   // State
   searchTerm = signal('');
-  currentPage = signal(1);
-  itemsPerPage = signal(10);
+  currentPage = 0;
+  itemsPerPage = 5;
+  pageSize = 5;
   showAddDialog: boolean = false;
   showEditDialog: boolean = false;
   storeId: string = '';
@@ -142,53 +146,65 @@ export class ProductCategory {
     try {
       const res = await this.productService.getCategories();
       if (res) {
-        this.categories.set(res.list);
+        this.allCategories.set(res.list);
+        this.totalCategories.set(res.list.length!);
+        this.updateDisplayedCategories();
       }
     } catch (e) {
       console.log(e);
     }
   }
+  updateDisplayedCategories() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.categories.set(this.allCategories().slice(startIndex, endIndex));
+  }
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedCategories();
+  }
   // Filter
-  filtered = computed(() =>
-    MOCK_CATEGORIES.filter(
-      (c) =>
-        c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        c.id.toString().includes(this.searchTerm()),
-    ),
-  );
+  // filtered = computed(() =>
+  //   MOCK_CATEGORIES.filter(
+  //     (c) =>
+  //       c.name.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+  //       c.id.toString().includes(this.searchTerm()),
+  //   ),
+  // );
 
-  // Pagination
-  totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
+  // // Pagination
+  // totalPages = computed(() => Math.max(Math.ceil(this.filtered().length / this.itemsPerPage()), 1));
 
-  startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
+  // startIndex = computed(() => (this.currentPage() - 1) * this.itemsPerPage());
 
-  endIndex = computed(() =>
-    Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
-  );
+  // endIndex = computed(() =>
+  //   Math.min(this.startIndex() + this.itemsPerPage(), this.filtered().length),
+  // );
 
-  paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
+  // paginated = computed(() => this.filtered().slice(this.startIndex(), this.endIndex()));
 
-  // Navigation
-  goToFirst() {
-    this.currentPage.set(1);
-  }
+  // // Navigation
+  // goToFirst() {
+  //   this.currentPage.set(1);
+  // }
 
-  goToLast() {
-    this.currentPage.set(this.totalPages());
-  }
+  // goToLast() {
+  //   this.currentPage.set(this.totalPages());
+  // }
 
-  prev() {
-    this.currentPage.update((p) => Math.max(p - 1, 1));
-  }
+  // prev() {
+  //   this.currentPage.update((p) => Math.max(p - 1, 1));
+  // }
 
-  next() {
-    this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
-  }
+  // next() {
+  //   this.currentPage.update((p) => Math.min(p + 1, this.totalPages()));
+  // }
 
-  changeItemsPerPage(value: number) {
-    this.itemsPerPage.set(value);
-    this.currentPage.set(1);
-  }
+  // changeItemsPerPage(value: number) {
+  //   this.itemsPerPage.set(value);
+  //   this.currentPage.set(1);
+  // }
 
   showDeleteDialog = false;
   selectedName = '';
@@ -286,6 +302,9 @@ export class ProductCategory {
       } else {
         await this.getCategories();
       }
+      this.totalCategories.set(this.allCategories().length);
+      this.currentPage = 0;
+      this.updateDisplayedCategories();
     } catch (e) {
       console.log(e);
     }

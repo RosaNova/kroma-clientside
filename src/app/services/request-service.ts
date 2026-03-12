@@ -8,10 +8,9 @@ import { of, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class requestService {
-  
   private cache = new Map<string, any>();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
   private getAuthHeader(): HttpHeaders {
     const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
     const token = isBrowser ? window.localStorage.getItem('token') : null;
@@ -24,25 +23,12 @@ export class requestService {
   getUrl(path: string) {
     return environment.api_url + path;
   }
-  getJSON(path: string, data?: any, useCache: boolean = false) {
+  getJSON(path: string, data?: any) {
     const url = this.getUrl(path);
-    const cacheKey = url + (data ? JSON.stringify(data) : '');
-
-    if (useCache && this.cache.has(cacheKey)) {
-      return of(this.cache.get(cacheKey));
-    }
-
     let headers = this.getAuthHeader();
     headers = headers.set('Content-Type', 'application/json');
-    return this.httpClient.get<any>(url, { headers, params: data }).pipe(
-      tap(response => {
-        if (useCache) {
-          this.cache.set(cacheKey, response);
-        }
-      })
-    );
+    return this.httpClient.get<any>(url, { headers, params: data });
   }
-
   clearCache() {
     this.cache.clear();
   }

@@ -1,15 +1,8 @@
 <div class="space-y-6 p-7">
   <!-- Stat Cards -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-    <app-stat-card
-      *ngFor="let s of SUPER_ADMIN_MERCHANT_STATS"
-      [icon]="s.icon"
-      [variant]="s.variant"
-      [value]="s.value"
-      [title]="s.title"
-      [change]="s.change"
-      [changeType]="s.changeType"
-    >
+    <app-stat-card *ngFor="let s of SUPER_ADMIN_MERCHANT_STATS" [icon]="s.icon" [variant]="s.variant" [value]="s.value"
+      [title]="s.title" [change]="s.change" [changeType]="s.changeType">
     </app-stat-card>
   </div>
 
@@ -20,37 +13,25 @@
     <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
       <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីអាជីវកម្ម ( Merchant )</h2>
       <div class="flex gap-2">
-        <button
-          type="button"
-          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
-        >
+        <button type="button"
+          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
           <lucide-angular [img]="Plus" class="w-4 h-4" />
           បញ្ចូលឯកសារ
         </button>
-        <button
-          type="button"
-          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
-        >
+        <button type="button"
+          class="gap-2 cursor-pointer flex items-center border px-3 rounded-[10px] justify-center bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100">
           <lucide-angular [img]="FileUp"></lucide-angular>
           នាំចេញជាឯកសារ
         </button>
         <div class="relative">
-          <lucide-angular
-            [img]="Search"
-            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-          ></lucide-angular>
-          <input
-            type="text"
+          <lucide-angular [img]="Search"
+            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-angular>
+          <input type="text"
             class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
-            placeholder="ស្វែងរក..."
-            [value]="searchTerm()"
-            (input)="searchTerm.set($any($event.target).value)"
-          />
+            placeholder="ស្វែងរក..." [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
         </div>
-        <button
-          (click)="openAdd()"
-          class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white"
-        >
+        <button (click)="openAdd()"
+          class="px-3 rounded-[10px] hover:bg-emerald-500 cursor-pointer py-1 bg-emerald-600 text-white">
           + បន្ថែមថ្មី
         </button>
       </div>
@@ -60,55 +41,41 @@
         <tr>
           <th class="p-2 text-center">ល.រ</th>
           <th class="p-2 text-center">ឈ្មោះអាជីវកម្ម</th>
+          <th class="p-2 text-center">ប្រភេទអាជីវកម្ម</th>
           <th class="p-2 text-center">ម្ចាស់អាជីវកម្ម</th>
           <th class="p-2 text-center">ស្ថានភាព</th>
           <th class="p-2 text-center">សកម្មភាព</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let item of stores(); let i = index"
-          class="border-t border-b border-gray-300 text-center"
-        >
+        <tr *ngFor="let item of stores(); let i = index" class="border-t border-b border-gray-300 text-center">
           <td class="p-2">{{ i + 1 }}</td>
           <td class="p-2">{{ item.name }}</td>
+          <td class="p-2">{{ item.store_category.name }}</td>
           <td class="p-2">{{ item.merchant?.fullname }}</td>
           <td class="p-2">
-            <span
-              class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
-              [class.bg-green-100]="item.isActive"
-              [class.text-green-700]="item.isActive"
-              [class.bg-orange-100]="!item.isActive"
-              [class.text-orange-500]="!item.isActive"
-            >
-              <span
-                class="w-1.5 h-1.5 rounded-full inline-block"
-                [class.bg-green-700]="item.isActive"
-                [class.bg-orange-700]="!item.isActive"
-              ></span>
+            <span class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
+              [class.bg-green-100]="item.isActive" [class.text-green-700]="item.isActive"
+              [class.bg-orange-100]="!item.isActive" [class.text-orange-500]="!item.isActive">
+              <span class="w-1.5 h-1.5 rounded-full inline-block" [class.bg-green-700]="item.isActive"
+                [class.bg-orange-700]="!item.isActive"></span>
               <span class="text-[13px] font-bold">{{ item.isActive ? 'Active' : 'Inactive' }}</span>
             </span>
           </td>
 
           <td class="p-2 text-center flex items-center gap-5 justify-center space-x-1">
-            <button
-              (click)="openDelete(item.name, item._id)"
-              class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center"
-            >
+            <button (click)="openDelete(item.name, item._id)"
+              class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
               <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
               លុប
             </button>
-            <button
-              (click)="openView(item._id)"
-              class="text-orange-400 bg-orange-50 rounded-[10px] cursor-pointer border px-3 flex items-center"
-            >
+            <button (click)="openView(item._id)"
+              class="text-orange-400 bg-orange-50 rounded-[10px] cursor-pointer border px-3 flex items-center">
               <lucide-angular [img]="Eye" class="w-4 h-4 mr-1" />
               មើលលម្អិត
             </button>
-            <button
-              (click)="openEdit(item._id!)"
-              class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center"
-            >
+            <button (click)="openEdit(item._id!)"
+              class="text-emerald-400 px-3 rounded-[10px] bg-green-50 border cursor-pointer flex items-center">
               <lucide-angular [img]="Edit" class="w-4 h-4 mr-1"></lucide-angular>
               កែសម្រួល
             </button>
@@ -118,21 +85,14 @@
     </table>
     <div class="img flex flex-col justify-center items-center" *ngIf="stores().length == 0">
       <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
-      <img
-        class="w-50 h-50 object-contain"
+      <img class="w-50 h-50 object-contain"
         src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
-        alt=""
-      />
+        alt="" />
       <!-- </div> -->
       <h1 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h1>
     </div>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      [length]="totalStores()"
-      [pageSize]="pageSize"
-      (page)="changePage($event)"
-      showFirstLastButtons
-    >
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalStores()" [pageSize]="pageSize"
+      (page)="changePage($event)" showFirstLastButtons>
     </mat-paginator>
     <!-- Pagination -->
     <!-- <div class="p-4 w-full flex items-center justify-end gap-4">
@@ -190,12 +150,8 @@
 </div>
 
 <!-- Delete Dialog -->
-<app-delete-dialog
-  [open]="showDeleteDialog"
-  [name]="selectedName"
-  (cancel)="handleCancel()"
-  (confirm)="handleDelete()"
-></app-delete-dialog>
+<app-delete-dialog [open]="showDeleteDialog" [name]="selectedName" (cancel)="handleCancel()"
+  (confirm)="handleDelete()"></app-delete-dialog>
 
 <!-- Edit Dialog -->
 <app-box-dialog title="កែសម្រួលព័ត៌មានអាជីវកម្ម" [open]="showEditDialog" (close)="closeEdit()">
@@ -203,36 +159,23 @@
     <div class="space-y-4">
       <!-- Brand Name -->
       <div class="flex flex-col gap-2">
-        <label class="text-card-foreground font-medium"
-          >ឈ្មោះអាជីវកម្ម <span class="text-destructive">*</span></label
-        >
-        <input
-          type="text"
-          placeholder="ឈ្មោះអាជីវកម្ម"
-          formControlName="name"
-          class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
-        />
+        <label class="text-card-foreground font-medium">ឈ្មោះអាជីវកម្ម <span class="text-destructive">*</span></label>
+        <input type="text" placeholder="ឈ្មោះអាជីវកម្ម" formControlName="name"
+          class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full" />
       </div>
       <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >ឈ្មោះម្ចាស់អាជីវកម្ម <span class="text-destructive">*</span></label
-          >
-          <select
-            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
-            formControlName="merchant"
-          >
+          <label class="text-card-foreground font-medium">ឈ្មោះម្ចាស់អាជីវកម្ម <span
+              class="text-destructive">*</span></label>
+          <select class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+            formControlName="merchant">
             <option *ngFor="let item of merchants()" [value]="item._id">{{ item.fullname }}</option>
           </select>
         </div>
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >ថ្លៃដឹក <span class="text-destructive">*</span></label
-          >
-          <select
-            formControlName="is_delivery_fee"
-            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
-          >
+          <label class="text-card-foreground font-medium">ថ្លៃដឹក <span class="text-destructive">*</span></label>
+          <select formControlName="is_delivery_fee"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground">
             <option value="true">គិតលុយ</option>
             <option value="false">មិនគិតលុយ</option>
           </select>
@@ -242,26 +185,19 @@
       <!-- Status -->
       <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >ប្រភេទអាជីវកម្ម <span class="text-destructive">*</span></label
-          >
-          <select
-            formControlName="store_category"
-            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
-          >
+          <label class="text-card-foreground font-medium">ប្រភេទអាជីវកម្ម <span
+              class="text-destructive">*</span></label>
+          <select formControlName="store_category"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground">
             <option *ngFor="let item of storeCategories()" [value]="item._id">
               {{ item.name }}
             </option>
           </select>
         </div>
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >ស្ថានភាព <span class="text-destructive">*</span></label
-          >
-          <select
-            formControlName="isActive"
-            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
-          >
+          <label class="text-card-foreground font-medium">ស្ថានភាព <span class="text-destructive">*</span></label>
+          <select formControlName="isActive"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground">
             <option value="true">Active</option>
             <option value="false">Inactive</option>
           </select>
@@ -269,37 +205,23 @@
       </div>
       <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >រយៈទទឺង <span class="text-destructive">*</span></label
-          >
-          <input
-            type="text"
-            placeholder="រយៈទទឺង"
-            formControlName="lat"
-            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
-          />
+          <label class="text-card-foreground font-medium">រយៈទទឺង <span class="text-destructive">*</span></label>
+          <input type="text" placeholder="រយៈទទឺង" formControlName="lat"
+            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full" />
         </div>
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >រយៈបណ្តោយ <span class="text-destructive">*</span></label
-          >
-          <input
-            type="text"
-            placeholder="រយៈបណ្តោយ"
-            formControlName="long"
-            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
-          />
+          <label class="text-card-foreground font-medium">រយៈបណ្តោយ <span class="text-destructive">*</span></label>
+          <input type="text" placeholder="រយៈបណ្តោយ" formControlName="long"
+            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full" />
         </div>
       </div>
       <div class="space-y-2.5 w-full">
-        <Label
-          class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-        >
+        <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
           <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពប្រភេទអាជីវកម្ម (Store Category
           Image)
         </Label>
-        <!-- <app-drop-zone class="w-full" (filesAdded)="handleFiles($event)"
-          [isImageUrl]="store()?.image_url"></app-drop-zone> -->
+        <app-drop-zone class="w-full" (filesAdded)="handleFiles($event)"
+          [isImageUrl]="store()?.image_url"></app-drop-zone>
       </div>
 
       <!-- Footer -->
@@ -316,26 +238,17 @@
     <div class="space-y-4">
       <!-- Brand Name -->
       <div class="flex flex-col gap-2">
-        <label class="text-card-foreground font-medium"
-          >ឈ្មោះអាជីវកម្ម <span class="text-destructive">*</span></label
-        >
-        <input
-          type="text"
-          placeholder="ឈ្មោះអាជីវកម្ម"
-          formControlName="name"
-          class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
-        />
+        <label class="text-card-foreground font-medium">ឈ្មោះអាជីវកម្ម <span class="text-destructive">*</span></label>
+        <input type="text" placeholder="ឈ្មោះអាជីវកម្ម" formControlName="name"
+          class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full" />
       </div>
 
       <!-- Owner Name -->
       <div class="flex flex-col gap-2">
-        <label class="text-card-foreground font-medium"
-          >ឈ្មោះម្ចាស់អាជីវកម្ម <span class="text-destructive">*</span></label
-        >
-        <select
-          class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
-          formControlName="merchant"
-        >
+        <label class="text-card-foreground font-medium">ឈ្មោះម្ចាស់អាជីវកម្ម <span
+            class="text-destructive">*</span></label>
+        <select class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+          formControlName="merchant">
           <option *ngFor="let item of merchants()" [value]="item._id">{{ item.fullname }}</option>
         </select>
       </div>
@@ -364,26 +277,19 @@
       <!-- Status -->
       <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >ប្រភេទអាជីវកម្ម <span class="text-destructive">*</span></label
-          >
-          <select
-            formControlName="store_category"
-            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
-          >
+          <label class="text-card-foreground font-medium">ប្រភេទអាជីវកម្ម <span
+              class="text-destructive">*</span></label>
+          <select formControlName="store_category"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground">
             <option *ngFor="let item of storeCategories()" [value]="item._id">
               {{ item.name }}
             </option>
           </select>
         </div>
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >ថ្លៃដឹក <span class="text-destructive">*</span></label
-          >
-          <select
-            formControlName="is_delivery_fee"
-            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
-          >
+          <label class="text-card-foreground font-medium">ថ្លៃដឹក <span class="text-destructive">*</span></label>
+          <select formControlName="is_delivery_fee"
+            class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground">
             <option value="true">គិតលុយ</option>
             <option value="false">មិនគិតលុយ</option>
           </select>
@@ -391,32 +297,18 @@
       </div>
       <div class="grid grid-cols-2 gap-2">
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >រយៈទទឺង <span class="text-destructive">*</span></label
-          >
-          <input
-            type="text"
-            placeholder="រយៈទទឺង"
-            formControlName="lat"
-            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
-          />
+          <label class="text-card-foreground font-medium">រយៈទទឺង <span class="text-destructive">*</span></label>
+          <input type="text" placeholder="រយៈទទឺង" formControlName="lat"
+            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full" />
         </div>
         <div class="flex flex-col gap-2">
-          <label class="text-card-foreground font-medium"
-            >រយៈបណ្តោយ <span class="text-destructive">*</span></label
-          >
-          <input
-            type="text"
-            placeholder="រយៈបណ្តោយ"
-            formControlName="long"
-            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full"
-          />
+          <label class="text-card-foreground font-medium">រយៈបណ្តោយ <span class="text-destructive">*</span></label>
+          <input type="text" placeholder="រយៈបណ្តោយ" formControlName="long"
+            class="input border border-gray-300 placeholder:text-gray-400 bg-input/10 text-foreground input-bordered w-full" />
         </div>
       </div>
       <div class="space-y-2.5 w-full">
-        <Label
-          class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
-        >
+        <Label class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
           <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពប្រភេទអាជីវកម្ម (Store Category
           Image)
         </Label>
@@ -437,17 +329,11 @@
     <!-- Header: Brand & Profile -->
     <div class="flex items-center gap-6 p-4 bg-gray-50 rounded-2xl border border-gray-100">
       <div class="relative">
-        <img
-          [src]="detailInfo()?.store_img"
-          alt="Brand"
-          class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow-sm"
-        />
+        <img [src]="detailInfo()?.store_img" alt="Brand"
+          class="w-30 h-30 rounded-2xl object-cover border-2 border-white shadow-sm" />
         <div class="absolute -bottom-2 -right-2 bg-white p-1 rounded-full shadow-md">
-          <img
-            [src]="detailInfo()?.merchant_profile"
-            alt="Owner"
-            class="w-8 h-8 rounded-full border border-gray-100"
-          />
+          <img [src]="detailInfo()?.merchant_profile" alt="Owner"
+            class="w-15 h-15 rounded-full border border-gray-100 object-contain" />
         </div>
       </div>
       <div class="flex-1">
@@ -466,13 +352,9 @@
           >
             {{ selectedMerchant.status }}
           </span> -->
-          <span
-            class="px-2 py-0.5 rounded-lg text-xs font-semibold uppercase tracking-wider"
-            [class.bg-green-100]="detailInfo()?.isActive"
-            [class.text-green-700]="detailInfo()?.isActive"
-            [class.bg-orange-100]="!detailInfo()?.isActive"
-            [class.text-orange-500]="!detailInfo()?.isActive"
-          >
+          <span class="px-2 py-0.5 rounded-lg text-xs font-semibold uppercase tracking-wider"
+            [class.bg-green-100]="detailInfo()?.isActive" [class.text-green-700]="detailInfo()?.isActive"
+            [class.bg-orange-100]="!detailInfo()?.isActive" [class.text-orange-500]="!detailInfo()?.isActive">
             {{ detailInfo()?.isActive }}
           </span>
           <div class="flex items-center gap-1 ml-2 text-yellow-500">
@@ -562,10 +444,8 @@
           <p class="text-lg font-bold">${{ detailInfo()?.commission_paid | number }}</p>
         </div>
       </div>
-      <button
-        (click)="closeView()"
-        class="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-bold transition-all"
-      >
+      <button (click)="closeView()"
+        class="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-bold transition-all">
         Close
       </button>
     </div>
