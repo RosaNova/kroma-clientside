@@ -96,7 +96,8 @@ export class Setting {
   });
   formUpdatePass = new FormGroup({
     email: new FormControl(''),
-    password: new FormControl(''),
+    oldPass: new FormControl(''),
+    newPass: new FormControl(''),
   });
   user = signal<SettingInfo>({} as any);
   constructor(
@@ -171,9 +172,12 @@ export class Setting {
       ...this.formUpdatePass.value,
     };
     try {
-      const res = await this.merchantService.updateInfo(this.storeUserId, body);
+      const res = await this.merchantService.updatePassword(this.storeUserId, body);
       if (res) {
-        this.formUpdatePass.controls.password.patchValue('');
+        this.formUpdatePass.patchValue({
+          oldPass: '',
+          newPass: '',
+        });
         this.snackBar.open('User updated successfully!', 'OK', { duration: 2000 });
       }
     } catch (e) {

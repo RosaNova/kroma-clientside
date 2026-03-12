@@ -19,6 +19,9 @@ export class MerchantService {
       this.requestService.patchFormData(`${this.path}/update-profile/${id}`, data),
     );
   }
+  updatePassword(id: string, data: any) {
+    return lastValueFrom(this.requestService.patchJSON(`${this.path}/update-password/${id}`, data));
+  }
   getOrder(data?: any) {
     return lastValueFrom(this.requestService.getJSON(`${this.path}/order-info`, data));
   }
