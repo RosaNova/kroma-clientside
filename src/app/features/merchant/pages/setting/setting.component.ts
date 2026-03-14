@@ -28,7 +28,7 @@ import { SettingInfo } from './models/setting';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-setting',
-  imports: [CommonModule, FormsModule, LucideAngularModule, ReactiveFormsModule, DatePipe],
+  imports: [CommonModule, FormsModule, LucideAngularModule, ReactiveFormsModule],
   providers: [DatePipe],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.css',

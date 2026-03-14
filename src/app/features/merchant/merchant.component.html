@@ -1,7 +1,12 @@
-<div class="flex  min-h-screen bg-background">
+<div class="flex min-h-screen bg-background">
   <app-sidebar [user]="sidebarUser" [navbar]="navItems" [onLogout]="logout.bind(this)"></app-sidebar>
-  <main class="flex-1 ml-64">
+  <main class="flex-1 ml-64 relative">
     <kr-header [title]="title" [subtitle]="subtitle" [date]="today"></kr-header>
+
+    <div *ngIf="(isLoading$ | async)" class="absolute inset-0 z-50 bg-white/70 backdrop-blur-[1px]">
+      <app-loading-spinner message="កំពុងដំណើរការ..."></app-loading-spinner>
+    </div>
+
     <router-outlet></router-outlet>
   </main>
 </div>

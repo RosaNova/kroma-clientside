@@ -1,5 +1,5 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
-import { NavigationEnd, RouterOutlet } from '@angular/router';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import {
   LayoutDashboard,
   LucideAngularModule,
@@ -8,20 +8,22 @@ import {
   MessageSquareText,
   FileText,
   Settings,
-  User,
 } from 'lucide-angular';
-import { SidebarComponent } from '@/app/shared/components/sidebar/sidebar.component';
-import { UserDashboradAccount } from '@/app/shared/components/sidebar/sidebar.component';
-import { KrHeader } from '@/app/shared/components/kr-header/kr-header.component';
 import localeKm from '@angular/common/locales/km';
-import { registerLocaleData } from '@angular/common';
-registerLocaleData(localeKm);
-import { UserStateService } from '@/app/core/services/user-state.service';
+import { CommonModule, AsyncPipe, registerLocaleData } from '@angular/common';
+import { Subscription } from 'rxjs';
 
-import { title } from 'process';
-import { AuthService } from '@/app/shared/authentication/services/auth-service';
-import { filter, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import {
+  SidebarComponent,
+  UserDashboradAccount,
+} from '@/app/shared/components/sidebar/sidebar.component';
+import { KrHeader } from '@/app/shared/components/kr-header/kr-header.component';
+import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
+import { UserStateService } from '@/app/core/services/user-state.service';
+import { LoadingService } from '@/app/core/services/loading.service';
+
+registerLocaleData(localeKm);
+
 interface NavItem {
   icon: any;
   label: string;
@@ -29,34 +31,31 @@ interface NavItem {
   children?: NavItem[];
   isOpen?: boolean;
 }
+
 @Component({
   standalone: true,
   selector: 'app-merchant',
-  imports: [RouterOutlet, LucideAngularModule, KrHeader, SidebarComponent],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    RouterOutlet,
+    LucideAngularModule,
+    KrHeader,
+    SidebarComponent,
+    LoadingSpinner,
+  ],
   templateUrl: './merchant.component.html',
   styleUrls: ['./merchant.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class Merchant implements OnInit, OnDestroy {
   private userSub!: Subscription;
-  constructor(private router: Router, private userStateService: UserStateService) { }
+  private userStateService = inject(UserStateService);
+  private loadingService = inject(LoadingService);
 
-  ngOnInit(): void {
-    // Subscribe to centralized user state for instant profile updates
-    this.userSub = this.userStateService.currentUser$.subscribe(user => {
-      if (user) {
-        this.sidebarUser = {
-          fullname: user.fullname || '',
-          role: user.role === 'SUPER_ADMIN' ? 'Super Admin' : 'Merchant',
-          profile_url: user.profile_url || 'assets/images/default-profile.png',
-        };
-      }
-    });
-  }
+  // API-loading state from global loading service (interceptor-driven)
+  isLoading$ = this.loadingService.isLoading$;
 
-  ngOnDestroy(): void {
-    this.userSub?.unsubscribe();
-  }
   navItems: NavItem[] = [
     {
       icon: LayoutDashboard,
@@ -66,19 +65,15 @@ export class Merchant implements OnInit, OnDestroy {
     {
       icon: Package,
       label: 'ផលិតផល',
-
       children: [
         { label: 'ផលិតផលទាំងអស់', route: '/merchant/product', icon: '' },
         { label: 'បន្ថែមផលិតផល', route: '/merchant/product/addproduct', icon: '' },
         { label: 'ប្រភេទផលិតផល', route: '/merchant/product/productcategory', icon: '' },
-        // { label: 'អស់ស្តុក', route: '/merchant/product/productoutstock', icon: '' },
-        // { label: 'បញ្ចុះតម្លៃ & គូប៉ុង', route: '/merchant/product/productdiscount', icon: '' },
       ],
     },
     { icon: ShoppingCart, label: 'ការបញ្ជាទិញ', route: 'order' },
     { icon: FileText, label: 'របាយការណ៍', route: 'report' },
     { icon: MessageSquareText, label: 'មតិកែលម្អ', route: 'feedback' },
-    // { icon: User, label: 'គ្រប់គ្រងអ្នកប្រើប្រាស់ប្រព័ន្ធ', route: 'users' },
     { icon: Settings, label: 'ការកំណត់', route: '/merchant/setting' },
   ];
 
@@ -92,6 +87,24 @@ export class Merchant implements OnInit, OnDestroy {
   subtitle = 'សូមស្វាគមន៍មកកាន់ Krama Dashboard';
   today = new Date();
   notificationCount = 10;
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.userSub = this.userStateService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.sidebarUser = {
+          fullname: user.fullname || '',
+          role: user.role === 'SUPER_ADMIN' ? 'Super Admin' : 'Merchant',
+          profile_url: user.profile_url || 'assets/images/default-profile.png',
+        };
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
+  }
 
   logout(): void {
     try {
