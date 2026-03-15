@@ -25,8 +25,6 @@ import { StatCardType } from '@/app/core/models/ui.types';
     StatCard,
     SaleChart,
     CategoryChart,
-    LoadingSpinner,
-    AsyncPipe,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
