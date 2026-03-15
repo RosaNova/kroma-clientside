@@ -74,6 +74,8 @@ export class Commissions {
       const res = await this.merchantService.getCommissions();
       if (res) {
         this.allCommissions.set(res.list);
+        this.totalCommissions.set(res.list.length!);
+        this.updateDisplayedCommissions();
       }
     } catch (e) {
       console.log(e);

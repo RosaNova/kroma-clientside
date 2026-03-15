@@ -62,6 +62,10 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         path: 'commission',
         loadChildren: () => import('./pages/commissions/commission.route').then((r) => r.routes),
       },
+      {
+        path: 'advertising',
+        loadChildren: () => import('./pages/advertising/advertising.route').then((r) => r.routes),
+      },
     ],
   },
 ];

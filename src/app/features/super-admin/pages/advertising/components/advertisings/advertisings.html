@@ -1,0 +1,213 @@
+<div class="space-y-6 p-7 font-battambang">
+  <div>
+    <h1 class="text-2xl font-black text-gray-900 tracking-tight">
+      ការគ្រប់គ្រងការផ្សាយពាណិជ្ជកម្ម
+    </h1>
+    <p class="text-sm text-gray-500 font-medium">ផ្ទាំងពាណិជ្ជកម្មដែលដាក់លើ Mobile App</p>
+  </div>
+  <div class="bg-white text-black rounded-2xl border border-gray-300 overflow-hidden">
+    <div class="p-4 border-b border-gray-300 flex justify-between items-center gap-4">
+      <h2 class="text-lg font-bold">តារាងបង្ហាញអំពីផ្ទាំងពាណិជ្ជកម្ម (Advertising)</h2>
+      <div class="flex gap-2">
+        <!-- <div class="relative">
+          <lucide-angular
+            [img]="Search"
+            class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+          ></lucide-angular>
+          <input
+            type="text"
+            class="bg-gray-200 text-black pl-10 pr-4 py-2 rounded-xl text-sm w-64 focus:outline-2 focus:outline-blue-700"
+            placeholder="ស្វែងរក..."
+          />
+        </div> -->
+        <button
+          class="btn border-0 rounded-xl bg-emerald-700 flex gap-2"
+          type="button"
+          (click)="openAddDialog()"
+        >
+          + បន្ថែមថ្មី
+        </button>
+      </div>
+    </div>
+    <table class="w-full">
+      <thead class="bg-muted/20 text-gray-500">
+        <tr>
+          <th class="p-2 text-center">ល.រ</th>
+          <th class="p-2 text-center">រូបភាពពាណិជ្ជកម្ម</th>
+          <th class="p-2 text-center">ការបរិយាយ</th>
+          <th class="p-2 text-center">ឈ្មោះហាង</th>
+          <th class="p-2 text-center">ស្ថានភាព</th>
+          <th class="p-2 text-center">សកម្មភាព</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of ads(); let i = index"
+          class="border-t border-b border-gray-300 text-center"
+        >
+          <td class="p-2">{{ i + 1 }}</td>
+          <td class="p-2">
+            <div class="flex justify-center items-center">
+              <img class="w-20 h-20 object-contain" [src]="item.ad_img" alt="" />
+            </div>
+          </td>
+          <td class="p-2 max-w-[100px] truncate">{{ item.description }}</td>
+          <td class="p-2">{{ item.store.name }}</td>
+          <td class="p-2">
+            <span
+              class="px-3 rounded-[10px] text-xs border inline-flex items-center gap-1"
+              [class.bg-green-100]="item.isActive"
+              [class.text-green-700]="item.isActive"
+              [class.bg-orange-100]="!item.isActive"
+              [class.text-orange-500]="!item.isActive"
+            >
+              <span
+                class="w-1.5 h-1.5 rounded-full inline-block"
+                [class.bg-green-700]="item.isActive"
+                [class.bg-orange-700]="!item.isActive"
+              ></span>
+              <span class="text-[13px] font-bold">{{ item.isActive ? 'Active' : 'Inactive' }}</span>
+            </span>
+          </td>
+          <td class="p-2">
+            <div class="flex justify-center items-center space-x-2">
+              <button
+                type="button"
+                class="text-red-400 bg-red-50 rounded-[10px] cursor-pointer border px-3 py-1 flex items-center"
+                (click)="openDeleteDialog(item._id)"
+              >
+                <lucide-angular [img]="Trash2" class="w-4 h-4 mr-1" />
+                លុប
+              </button>
+              <button
+                type="button"
+                routerLink="{{ item._id }}"
+                class="text-sky-400 px-3 rounded-[10px] bg-sky-50 border cursor-pointer flex items-center py-1"
+              >
+                <lucide-angular [img]="Eye" class="w-4 h-4 mr-1"></lucide-angular>
+                មើលព័ត៌មានលម្អិត
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="img flex flex-col justify-center items-center" *ngIf="ads().length == 0">
+      <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
+      <img
+        class="w-50 h-50 object-contain"
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
+        alt=""
+      />
+      <!-- </div> -->
+      <h3 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h3>
+    </div>
+    <br />
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [length]="totalAds()"
+      [pageSize]="pageSize"
+      (page)="changePage($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+    <app-box-dialog
+      title="កែសម្រួលព័ត៌មានអាជីវកម្ម"
+      [open]="showConfirmDialog"
+      (close)="closeDialog()"
+    >
+      <div class="space-y-4">
+        <p class="text-gray-500 text-center p-6 text-[15px] pt-2 pb-5">
+          តើអ្នកពិតជាចង់លុបកំណត់ថាគាត់បានបង់ប្រាក់រួចហើយមែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
+        </p>
+        <div class="flex justify-end pt-2">
+          <button class="btn btn-primary rounded-2xl">បាទ/ចាស</button>
+        </div>
+      </div>
+    </app-box-dialog>
+  </div>
+</div>
+<app-box-dialog title="បង្កើតអ្នកគ្រប់គ្រងប្រព័ន្ធ" [open]="showAddDialog" (close)="closeAdd()">
+  <div class="max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-1000">
+    <div class="grid grid-cols-1 text-gray-700 lg:grid-cols-[1fr,300px] gap-8">
+      <div class="w-full">
+        <form class="p-2 space-y-3" [formGroup]="form">
+          <div class="space-y-2.5 w-full">
+            <Label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="Package" class="h-3 w-3" /> រូបភាពផ្ទាំងពាណិជ្ជកម្ម
+            </Label>
+            <app-drop-zone class="w-full" (filesAdded)="onFileChange($event)"></app-drop-zone>
+          </div>
+          <div class="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2.5 w-full">
+              <label
+                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+              >
+                <lucide-angular [img]="Package" class="h-3 w-3" /> ស្ថានភាព (isActive)
+              </label>
+              <select
+                formControlName="isActive"
+                class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+              >
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+            <div class="space-y-2.5 w-full">
+              <label
+                class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+              >
+                <lucide-angular [img]="Package" class="h-3 w-3" /> ហាង
+              </label>
+              <select
+                formControlName="store"
+                class="select border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+              >
+                @for (item of stores(); track $index) {
+                  <option [value]="item._id">{{ item.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="space-y-2.5 w-full">
+            <label
+              class="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2"
+            >
+              <lucide-angular [img]="Package" class="h-3 w-3" /> ការិយាយ (Description)
+            </label>
+            <textarea
+              placeholder="Description"
+              formControlName="description"
+              class="textarea border border-gray-300 placeholder:text-gray-400 w-full bg-white text-foreground"
+            ></textarea>
+          </div>
+          <div class="flex gap-2 float-end mt-5">
+            <button
+              class="px-3 cursor-pointer text-white flex justify-center items-center h-9 bg-red-700 hover:bg-red-700/90 text-[13px] font-battambang rounded-[10px]"
+              type="button"
+              (click)="closeAdd()"
+            >
+              បោះបង់
+            </button>
+            <button
+              type="button"
+              class="px-3 cursor-pointer text-white flex justify-center items-center h-9 bg-green-700 hover:bg-green-700/90 text-[13px] font-battambang rounded-[10px]"
+              type="button"
+              (click)="onCreate()"
+            >
+              បង្កើត
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</app-box-dialog>
+<app-delete-dialog
+  [open]="showDeleteDialog"
+  [name]="selectedName"
+  (cancel)="cancelDelete()"
+  (confirm)="handleDelete()"
+></app-delete-dialog>

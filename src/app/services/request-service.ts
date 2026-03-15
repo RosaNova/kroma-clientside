@@ -2,7 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from '../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
-import { of, tap } from 'rxjs';
+import { finalize, of, tap } from 'rxjs';
+import { RequestParam } from '../models/request-param';
+import { LoadingService } from './loading-service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,7 @@ import { of, tap } from 'rxjs';
 export class requestService {
   private cache = new Map<string, any>();
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private loadingService: LoadingService) { }
   private getAuthHeader(): HttpHeaders {
     const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
     const token = isBrowser ? window.localStorage.getItem('token') : null;
@@ -23,46 +25,77 @@ export class requestService {
   getUrl(path: string) {
     return environment.api_url + path;
   }
-  getJSON(path: string, data?: any) {
+  getJSON(path: string, requestParam: RequestParam = {}) {
     const url = this.getUrl(path);
+    if (requestParam.isLoading) {
+      this.loadingService.setLoading(true);
+    }
     let headers = this.getAuthHeader();
     headers = headers.set('Content-Type', 'application/json');
-    return this.httpClient.get<any>(url, { headers, params: data });
+    return this.httpClient.get<any>(url, { headers, params: requestParam.data }).pipe(
+      finalize(() => this.finalizeRequest(requestParam.isLoading)),
+    );
   }
   clearCache() {
     this.cache.clear();
   }
-  postJSON(path: string, data: any) {
+  postJSON(path: string, requestParam: RequestParam = {}) {
     const url = this.getUrl(path);
+    if (requestParam.isLoading) {
+      this.loadingService.setLoading(true);
+    }
+    console.log(requestParam.data)
     let headers = this.getAuthHeader();
     headers = headers.set('Content-Type', 'application/json');
-    return this.httpClient.post<any>(url, data, { headers });
+    return this.httpClient.post<any>(url, requestParam.data, { headers }).pipe(
+      finalize(() => this.finalizeRequest(requestParam.isLoading)),
+    );;
   }
-  patchJSON(path: string, data: any) {
+  patchJSON(path: string, requestParam: RequestParam = {}) {
     const url = this.getUrl(path);
+    if (requestParam.isLoading) {
+      this.loadingService.setLoading(true);
+    }
     let headers = this.getAuthHeader();
     headers = headers.set('Content-Type', 'application/json');
-    return this.httpClient.patch<any>(url, data, { headers });
+    return this.httpClient.patch<any>(url, requestParam.data, { headers }).pipe(
+      finalize(() => this.finalizeRequest(requestParam.isLoading)),
+    );
   }
-  deleteJSON(path: string) {
+  deleteJSON(path: string, requestParam: RequestParam = {}) {
     const url = this.getUrl(path);
+    if (requestParam.isLoading) {
+      this.loadingService.setLoading(true);
+    }
     let headers = this.getAuthHeader();
     headers = headers.set('Content-Type', 'application/json');
-    return this.httpClient.delete<any>(url, { headers });
+    return this.httpClient.delete<any>(url, { headers }).pipe(
+      finalize(() => this.finalizeRequest(requestParam.isLoading)),
+    );
   }
-  postFormData(path: string, data: any) {
+  postFormData(path: string, requestParam: RequestParam = {}) {
     const url = this.getUrl(path);
+    if (requestParam.isLoading) {
+      this.loadingService.setLoading(true);
+    }
     let headers = this.getAuthHeader();
     // Do NOT manually set Content-Type for FormData - the browser will set the correct boundary
-    data = this.toFormData(data);
-    return this.httpClient.post<any>(url, data, { headers });
+    const data = this.toFormData(requestParam.data);
+    return this.httpClient.post<any>(url, data, { headers }).pipe(
+      finalize(() => this.finalizeRequest(requestParam.isLoading)),
+    );
   }
-  patchFormData(path: string, data: any) {
+  patchFormData(path: string, requestParam: RequestParam = {}) {
     const url = this.getUrl(path);
+    if (requestParam.isLoading) {
+      this.loadingService.setLoading(true);
+    }
     let headers = this.getAuthHeader();
     // Do NOT manually set Content-Type for FormData - the browser will set the correct boundary
-    data = this.toFormData(data);
-    return this.httpClient.patch<any>(url, data, { headers });
+    const data = this.toFormData(requestParam.data);
+    return this.httpClient.patch<any>(url, data, { headers }).pipe(
+      finalize(() => this.finalizeRequest(requestParam.isLoading)),
+    );
   }
   private toFormData(formValue: any) {
     if (formValue instanceof FormData) {
@@ -83,5 +116,10 @@ export class requestService {
       formData.append(key, formValue[key]);
     }
     return formData;
+  }
+  private finalizeRequest(is_loading?: boolean) {
+    if (is_loading) {
+      this.loadingService.setLoading(false);
+    }
   }
 }

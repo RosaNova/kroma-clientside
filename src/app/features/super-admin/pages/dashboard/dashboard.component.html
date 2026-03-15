@@ -1,84 +1,87 @@
-<ng-container *ngIf="(isLoading$ | async) as loading; else content">
-    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
-</ng-container>
+<!-- <ng-container *ngIf="isLoading$ | async as loading; else content">
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+</ng-container> -->
 
-<ng-template #content>
-    <div class="p-6 space-y-6 bg-gray-50/50 min-h-screen">
-        <!-- Platform Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <app-stat-card title="ចំណូលសរុបប្រព័ន្ធ" value="$1,245,231" change="15.2% ពីខែមុន" changeType="positive"
-                [icon]="DollarSign" variant="pink" />
+<div class="p-6 space-y-6 bg-gray-50/50 min-h-screen">
+  <!-- Platform Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <app-stat-card title="ចំណូលប្រព័ន្ធ" [value]="overallStats().total_commission" change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="DollarSign" variant="pink" />
 
-            <app-stat-card title="អាជីវករសរុប (ហាង)" value="124" change="4.5% ពីខែមុន" changeType="positive"
-                [icon]="Store" variant="yellow" />
+    <app-stat-card title="អាជីវកម្ម(ហាង)" [value]="overallStats().total_stores" change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="Store" variant="yellow" />
 
-            <app-stat-card title="អតិថិជនសរុប" value="12,678" change="12.1% ពីខែមុន" changeType="positive"
-                [icon]="Users" variant="green" />
+    <app-stat-card title="អាជីវករ" [value]="overallStats().total_merchants + 'នាក់'" change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="Users" variant="green" />
 
-            <app-stat-card title="សកម្មភាពប្រព័ន្ធ" value="98.5%" change="0.4% ពីខែមុន" changeType="positive"
-                [icon]="Activity" variant="blue" />
-        </div>
+    <app-stat-card title="អ្នកប្រើប្រាស់ App" [value]="overallStats().total_mobile_users + 'នាក់'"
+      change="ទិន្នន័យបច្ចុប្បន្ន" [icon]="Users" variant="blue" />
+  </div>
 
-        <!-- Middle Section: Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-bold text-gray-800">និន្នាការរីកចម្រើនប្រព័ន្ធ</h2>
-                </div>
-                <app-sale-chart />
-            </div>
-            <div class="bg-white flex flex-col justify-between p-6 rounded-2xl shadow-sm">
-                <h2 class="text-xl font-bold text-gray-800 mb-6">ការបែងចែកចំណូល</h2>
-                <app-category-chart />
-            </div>
-        </div>
-
-        <!-- Bottom Section: Top Merchants & Messaging -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6">
-            <!-- Top Performing Merchants -->
-            <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-bold text-gray-800">អាជីវករដែលមានសកម្មភាពខ្លាំង</h2>
-                    <button
-                        class="text-sm font-semibold text-primary hover:underline cursor-pointer">មើលទាំងអស់</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left ">
-                        <thead class="border border-gray-500 bg-gray-400">
-                            <tr class="text-black  text-xs  h-10 text-center uppercase tracking-wider ">
-                                <th class="border border-gray-600 font-medium">ហាង</th>
-                                <th class="border border-gray-600 font-medium">ម្ចាស់</th>
-                                <th class="border border-gray-600 font-medium">ចំណូល</th>
-                                <th class="border border-gray-600 font-medium">ស្ថានភាព</th>
-                                <th class="border border-gray-600 font-medium">កំណើន</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-50">
-                            <tr *ngFor="let merchant of topMerchants"
-                                class="hover:bg-gray-50 border-gray-200 text-center border-b transition-colors">
-                                <td class="py-4 border border-gray-600 text-center font-medium text-gray-900">{{
-                                    merchant.name }}</td>
-                                <td class="py-4 border text-gray-600 text-sm">{{ merchant.owner }}</td>
-                                <td class="py-4 border border-gray-600 font-semibold text-gray-900">{{ merchant.sales }}
-                                </td>
-                                <td class="py-4 border border-gray-600">
-                                    <span
-                                        class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
-                                        [ngClass]="merchant.status === 'active' ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600'">
-                                        {{ merchant.status }}
-                                    </span>
-                                </td>
-                                <td class="py-4 text-sm border border-gray-600 font-medium"
-                                    [ngClass]="merchant.performance.startsWith('+') ? 'text-green-500' : 'text-red-500'">
-                                    {{ merchant.performance }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- Messaging Section -->
-            <!-- <app-messaging /> -->
-        </div>
+  <!-- Middle Section: Charts -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-gray-800">ចំនួនផលិតផលតាមអាជីវកម្មនីមួយៗ</h2>
+      </div>
+      <app-sale-chart />
     </div>
-</ng-template>
+    <div class="bg-white flex flex-col justify-between p-6 rounded-2xl shadow-sm">
+      <h2 class="text-xl font-bold text-gray-800 mb-6">ប្រភេទអាជីវកម្ម</h2>
+      <app-category-chart />
+    </div>
+  </div>
+
+  <!-- Bottom Section: Top Merchants & Messaging -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6">
+    <!-- Top Performing Merchants -->
+    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-gray-800">អាជីវករដែលមានសកម្មភាពខ្លាំង</h2>
+        <button class="text-sm font-semibold text-primary hover:underline cursor-pointer">
+          មើលទាំងអស់
+        </button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead class="border border-gray-500 bg-gray-400">
+            <tr class="text-black text-xs h-10 text-center uppercase tracking-wider">
+              <th class="border border-gray-600 font-medium">ហាង</th>
+              <th class="border border-gray-600 font-medium">ម្ចាស់</th>
+              <th class="border border-gray-600 font-medium">ចំណូល</th>
+              <th class="border border-gray-600 font-medium">ស្ថានភាព</th>
+              <th class="border border-gray-600 font-medium">កំណើន</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            <tr *ngFor="let merchant of topMerchants"
+              class="hover:bg-gray-50 border-gray-200 text-center border-b transition-colors">
+              <td class="py-4 border border-gray-600 text-center font-medium text-gray-900">
+                {{ merchant.name }}
+              </td>
+              <td class="py-4 border text-gray-600 text-sm">{{ merchant.owner }}</td>
+              <td class="py-4 border border-gray-600 font-semibold text-gray-900">
+                {{ merchant.sales }}
+              </td>
+              <td class="py-4 border border-gray-600">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" [ngClass]="
+                    merchant.status === 'active'
+                      ? 'bg-green-100 text-green-600'
+                      : 'bg-yellow-100 text-yellow-600'
+                  ">
+                  {{ merchant.status }}
+                </span>
+              </td>
+              <td class="py-4 text-sm border border-gray-600 font-medium"
+                [ngClass]="merchant.performance.startsWith('+') ? 'text-green-500' : 'text-red-500'">
+                {{ merchant.performance }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Messaging Section -->
+    <!-- <app-messaging /> -->
+  </div>
+</div>

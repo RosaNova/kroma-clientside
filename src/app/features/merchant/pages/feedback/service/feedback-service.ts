@@ -7,14 +7,14 @@ import { lastValueFrom } from 'rxjs';
 })
 export class FeedbackService {
   path: string = '/api/feedbacks';
-  constructor(private requestService: requestService) {}
+  constructor(private requestService: requestService) { }
   getFeedbacks() {
-    return lastValueFrom(this.requestService.getJSON(this.path));
+    return lastValueFrom(this.requestService.getJSON(this.path, { isLoading: true }));
   }
   deleteFeedBack(id: string) {
-    return lastValueFrom(this.requestService.deleteJSON(`${this.path}/${id}`));
+    return lastValueFrom(this.requestService.deleteJSON(`${this.path}/${id}`, { isLoading: true }));
   }
   search(data: any) {
-    return lastValueFrom(this.requestService.getJSON(`${this.path}/search`, data));
+    return lastValueFrom(this.requestService.getJSON(`${this.path}/search`, { data, isLoading: true }));
   }
 }

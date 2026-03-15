@@ -18,6 +18,7 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  User,
 } from 'lucide-angular';
 import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../service/user-service';
@@ -30,6 +31,7 @@ import { StatCard } from '@/app/shared/components/stat-card/stat-card.component'
 // import { LoadingService } from '@/app/core/services/loading.service';
 import { AsyncPipe } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Overall } from '../../models/overall';
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -51,7 +53,7 @@ export class Users {
   WalletIcon = WalletIcon;
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
-
+  User = User;
   SUPER_ADMIN_USER_STATS = SUPER_ADMIN_USER_STATS;
 
   Plus = Plus;
@@ -79,8 +81,10 @@ export class Users {
   currentPage = 0;
   itemsPerPage = 5;
   pageSize = 5;
+  overAllData = signal<Overall>({} as any);
   constructor(private userService: UserService) {
     this.getUsers();
+    this.getOverall();
   }
   async getUsers() {
     try {
@@ -89,6 +93,16 @@ export class Users {
         this.allMobileUsers.set(res.list);
         this.totalMobileUsers.set(res.list.length!);
         this.updateDisplayedMobileUsers();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async getOverall() {
+    try {
+      const res = await this.userService.getOverall();
+      if (res) {
+        this.overAllData.set(res);
       }
     } catch (e) {
       console.log(e);
@@ -162,7 +176,7 @@ export class Users {
     try {
       const inputKey = (event.target as HTMLInputElement).value;
       if (inputKey != '') {
-        const res = await this.userService.search(inputKey);
+        const res = await this.userService.search({ q: inputKey });
         this.allMobileUsers.set(res.list ?? []);
       } else {
         await this.getUsers();

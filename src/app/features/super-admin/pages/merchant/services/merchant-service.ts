@@ -9,32 +9,48 @@ export class MerchantService {
   path: string = '/api/stores';
   constructor(private requestService: requestService) {}
   getMany() {
-    return lastValueFrom(this.requestService.getJSON(this.path));
+    return lastValueFrom(this.requestService.getJSON(this.path, { isLoading: true }));
   }
   getDetail(id: string) {
-    return lastValueFrom(this.requestService.getJSON(`${this.path}/detail-admin/${id}`));
+    return lastValueFrom(
+      this.requestService.getJSON(`${this.path}/detail-admin/${id}`, { isLoading: true }),
+    );
   }
   create(data: any) {
-    return lastValueFrom(this.requestService.postFormData(this.path, data));
+    return lastValueFrom(this.requestService.postFormData(this.path, { data, isLoading: true }));
   }
   delete(id: string) {
-    return lastValueFrom(this.requestService.deleteJSON(`${this.path}/${id}`));
+    return lastValueFrom(this.requestService.deleteJSON(`${this.path}/${id}`, { isLoading: true }));
   }
   getById(id: string) {
-    return lastValueFrom(this.requestService.getJSON(`${this.path}/${id}`));
+    return lastValueFrom(this.requestService.getJSON(`${this.path}/${id}`, { isLoading: true }));
   }
   updateInfo(id: string, data: any) {
-    return lastValueFrom(this.requestService.patchJSON(`${this.path}/update-info/${id}`, data));
+    return lastValueFrom(
+      this.requestService.patchJSON(`${this.path}/update-info/${id}`, { data, isLoading: true }),
+    );
   }
   updateImage(id: string, data: any) {
-    return lastValueFrom(this.requestService.patchFormData(`${this.path}/update-img/${id}`, data));
+    return lastValueFrom(
+      this.requestService.patchFormData(`${this.path}/update-img/${id}`, { data, isLoading: true }),
+    );
   }
   getCommissions() {
     const path = '/api/admins';
-    return lastValueFrom(this.requestService.getJSON(`${path}/commissions`));
+    return lastValueFrom(this.requestService.getJSON(`${path}/commissions`, { isLoading: true }));
   }
   updateCommissions(id: string, data: any) {
     const path = '/api/admins';
-    return lastValueFrom(this.requestService.patchJSON(`${path}/update-commissions/${id}`, data));
+    return lastValueFrom(
+      this.requestService.patchJSON(`${path}/update-commissions/${id}`, { data, isLoading: true }),
+    );
+  }
+  searchStore(data: any) {
+    return lastValueFrom(
+      this.requestService.getJSON(`${this.path}/search`, { data, isLoading: true }),
+    );
+  }
+  getOverall() {
+    return lastValueFrom(this.requestService.getJSON(`${this.path}/overall`, { isLoading: true }));
   }
 }

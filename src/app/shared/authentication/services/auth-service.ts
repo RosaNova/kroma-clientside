@@ -11,7 +11,7 @@ export class AuthService {
   constructor(
     private requestService: requestService,
     private userStateService: UserStateService,
-  ) {}
+  ) { }
 
   // private roleToPath(role: string) {
   //   if (!role) return '/api/auth';
@@ -28,6 +28,6 @@ export class AuthService {
   // }
 
   login(data: any, role: string = 'super-admin') {
-    return this.requestService.postJSON(`${this.path}/login`, data);
+    return this.requestService.postJSON(`${this.path}/login`, { data, isLoading: true });
   }
 }

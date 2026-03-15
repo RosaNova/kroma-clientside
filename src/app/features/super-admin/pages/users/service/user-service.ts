@@ -9,9 +9,14 @@ export class UserService {
   path: string = '/api/mobile-users';
   constructor(private requestService: requestService) {}
   getMany() {
-    return lastValueFrom(this.requestService.getJSON(this.path));
+    return lastValueFrom(this.requestService.getJSON(this.path, { isLoading: true }));
   }
   search(data: any) {
-    return lastValueFrom(this.requestService.getJSON(`${this.path}/search`, { q: data }));
+    return lastValueFrom(
+      this.requestService.getJSON(`${this.path}/search`, { data, isLoading: true }),
+    );
+  }
+  getOverall() {
+    return lastValueFrom(this.requestService.getJSON(`${this.path}/overall`, { isLoading: true }));
   }
 }

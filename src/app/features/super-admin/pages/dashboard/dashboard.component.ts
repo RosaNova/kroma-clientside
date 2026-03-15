@@ -4,11 +4,23 @@ import { CategoryChart } from '@/app/shared/components/category-chart/category-c
 import { RecentOrder } from '@/app/shared/components/recent-order/recent-order.component';
 import { MessagingComponent } from '@/app/shared/components/messaging/messaging.component';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { LucideAngularModule, DollarSign, Users, ShoppingBag, TrendingUp, Store, Activity, ShieldAlert } from 'lucide-angular';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import {
+  LucideAngularModule,
+  DollarSign,
+  Users,
+  ShoppingBag,
+  TrendingUp,
+  Store,
+  Activity,
+  ShieldAlert,
+} from 'lucide-angular';
 import { LoadingSpinner } from '@/app/shared/components/ui/loading-spinner/loading-spinner.component';
 import { LoadingService } from '@/app/core/services/loading.service';
 import { AsyncPipe } from '@angular/common';
+import { DashboardService } from './service/dashboard-service';
+import { Overall } from './models/overall';
+import { StoreCategoriesService } from '../store-category/service/store-categories-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +42,7 @@ import { AsyncPipe } from '@angular/common';
 export class Dashboard {
   private loadingService = inject(LoadingService);
   isLoading$ = this.loadingService.isLoading$;
-
+  storeCategories = signal<any>([]);
   DollarSign = DollarSign;
 
   ShoppingBag = ShoppingBag;
@@ -76,28 +88,45 @@ export class Dashboard {
       name: 'នាឡិកាឆ្លាតវៃ',
       category: 'អេឡិចត្រូនិក',
       price: '$299.00',
-      stock: 24
+      stock: 24,
     },
     {
       image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
       name: 'កាសស្តាប់ត្រចៀក',
       category: 'អេឡិចត្រូនិក',
       price: '$250.00',
-      stock: 8
+      stock: 8,
     },
     {
       image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop',
       name: 'ស្បែកជើងកីឡា',
       category: 'សម្លៀកបំពាក់',
       price: '$129.00',
-      stock: 35
+      stock: 35,
     },
     {
       image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&h=300&fit=crop',
       name: 'កាមេរ៉ាឌីជីថល',
       category: 'អេឡិចត្រូនិក',
       price: '$599.00',
-      stock: 0
-    }
+      stock: 0,
+    },
   ];
+  overallStats = signal<Overall>({} as any);
+  constructor(
+    private dashboardService: DashboardService,
+  ) {
+    this.getOverallStats();
+  }
+  async getOverallStats() {
+    try {
+      const res = await this.dashboardService.getOverallStats();
+      if (res) {
+        this.overallStats.set(res);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 }

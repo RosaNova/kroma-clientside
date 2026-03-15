@@ -40,6 +40,7 @@ import { isActive } from '@angular/router';
 import { StoreCategoriesService } from '../../service/store-categories-service';
 import { storeCategory } from '../../models/store-categories';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { OverallData } from '../../models/overall';
 @Component({
   selector: 'app-store-categories',
   imports: [
@@ -93,6 +94,7 @@ export class StoreCategories {
   searchTerm = signal('');
   currentPage = 0;
   itemsPerPage = 5;
+  OverAllData = signal<OverallData>({} as any)
   pageSize = 5;
   uploadFiles: any;
   storeId: string = '';
@@ -106,6 +108,7 @@ export class StoreCategories {
     private cdr: ChangeDetectorRef,
   ) {
     this.getList();
+    this.getOverall()
   }
   async getList() {
     try {
@@ -117,6 +120,16 @@ export class StoreCategories {
       }
     } catch (e) {
       console.log(e);
+    }
+  }
+  async getOverall() {
+    try {
+      const res = await this.storeCategoryService.getOverAllData();
+      if (res) {
+        this.OverAllData.set(res)
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
   updateDisplayedStoreCategories() {
@@ -216,7 +229,7 @@ export class StoreCategories {
   async onSearch(event: KeyboardEvent) {
     const inputKey = (event.target as HTMLInputElement).value;
     if (inputKey != '') {
-      const res = await this.storeCategoryService.search(inputKey);
+      const res = await this.storeCategoryService.search({ q: inputKey });
       if (res.list) {
         this.storeCategories.set(res.list);
       } else {

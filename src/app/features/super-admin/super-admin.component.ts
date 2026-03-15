@@ -9,6 +9,7 @@ import {
   Settings,
   User,
   DatabaseBackup,
+  Megaphone,
 } from 'lucide-angular';
 import localeKm from '@angular/common/locales/km';
 import { registerLocaleData, isPlatformBrowser } from '@angular/common';
@@ -69,6 +70,7 @@ export class SuperAdmin implements OnInit, OnDestroy {
     //   children: [{ icon: Package, label: 'របាយការណ៍ទូទៅទាំងអស់', route: '/super-admin/report' }],
     // },
     { icon: MessageSquareText, label: 'គ្រប់គ្រងមតិកែលម្អ', route: '/super-admin/feedback' },
+    { icon: Megaphone, label: 'ផ្ទាំងពាណិជ្ជកម្ម', route: '/super-admin/advertising' },
     { icon: Settings, label: 'ការកំណត់', route: '/super-admin/setting' },
   ];
 

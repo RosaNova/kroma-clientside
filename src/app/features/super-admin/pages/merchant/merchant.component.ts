@@ -55,6 +55,7 @@ import { StoreCategoriesService } from '../store-category/service/store-categori
 import { storeCategory } from '../store-category/models/store-categories';
 import { isActive } from '@angular/router';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Overall } from './models/overall';
 @Component({
   selector: 'app-merchant',
   standalone: true,
@@ -122,6 +123,7 @@ export class MerchantComponent {
   currentPage = 0;
   itemsPerPage = 5;
   pageSize = 5;
+  overallData = signal<Overall>({} as any);
   constructor(
     private merchantService: MerchantService,
     private adminUserService: AdminUsersService,
@@ -130,6 +132,7 @@ export class MerchantComponent {
     this.getList();
     this.getMerchants();
     this.getStoreCategories();
+    this.getOverall();
   }
   async getList() {
     try {
@@ -148,6 +151,16 @@ export class MerchantComponent {
       const res = await this.adminUserService.getUsers();
       if (res) {
         this.merchants.set(res.list);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async getOverall() {
+    try {
+      const res = await this.merchantService.getOverall();
+      if (res) {
+        this.overallData.set(res);
       }
     } catch (e) {
       console.log(e);
@@ -172,6 +185,23 @@ export class MerchantComponent {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.updateDisplayedStores();
+  }
+  async onSearch(event: KeyboardEvent) {
+    try {
+      const inputKey = (event.target as HTMLInputElement).value;
+      if (inputKey != '') {
+        const res = await this.merchantService.searchStore({ q: inputKey });
+        if (res.list) {
+          this.stores.set(res.list);
+        } else {
+          this.stores.set([]);
+        }
+      } else {
+        await this.getList();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
   // Filter
   // filtered = computed(() =>

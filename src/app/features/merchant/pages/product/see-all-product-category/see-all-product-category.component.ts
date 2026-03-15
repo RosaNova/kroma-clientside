@@ -6,10 +6,10 @@ import { ProductService } from '../services/product-service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Product } from '../models/product';
 import { ProductCard } from '@/app/shared/components/product-card/product-card.component';
-
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-see-all-product-category',
-  imports: [ProductCard, CommonModule, FormsModule, LucideAngularModule, RouterModule],
+  imports: [ProductCard, CommonModule, FormsModule, LucideAngularModule, RouterModule, MatPaginatorModule],
   templateUrl: './see-all-product-category.component.html',
   styleUrls: ['./see-all-product-category.component.css'],
 })
@@ -17,7 +17,6 @@ export class SeeAllProductCategory {
   searchTerm = '';
   Search = Search;
   ArrowLeft = ArrowLeft;
-  products = signal<Product[]>([]);
   categoryId: string = '';
   categories = [
     {
@@ -189,7 +188,12 @@ export class SeeAllProductCategory {
       stock: 50,
     },
   ];
-
+  allProducts = signal<Product[]>([]);
+  products = signal<Product[]>([]);
+  totalProducts = signal<number>(0);
+  currentPage = 0;
+  itemsPerPage = 4;
+  pageSize = 4;
   constructor(
     private location: Location,
     private productService: ProductService,
@@ -203,8 +207,9 @@ export class SeeAllProductCategory {
     try {
       const res = await this.productService.getProducts({ category: id });
       if (res) {
-        this.products.set(res.list);
-        this.cdr.detectChanges();
+        this.allProducts.set(res.list);
+        this.totalProducts.set(res.list.length!);
+        this.updateDisplayedProducts();
       }
     } catch (e) {
       console.log(e);
@@ -215,17 +220,26 @@ export class SeeAllProductCategory {
       const inputKey = (event.target as HTMLInputElement).value;
       if (inputKey != '') {
         const res = await this.productService.searchProduct(inputKey, this.categoryId);
-        if (res.list) {
-          this.products.set(res.list);
-        } else {
-          this.products.set([]);
-        }
+        this.allProducts.set(res.list ?? []);
       } else {
         await this.getProductByCategory(this.categoryId);
       }
+      this.totalProducts.set(this.allProducts().length);
+      this.currentPage = 0;
+      this.updateDisplayedProducts();
     } catch (e) {
       console.log(e);
     }
+  }
+  updateDisplayedProducts() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.products.set(this.allProducts().slice(startIndex, endIndex));
+  }
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedProducts();
   }
   handleBack() {
     this.location.back();

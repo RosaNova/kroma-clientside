@@ -39,6 +39,7 @@ import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-di
 import { AdminUsersService } from './services/admin-users-service';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Overall } from './models/overall';
 @Component({
   selector: 'app-admin-users',
   imports: [
@@ -96,13 +97,14 @@ export class AdminUsers {
   showAddDialog = signal(false);
   selectedName = '';
   storeId: string = '';
-
+  overAllData = signal<Overall>({} as any);
   constructor(
     private adminUserService: AdminUsersService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
   ) {
     this.getUsers();
+    this.getOverall();
   }
   async getUsers() {
     try {
@@ -111,6 +113,16 @@ export class AdminUsers {
         this.allUsers.set(res.list);
         this.totalUsers.set(res.list.length!);
         this.updateDisplayedUsers();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async getOverall() {
+    try {
+      const res = await this.adminUserService.getOverall();
+      if (res) {
+        this.overAllData.set(res);
       }
     } catch (e) {
       console.log(e);
@@ -198,7 +210,7 @@ export class AdminUsers {
   async onSearch(event: KeyboardEvent) {
     const inputKey = (event.target as HTMLInputElement).value;
     if (inputKey != '') {
-      const res = await this.adminUserService.searchUser(inputKey);
+      const res = await this.adminUserService.searchUser({ q: inputKey });
       if (res.list) {
         this.users.set(res.list);
       } else {

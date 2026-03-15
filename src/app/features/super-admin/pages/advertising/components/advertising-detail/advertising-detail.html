@@ -1,0 +1,102 @@
+<div class="p-6">
+  <div class="bg-card border border-gray-300 rounded-xl shadow-lg relative">
+    <div class="border-b border-gray-300 text-black p-4 flex items-center gap-2 font-semibold">
+      <lucide-angular [img]="Megaphone" class="w-5 h-5 text-primary" />
+      ព័ត៌មានរបស់ផ្ទាំងពាណិជ្ជកម្ម
+    </div>
+
+    <div class="p-6 flex flex-col lg:flex-row gap-8">
+      <!-- Profile Image -->
+      <div class="flex flex-col items-center gap-4 w-48">
+        <div class="relative">
+          @if (selectedImage == '') {
+            <img
+              [src]="img_url()"
+              class="w-36 h-36 rounded-full object-contain ring-4 ring-primary/20"
+            />
+          } @else {
+            <img
+              [src]="selectedImage"
+              class="w-36 h-36 rounded-full object-contain ring-4 ring-primary/20"
+            />
+          }
+
+          <button
+            type="button"
+            (click)="fileInput.click()"
+            class="absolute cursor-pointer bottom-1 right-1 w-10 h-10 bg-primary rounded-full flex items-center justify-center"
+          >
+            <lucide-angular [img]="Camera" class="w-5 h-5 text-white" />
+          </button>
+        </div>
+
+        <!-- <button
+          type="button"
+          (click)="fileInput.click()"
+          class="border border-gray-300 text-gray-500 bg-gray-100 cursor-pointer rounded-xl px-4 py-2 text-sm"
+        >
+          ផ្លាស់ប្ដូររូបភាព
+        </button> -->
+
+        <p class="text-xs text-gray-400">JPG, PNG អតិបរមា 5MB</p>
+
+        <input type="file" style="display: none" #fileInput (change)="onFileChange($event)" />
+      </div>
+
+      <!-- Profile Form -->
+      <div class="flex-1 space-y-4" [formGroup]="form">
+        <div class="grid grid-cols-1 gap-4">
+          <div class="flex flex-col w-full">
+            <label class="text-gray-500 flex gap-2 pb-2">
+              <lucide-angular [img]="Megaphone" class="text-gray-500 w-5"></lucide-angular>
+              ការបរិយាយ
+            </label>
+            <textarea
+              class="textarea textarea-neutral bg-white border w-full rounded-xl text-black"
+              placeholder="ការបរិយាយ"
+              formControlName="description"
+            ></textarea>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col w-full">
+            <label class="text-gray-500 flex gap-2 pb-2">
+              <lucide-angular [img]="Megaphone" class="text-gray-500 w-5"></lucide-angular>
+              ហាង
+            </label>
+            <select
+              class="select select-neutral bg-white border rounded-xl w-full"
+              formControlName="store"
+            >
+              @for (item of stores(); track $index) {
+                <option [value]="item._id">{{ item.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="flex flex-col w-full">
+            <label class="text-gray-500 flex gap-2 pb-2">
+              <lucide-angular [img]="Megaphone" class="text-gray-500 w-5"></lucide-angular>
+              ស្ថានភាព
+            </label>
+            <select class="select select-neutral bg-white border rounded-xl w-full">
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2">
+          <button class="btn border-0 rounded-xl bg-emerald-700 flex gap-2" (click)="onBack()">
+            ចាកចេញ
+          </button>
+
+          <button class="btn border-0 rounded-xl bg-blue-700 flex gap-2" (click)="updateInfo()">
+            <lucide-angular [img]="User" class="w-4 h-4" />
+            រក្សាទុក
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Buttons Bottom Right -->
+  </div>
+</div>

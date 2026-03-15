@@ -5,6 +5,8 @@ export interface FeedBack {
   user: User;
   feedback_img: string;
   createdAt: Date;
+  user_profile: string;
+  store: any;
 }
 interface User {
   _id: string;

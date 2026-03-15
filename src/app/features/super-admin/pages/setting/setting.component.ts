@@ -394,12 +394,13 @@ export class Setting implements OnInit {
 
   logout(): void {
     try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        window.localStorage.removeItem('token');
-        window.localStorage.removeItem('role');
-        window.localStorage.removeItem('email');
-        window.localStorage.removeItem('userId');
-      }
+      // if (typeof window !== 'undefined' && window.localStorage) {
+      //   window.localStorage.removeItem('token');
+      //   window.localStorage.removeItem('role');
+      //   window.localStorage.removeItem('email');
+      //   window.localStorage.removeItem('userId');
+      // }
+      localStorage.clear();
       this.router.navigate(['/login']);
     } catch (e) {
       console.error('Error clearing storage during logout', e);
