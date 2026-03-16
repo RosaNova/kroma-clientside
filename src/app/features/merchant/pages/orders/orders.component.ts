@@ -18,6 +18,9 @@ import {
   Timer,
   Clock3,
   CircleCheckBig,
+  Activity,
+  ThumbsUp,
+  ThumbsDown,
 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
@@ -25,6 +28,8 @@ import { MerchantService } from '../../service/merchant-service';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { sign } from 'crypto';
+import { OverallData } from './model/overall';
 type OrderStatus = 'completed' | 'processing' | 'pending' | 'shipped' | 'cancelled';
 type PaymentStatus = 'paid' | 'pending' | 'failed';
 
@@ -69,6 +74,9 @@ export class Orders {
   Eye = Eye;
   Edit = Edit;
   Trash2 = Trash2;
+  Activity = Activity;
+  ThumbsUp = ThumbsUp;
+  ThumbsDown = ThumbsDown;
   ShoppingBag = ShoppingBag;
   displayOrderInfo: Order[] = [];
   searchTerm = '';
@@ -155,12 +163,13 @@ export class Orders {
   private allOrders = signal<Order[]>([]);
   orderInfo = signal<Order[]>([]);
   totalOrders = signal<number>(0);
-
+  overAllData = signal<OverallData>({} as any);
   constructor(
     private merchantService: MerchantService,
     private router: Router,
   ) {
     this.getOrder();
+    this.getOverall();
   }
 
   async getOrder() {
@@ -170,6 +179,16 @@ export class Orders {
         this.allOrders.set(res.list);
         this.totalOrders.set(res.list.length!);
         this.updateDisplayedOrders();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async getOverall() {
+    try {
+      const res = await this.merchantService.getOrderOverallStat();
+      if (res) {
+        this.overAllData.set(res);
       }
     } catch (e) {
       console.log(e);

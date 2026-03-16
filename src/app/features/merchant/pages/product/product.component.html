@@ -1,7 +1,10 @@
 <div class="p-7">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
-    <app-stat-card *ngFor="let stat of statsValue" [title]="stat.title" [value]="stat.value" [icon]="stat.icon"
-      [variant]="stat.variant" [khmerUnit]="stat.khmerUnit" />
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+    <app-stat-card [title]="'ចំនួនផលិតផល'" [value]="overallData().total_products" [icon]="Box" [variant]="'blue'" />
+    <app-stat-card [title]="'ចំនួនផលិតផលសកម្ម'" [value]="overallData().total_active_products" [icon]="Activity"
+      [variant]="'green'" />
+    <app-stat-card [title]="'ចំនួនផលិតផលអសកម្ម'" [value]="overallData().total_inactive_products" [icon]="StepForward"
+      [variant]="'pink'" />
   </div>
   <div class="bg-transparent">
     <app-product-section title="ប្រភេទគ្រឿងទេស" [products]="products" />

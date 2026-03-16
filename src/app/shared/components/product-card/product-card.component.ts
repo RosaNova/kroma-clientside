@@ -38,6 +38,7 @@ export class ProductCard {
     category: new FormControl(''),
     discount: new FormControl(0),
     description: new FormControl(''),
+    isActive: new FormControl(true),
   });
   storeId: string = '';
   showDeleteDialog = false;
@@ -120,6 +121,7 @@ export class ProductCard {
           discount: res.discount,
           description: res.description,
           category: res.category._id,
+          isActive: res.isActive,
         });
       }
     } catch (e) {

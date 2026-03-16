@@ -24,9 +24,11 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  StepForward,
+  Activity,
 } from 'lucide-angular';
 import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
-import { Category } from '../models/category';
+import { Category, OverallData } from '../models/category';
 import { ProductService } from '../services/product-service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { isActive } from '@angular/router';
@@ -111,14 +113,14 @@ export class ProductCategory {
   WalletIcon = WalletIcon;
   BoxIcon = BoxIcon;
   ShoppingCart = ShoppingCart;
-
+  StepForward = StepForward;
   Plus = Plus;
   Eye = Eye;
   Trash2 = Trash2;
   Edit = Edit;
   FileUp = FileUp;
   Search = Search;
-
+  Activity = Activity;
   ChevronLeft = ChevronLeft;
   ChevronRight = ChevronRight;
   ChevronsLeft = ChevronsLeft;
@@ -139,8 +141,10 @@ export class ProductCategory {
   showAddDialog: boolean = false;
   showEditDialog: boolean = false;
   storeId: string = '';
+  overallData = signal<OverallData>({} as any);
   constructor(private productService: ProductService) {
     this.getCategories();
+    this.getOverall();
   }
   async getCategories() {
     try {
@@ -149,6 +153,16 @@ export class ProductCategory {
         this.allCategories.set(res.list);
         this.totalCategories.set(res.list.length!);
         this.updateDisplayedCategories();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async getOverall() {
+    try {
+      const res = await this.productService.getCategoriesOverallStat();
+      if (res) {
+        this.overallData.set(res);
       }
     } catch (e) {
       console.log(e);

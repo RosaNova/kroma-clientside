@@ -4,3 +4,8 @@ export interface Category {
   description: string;
   isActive: boolean;
 }
+export interface OverallData {
+  total_categories: number;
+  total_active_categories: number;
+  total_inactive_categories: number;
+}

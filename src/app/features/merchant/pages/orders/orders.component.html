@@ -5,17 +5,29 @@
       <h1 class="text-2xl font-bold text-black">ការបញ្ជាទិញ</h1>
       <p class="text-sm text-gray-500">គ្រប់គ្រងការបញ្ជាទិញរបស់អ្នក</p>
     </div>
-    <button
+    <!-- <button
       class="flex items-center gap-2 px-4 py-2 rounded-xl cursor-pointer hover:bg-primary/80 duration-200 bg-primary text-white">
       <lucide-icon [name]="Download" class="w-4 h-4" />
       នាំចេញ
-    </button>
+    </button> -->
   </div>
 
   <!-- Stats Cards -->
   <div class="grid grid-cols-1 m-6 md:grid-cols-2 pb-10 lg:grid-cols-4 gap-4">
-    <app-stat-card *ngFor="let card of statCards" [title]="card.title" [value]="card.value" [change]="card.change"
-      [changeType]="card.changeType" [icon]="card.icon" [variant]="card.variant">
+    <app-stat-card [title]="'ចំនួនការបញ្ជាទិញ'" [value]="overAllData().total_orders" [change]="'ទិន្នន័យបច្ចុប្បន្ន'"
+      [icon]="ShoppingCart" [variant]="'blue'">
+    </app-stat-card>
+    <app-stat-card [title]="'ចំណូល'" [value]="overAllData().total_income" [change]="'ទិន្នន័យបច្ចុប្បន្ន'"
+      [icon]="DollarSign" [variant]="'yellow'">
+    </app-stat-card>
+    <app-stat-card [title]="'ការបញ្ជាទិញមិនទាន់បញ្ចប់'" [value]="overAllData().total_pending"
+      [change]="'ទិន្នន័យបច្ចុប្បន្ន'" [icon]="Activity" [variant]="'orange'">
+    </app-stat-card>
+    <app-stat-card [title]="'ការបញ្ជាទិញបានបញ្ចប់'" [value]="overAllData().total_completed"
+      [change]="'ទិន្នន័យបច្ចុប្បន្ន'" [icon]="ThumbsUp" [variant]="'green'">
+    </app-stat-card>
+    <app-stat-card [title]="'ការបញ្ជាទិញត្រូវបានcanceled'" [value]="overAllData().total_completed"
+      [change]="'ទិន្នន័យបច្ចុប្បន្ន'" [icon]="ThumbsDown" [variant]="'red'">
     </app-stat-card>
   </div>
 

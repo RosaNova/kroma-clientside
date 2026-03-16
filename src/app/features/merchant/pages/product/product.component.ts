@@ -6,14 +6,24 @@ import {
   Inject,
   ChangeDetectorRef,
   PLATFORM_ID,
+  signal,
 } from '@angular/core';
 
-import { LucideAngularModule, Package, Wallet, ShoppingCart, Box } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Package,
+  Wallet,
+  ShoppingCart,
+  Box,
+  Activity,
+  StepForward,
+} from 'lucide-angular';
 import { ProductService } from './services/product-service';
 import { ProductGrouped } from './models/product';
 import { StatCard } from '@/app/shared/components/stat-card/stat-card.component';
 import { ProductSection } from '@/app/shared/components/product-section/product-section.component';
 import { FormsModule } from '@angular/forms';
+import { OverallData } from './models/overall';
 
 interface StatType {
   title: string;
@@ -35,14 +45,18 @@ export class Product {
   Wallet = Wallet;
   ShoppingCart = ShoppingCart;
   Box = Box;
+  Activity = Activity;
+  StepForward = StepForward;
   products: ProductGrouped[] = [];
+  overallData = signal<OverallData>({} as any);
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
   ) {
     this.getProducts();
+    this.getOverAll();
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {}
   async getProducts() {
     try {
       const res = await this.productService.getGroupedProduct();
@@ -57,7 +71,16 @@ export class Product {
       console.error('API ERROR:', e);
     }
   }
-
+  async getOverAll() {
+    try {
+      const res = await this.productService.getOverallStat();
+      if (res) {
+        this.overallData.set(res);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   spiceProducts = [
     {
       id: 1,

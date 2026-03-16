@@ -5,37 +5,17 @@
 <div class="p-6 space-y-6 bg-gray-50/50 min-h-screen">
   <!-- Platform Stats -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <app-stat-card
-      title="ចំណូលប្រព័ន្ធ"
-      [value]="overallStats().total_commission"
-      change="ទិន្នន័យបច្ចុប្បន្ន"
-      [icon]="DollarSign"
-      variant="pink"
-    />
+    <app-stat-card title="ចំណូលប្រព័ន្ធ" [value]="overallStats().total_commission" change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="DollarSign" variant="pink" />
 
-    <app-stat-card
-      title="អាជីវកម្ម(ហាង)"
-      [value]="overallStats().total_stores"
-      change="ទិន្នន័យបច្ចុប្បន្ន"
-      [icon]="Store"
-      variant="yellow"
-    />
+    <app-stat-card title="អាជីវកម្ម(ហាង)" [value]="overallStats().total_stores" change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="Store" variant="yellow" />
 
-    <app-stat-card
-      title="អាជីវករ"
-      [value]="overallStats().total_merchants + 'នាក់'"
-      change="ទិន្នន័យបច្ចុប្បន្ន"
-      [icon]="Users"
-      variant="green"
-    />
+    <app-stat-card title="អាជីវករ" [value]="overallStats().total_merchants + 'នាក់'" change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="Users" variant="green" />
 
-    <app-stat-card
-      title="អ្នកប្រើប្រាស់ App"
-      [value]="overallStats().total_mobile_users + 'នាក់'"
-      change="ទិន្នន័យបច្ចុប្បន្ន"
-      [icon]="Users"
-      variant="blue"
-    />
+    <app-stat-card title="អ្នកប្រើប្រាស់ App" [value]="overallStats().total_mobile_users + 'នាក់'"
+      change="ទិន្នន័យបច្ចុប្បន្ន" [icon]="Users" variant="blue" />
   </div>
 
   <!-- Middle Section: Charts -->
@@ -59,18 +39,12 @@
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-gray-800">ប្រាក់ចំណូលសរុបរបស់អាជីវករ</h2>
         <div class="flex gap-2">
-          <button
-            type="button"
-            (click)="onShowAllData()"
-            class="text-sm font-semibold text-primary hover:underline cursor-pointer"
-          >
+          <button type="button" (click)="onShowAllData()"
+            class="text-sm font-semibold text-primary hover:underline cursor-pointer">
             មើលទាំងអស់
           </button>
-          <button
-            type="button"
-            (click)="onRefresh()"
-            class="text-sm font-semibold text-primary hover:underline cursor-pointer"
-          >
+          <button type="button" (click)="onRefresh()"
+            class="text-sm font-semibold text-primary hover:underline cursor-pointer">
             Refreshទិន្នន័យ
           </button>
         </div>
@@ -86,10 +60,8 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
-            <tr
-              *ngFor="let merchant of highIncomeMerchants()"
-              class="hover:bg-gray-50 border-gray-200 text-center border-b transition-colors"
-            >
+            <tr *ngFor="let merchant of highIncomeMerchants()"
+              class="hover:bg-gray-50 border-gray-200 text-center border-b transition-colors">
               <td class="py-4 border border-gray-600 text-center font-medium text-gray-900">
                 {{ merchant.store_name }}
               </td>
@@ -98,7 +70,7 @@
                 {{ merchant.total_order }}
               </td>
               <td class="py-4 border border-gray-600 font-semibold text-gray-900">
-                {{ merchant.total_income }}
+                {{ merchant.total_income | currency}}
               </td>
               <!-- <td class="py-4 border border-gray-600">
                 <span
@@ -121,16 +93,11 @@
             </tr>
           </tbody>
         </table>
-        <div
-          class="img flex flex-col justify-center items-center"
-          *ngIf="highIncomeMerchants().length == 0"
-        >
+        <div class="img flex flex-col justify-center items-center" *ngIf="highIncomeMerchants().length == 0">
           <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
-          <img
-            class="w-50 h-50 object-contain"
+          <img class="w-50 h-50 object-contain"
             src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
-            alt=""
-          />
+            alt="" />
           <!-- </div> -->
           <h2 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h2>
         </div>
