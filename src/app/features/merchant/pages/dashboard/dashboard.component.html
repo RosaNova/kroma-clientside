@@ -1,73 +1,75 @@
 <div class="p-6 space-y-6">
-      <!-- Stats -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <app-stat-card
-          title="ប្រាក់ចំណូលសរុប"
-          value="$45,231"
-          change="12.5% ពីខែមុន"
-          changeType="positive"
-          [icon]="DollarSign"
-          variant="pink"
-        />
+  <!-- Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <app-stat-card
+      title="ប្រាក់ចំណូលសរុប"
+      [value]="overAllData().totalIncome"
+      change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="DollarSign"
+      variant="pink"
+    />
 
-        <app-stat-card
-          title="ការបញ្ជាទិញ"
-          value="1,234"
-          change="8.2% ពីខែមុន"
-          changeType="positive"
-          [icon]="ShoppingBag"
-          variant="yellow"
-        />
+    <app-stat-card
+      title="ការបញ្ជាទិញ"
+      [value]="overAllData().totalOrder"
+      change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="ShoppingBag"
+      variant="yellow"
+    />
 
-        <app-stat-card
-          title="អតិថិជនសរុប"
-          value="5,678"
-          change="3.1% ពីខែមុន"
-          changeType="positive"
-          [icon]="Users"
-          variant="green"
-        />
+    <!-- <app-stat-card
+      title="អតិថិជនសរុប"
+      value="5,678"
+      change="3.1% ពីខែមុន"
+      changeType="positive"
+      [icon]="Users"
+      variant="green"
+    /> -->
 
-        <app-stat-card
-          title="កំណើនការលក់"
-          value="23.5%"
-          change="2.4% ពីខែមុន"
-          changeType="negative"
-          [icon]="TrendingUp"
-          variant="blue"
-        />
+    <app-stat-card
+      title="កំណើនការលក់"
+      [value]="overAllData().averageProductsPerOrder.toFixed(2) + '%'"
+      change="ទិន្នន័យបច្ចុប្បន្ន"
+      [icon]="TrendingUp"
+      variant="blue"
+    />
+  </div>
+
+  <!-- Charts -->
+  <div class="grid grid-cols-1 text-black lg:grid-cols-1 gap-6">
+    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-gray-800">ចំនួនផលិតផលតាមប្រភេទផលិតផលនីមួយៗ</h2>
       </div>
+      <app-sale-chart [isMerchant]="true" />
+    </div>
+    <!-- <app-category-chart /> -->
+  </div>
 
-      <!-- Charts -->
-      <div class="grid grid-cols-1 text-black lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2">
-          <app-sale-chart></app-sale-chart>
-        </div>
-        <app-category-chart />
-      </div>
+  <!-- Products -->
+  <div class="text-black">
+    <div class="flex items-center text-black justify-between mb-4">
+      <h3 class="text-lg font-bold">ផលិតផលពេញនិយម</h3>
+      <button
+        type="button"
+        (click)="goToList()"
+        class="text-primary text-sm font-bold cursor-pointer hover:underline"
+      >
+        មើលទាំងអស់
+      </button>
+    </div>
 
-      <!-- Products -->
-      <div class="text-black">
-        <div class="flex items-center text-black justify-between mb-4">
-          <h3 class="text-lg font-bold">ផលិតផលពេញនិយម</h3>
-          <button class="text-primary text-sm font-bold cursor-pointer hover:underline">
-            មើលទាំងអស់
-          </button>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        
-          <kr-card
-        *ngFor="let product of products"
-        [image]="product.image"
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <kr-card
+        *ngFor="let product of products()"
+        [image]="product.image_url"
         [name]="product.name"
-        [category]="product.category"
-        [price]="product.price"
-        [stock]="product.stock"
+        [category]="product.category.name"
+        [price]="product.price.toString()"
       />
     </div>
-      </div>
+  </div>
 
-      <!-- Orders -->
-       <app-recent-order></app-recent-order>
-    </div>
+  <!-- Orders -->
+  <app-recent-order></app-recent-order>
+</div>

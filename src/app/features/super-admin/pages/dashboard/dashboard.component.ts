@@ -21,6 +21,7 @@ import { AsyncPipe } from '@angular/common';
 import { DashboardService } from './service/dashboard-service';
 import { Overall } from './models/overall';
 import { StoreCategoriesService } from '../store-category/service/store-categories-service';
+import { HighIncomeMerchant } from './models/high-income-merchant';
 
 @Component({
   selector: 'app-dashboard',
@@ -113,10 +114,10 @@ export class Dashboard {
     },
   ];
   overallStats = signal<Overall>({} as any);
-  constructor(
-    private dashboardService: DashboardService,
-  ) {
+  highIncomeMerchants = signal<HighIncomeMerchant[]>([]);
+  constructor(private dashboardService: DashboardService) {
     this.getOverallStats();
+    this.getHighIncomeMerchants();
   }
   async getOverallStats() {
     try {
@@ -128,5 +129,27 @@ export class Dashboard {
       console.log(e);
     }
   }
-
+  async getHighIncomeMerchants() {
+    try {
+      const res = await this.dashboardService.getHighIncomeMerchant();
+      if (res) {
+        this.highIncomeMerchants.set(res.list);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async onShowAllData() {
+    try {
+      const res = await this.dashboardService.getHighIncomeMerchant(true);
+      if (res) {
+        this.highIncomeMerchants.set(res.list);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  onRefresh() {
+    this.getHighIncomeMerchants();
+  }
 }

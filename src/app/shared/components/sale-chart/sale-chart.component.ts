@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { CommonModule } from '@angular/common';
 
@@ -26,7 +26,8 @@ export type ChartOptions = {
   templateUrl: './sale-chart.component.html',
   styleUrl: './sale-chart.component.css',
 })
-export class SaleChart {
+export class SaleChart implements OnInit {
+  @Input() isMerchant?: boolean;
   public chartOptions: ChartOptions = {
     series: [
       {
@@ -75,8 +76,14 @@ export class SaleChart {
 
     colors: ['var(--primary)'],
   };
-  constructor(private dashboardService: DashboardService) {
-    this.getOverallData();
+  constructor(private dashboardService: DashboardService) {}
+
+  ngOnInit(): void {
+    if (!this.isMerchant) {
+      this.getOverallData();
+    } else {
+      this.getOverallForMerchant();
+    }
   }
   async getOverallData() {
     try {
@@ -100,10 +107,38 @@ export class SaleChart {
               formatter: (val: number) => val.toString(),
             },
           },
-        }
+        };
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
+    }
+  }
+  async getOverallForMerchant() {
+    try {
+      const res = await this.dashboardService.getEachCategoryProducts();
+      const list = res.list;
+      if (list) {
+        const productCount = list.map((item: any) => item.productCount);
+        this.chartOptions = {
+          ...this.chartOptions,
+          series: [
+            {
+              name: 'Product Count',
+              data: productCount,
+            },
+          ],
+          xaxis: {
+            categories: list.map((item: any) => item.name),
+          },
+          yaxis: {
+            labels: {
+              formatter: (val: number) => val.toString(),
+            },
+          },
+        };
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 }

@@ -4,13 +4,19 @@
       ទិដ្ឋភាពទូទៅនៃការលក់
     </h3> -->
 
-    <select class="bg-secondary text-secondary-foreground px-3 py-1.5 rounded-lg text-sm">
+    <!-- <select class="bg-secondary text-secondary-foreground px-3 py-1.5 rounded-lg text-sm">
       <option>ឆ្នាំនេះ</option>
       <option>ឆ្នាំមុន</option>
-    </select>
+    </select> -->
   </div>
 
-  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-    [yaxis]="chartOptions.yaxis" [plotOptions]="chartOptions.plotOptions" [colors]="chartOptions.colors">
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [yaxis]="chartOptions.yaxis"
+    [plotOptions]="chartOptions.plotOptions"
+    [colors]="chartOptions.colors"
+  >
   </apx-chart>
 </div>

@@ -8,13 +8,35 @@
   <!-- Stats -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
     <app-stat-card
-      *ngFor="let item of feedbackStats"
-      [title]="item.title"
-      [value]="item.value"
-      [icon]="item.icon"
-      [variant]="item.variant"
-      [changeType]="item.changeType"
-      [change]="item.change"
+      [icon]="MessageSquare"
+      [variant]="'blue'"
+      [value]="overAllData().total_feedback"
+      [title]="'មតិយោបល់សរុប'"
+      [change]="'ទិន្នន័យបច្ចុប្បន្ន'"
+    >
+    </app-stat-card>
+    <app-stat-card
+      [icon]="Star"
+      [variant]="'yellow'"
+      [value]="average_star()"
+      [title]="'ចំនួនផ្កាយជាមធ្យម'"
+      [change]="'ទិន្នន័យបច្ចុប្បន្ន'"
+    >
+    </app-stat-card>
+    <app-stat-card
+      [icon]="ThumbsUp"
+      [variant]="'green'"
+      [value]="positive_proportion() + '%'"
+      [title]="'មតិយោបល់វិជ្ជមាន'"
+      [change]="'ទិន្នន័យបច្ចុប្បន្ន'"
+    >
+    </app-stat-card>
+    <app-stat-card
+      [icon]="ThumbsDown"
+      [variant]="'red'"
+      [value]="negative_proportion() + '%'"
+      [title]="'មតិយោបល់អវិជ្ជមាន'"
+      [change]="'ទិន្នន័យបច្ចុប្បន្ន'"
     >
     </app-stat-card>
   </div>

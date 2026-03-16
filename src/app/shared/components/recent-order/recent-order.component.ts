@@ -1,5 +1,8 @@
+import { RecentOrders } from '@/app/features/merchant/pages/dashboard/models/recent-order';
+import { DashboardService } from '@/app/features/super-admin/pages/dashboard/service/dashboard-service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { Router } from '@angular/router';
 type OrderStatus = 'completed' | 'pending' | 'processing';
 interface Order {
   id: string;
@@ -16,6 +19,7 @@ interface Order {
   styleUrl: './recent-order.component.css',
 })
 export class RecentOrder {
+  recentOrders = signal<RecentOrders[]>([])
   orders: Order[] = [
     {
       id: '#KR001',
@@ -65,8 +69,23 @@ export class RecentOrder {
     pending: 'រង់ចាំ',
     processing: 'កំពុងដំណើរការ',
   };
-
+  constructor(private dashboardService: DashboardService, private router: Router) {
+    this.getRecentOrders()
+  }
   trackById(_: number, order: Order): string {
     return order.id;
+  }
+  async getRecentOrders() {
+    try {
+      const res = await this.dashboardService.getRecentOrders();
+      if (res) {
+        this.recentOrders.set(res.list)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  goToList() {
+    this.router.navigate(['merchant/order'])
   }
 }

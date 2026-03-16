@@ -13,6 +13,8 @@ import {
   LucideAngularModule,
   Trash2,
   User,
+  ThumbsDown,
+  ThumbsUp,
 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
 import { FeedbackService } from './service/feedback-service';
@@ -20,6 +22,7 @@ import { FeedBack } from './model/feedback';
 import { BoxDialogComponent } from '@/app/shared/components/ui/box-dialog/box-dialog.component';
 import { DeleteDialog } from '@/app/shared/components/ui/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Overall } from '@/app/features/super-admin/pages/feedback/model/overall';
 export interface FeedbackType {
   id: string;
   customer: string;
@@ -54,6 +57,10 @@ export interface StatCardItem {
   styleUrl: './feedback.component.css',
 })
 export class Feedback {
+  MessageSquare = MessageSquare;
+  ThumbsDown = ThumbsDown;
+  ThumbsUp = ThumbsUp;
+  Star = Star;
   showViewDialog: boolean = false;
   showDeleteDialog: boolean = false;
   selectedName: string = '';
@@ -232,11 +239,16 @@ export class Feedback {
       date: '២០២៥-០១-១៩',
     },
   ];
+  overAllData = signal<Overall>({} as any);
+  average_star = signal<number>(0);
+  positive_proportion = signal<number>(0);
+  negative_proportion = signal<number>(0);
   constructor(
     private feedbackService: FeedbackService,
     private snackbar: MatSnackBar,
   ) {
     this.getFeedbacks();
+    this.getOverall();
   }
   async getFeedbacks() {
     try {
@@ -245,6 +257,28 @@ export class Feedback {
         this.allFeedBacks.set(res.list);
         this.totalFeedbacks.set(res.list.length!);
         this.updateDisplayedFeedbacks();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async getOverall() {
+    try {
+      const res = await this.feedbackService.getOverall();
+      if (res) {
+        this.overAllData.set(res);
+        const convert_negative_proportion = Number(
+          this.overAllData().calculate_average.negative_proportion.toFixed(2),
+        );
+        const convert_positive_proportion = Number(
+          this.overAllData().calculate_average.positive_proportion.toFixed(2),
+        );
+        const convert_average_star = Number(
+          this.overAllData().calculate_average.average_star.toFixed(2),
+        );
+        this.negative_proportion.set(convert_negative_proportion);
+        this.average_star.set(convert_average_star);
+        this.positive_proportion.set(convert_positive_proportion);
       }
     } catch (e) {
       console.log(e);

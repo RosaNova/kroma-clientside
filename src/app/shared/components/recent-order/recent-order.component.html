@@ -4,10 +4,7 @@
       ការបញ្ជាទិញថ្មីៗ
     </h3>
 
-    <button
-      class="text-primary cursor-pointer text-sm font-bold hover:underline"
-      type="button"
-    >
+    <button class="text-primary cursor-pointer text-sm font-bold hover:underline" type="button" (click)="goToList()">
       មើលទាំងអស់
     </button>
   </div>
@@ -15,7 +12,7 @@
     <table class="w-full">
       <thead>
         <tr class="border-b border-black">
-          <th class="text-left py-3 text-muted-foreground font-medium text-sm">លេខកូដ</th>
+          <th class="text-left py-3 text-muted-foreground font-medium text-sm">ល.រ</th>
           <th class="text-left py-3 text-muted-foreground font-medium text-sm">អតិថិជន</th>
           <th class="text-left py-3 text-muted-foreground font-medium text-sm">កាលបរិច្ឆេទ</th>
           <th class="text-left py-3 text-muted-foreground font-medium text-sm">ចំនួនទឹកប្រាក់</th>
@@ -23,36 +20,42 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let order of orders; trackBy: trackById"
-          class="border-b border-border last:border-0"
-        >
+        <tr *ngFor="let order of recentOrders(); let i = index;" class="border-b border-border last:border-0">
           <td class="py-3 text-card-foreground font-medium">
-            {{ order.id }}
+            {{ i+1 }}
           </td>
 
           <td class="py-3 text-card-foreground">
-            {{ order.customer }}
+            {{ order.userData.name }}
           </td>
 
           <td class="py-3 text-muted-foreground">
-            {{ order.date }}
+            {{ order.createdAt | date : 'dd/MM/yyyy' }}
           </td>
 
           <td class="py-3 text-card-foreground font-semibold">
-            {{ order.amount }}
+            {{ order.total | currency}}
           </td>
 
           <td class="py-3">
-            <span
-              class="px-3 py-1 rounded-full text-xs font-medium"
-              [ngClass]="statusStyles[order.status]"
-            >
-              {{ statusLabels[order.status] }}
+            <span class="px-3 py-1 rounded-full text-xs font-medium" [ngClass]="{
+                'bg-stat-green-light text-stat-green': order.status === 'completed',
+                'bg-stat-yellow-light text-stat-yellow': order.status === 'pending',
+                'bg-red-100 text-red-600': order.status === 'cancel'
+              }">
+              {{ order.status }}
             </span>
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="img flex flex-col justify-center items-center" *ngIf="recentOrders().length == 0">
+      <!-- <div class="bg-gray-200 rounded-xl p-2"> -->
+      <img class="w-50 h-50 object-contain"
+        src="https://res.cloudinary.com/dyfmydbyb/image/upload/v1771937450/87cb2e19-c243-45d1-8c8a-dcb697aacd16-removebg-preview_lwiyxs.png"
+        alt="" />
+      <!-- </div> -->
+      <h2 class="no-data text-center text-gray-500">មិនមានទិន្នន័យ</h2>
+    </div>
   </div>
 </div>

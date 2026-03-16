@@ -42,11 +42,10 @@ export class Product {
   ) {
     this.getProducts();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   async getProducts() {
     try {
       const res = await this.productService.getGroupedProduct();
-      console.log(res);
 
       if (res && res.list) {
         this.products = res.list;

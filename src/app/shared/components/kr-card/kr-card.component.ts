@@ -12,7 +12,7 @@ export class KrCard {
   @Input({ required: true }) name!: string;
   @Input({ required: true }) category!: string;
   @Input({ required: true }) price!: string;
-  @Input({ required: true }) stock!: number;
+  @Input({ required: false }) stock!: number;
 
   get stockClass(): string {
     if (this.stock > 10) {
