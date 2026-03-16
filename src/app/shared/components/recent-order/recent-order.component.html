@@ -41,7 +41,7 @@
             <span class="px-3 py-1 rounded-full text-xs font-medium" [ngClass]="{
                 'bg-stat-green-light text-stat-green': order.status === 'completed',
                 'bg-stat-yellow-light text-stat-yellow': order.status === 'pending',
-                'bg-red-100 text-red-600': order.status === 'cancel'
+                'bg-red-100 text-red-600': order.status === 'canceled'
               }">
               {{ order.status }}
             </span>
