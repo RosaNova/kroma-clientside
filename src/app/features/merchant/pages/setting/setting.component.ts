@@ -1,4 +1,4 @@
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild, OnInit, inject, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -26,14 +26,16 @@ import {
 import { MerchantService } from '../../service/merchant-service';
 import { SettingInfo } from './models/setting';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ThemeService } from '@/app/core/services/theme.service';
 @Component({
   selector: 'app-setting',
-  imports: [CommonModule, FormsModule, LucideAngularModule, ReactiveFormsModule, DatePipe],
+  imports: [CommonModule, FormsModule, LucideAngularModule, ReactiveFormsModule],
   providers: [DatePipe],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.css',
 })
-export class Setting {
+export class Setting implements OnInit, OnDestroy {
+  public themeService = inject(ThemeService);
   @ViewChild('fileInput')
   fileInput!: ElementRef;
   Camera = Camera;
@@ -75,7 +77,7 @@ export class Setting {
 
   preferences = {
     language: 'km',
-    theme: 'dark',
+    theme: 'light',
     emailNotifications: true,
     pushNotifications: true,
     orderUpdates: true,
@@ -107,6 +109,21 @@ export class Setting {
   ) {
     this.getInformation();
   }
+
+  ngOnInit() {
+    this.preferences.theme = this.themeService.theme();
+    this.applyTheme(this.preferences.theme as 'light' | 'dark');
+  }
+
+  ngOnDestroy() {
+  }
+
+  applyTheme(theme: 'light' | 'dark') {
+    // Logic removed - we only style internally now
+  }
+
+
+
   async getInformation() {
     try {
       const res = await this.merchantService.getUserDetail();
@@ -191,5 +208,6 @@ export class Setting {
 
   setTheme(theme: 'light' | 'dark') {
     this.preferences.theme = theme;
+    this.themeService.setTheme(theme);
   }
 }

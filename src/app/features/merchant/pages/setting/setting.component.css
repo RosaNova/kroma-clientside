@@ -140,3 +140,55 @@
   -webkit-box-shadow: var(--circle-checked-shadow);
   box-shadow: var(--circle-checked-shadow);
 }
+
+/* Localized Dark Mode Overrides for internal elements */
+.dark-theme {
+  --dk-card: #1c1c1f;
+  --dk-border: #2d2d30;
+  --dk-input: #242427;
+  --dk-text: #ececed;
+  --dk-muted: #a1a1aa;
+}
+
+/* We ONLY target the cards and their contents */
+.dark-theme .bg-card {
+  background-color: var(--dk-card) !important;
+  color: var(--dk-text) !important;
+  border-color: var(--dk-border) !important;
+}
+
+.dark-theme .bg-card .bg-gray-100,
+.dark-theme .bg-card .bg-gray-200 {
+  background-color: var(--dk-input) !important;
+  color: var(--dk-text) !important;
+}
+
+.dark-theme .bg-card .border-gray-300,
+.dark-theme .bg-card .border-b {
+  border-color: var(--dk-border) !important;
+}
+
+.dark-theme .bg-card .text-black {
+  color: var(--dk-text) !important;
+}
+
+.dark-theme .bg-card .text-gray-500 {
+  color: var(--dk-muted) !important;
+}
+
+.dark-theme .bg-card input.input {
+  background-color: var(--dk-input) !important;
+  color: #ffffff !important;
+  border-color: var(--dk-border) !important;
+}
+
+.dark-theme input::placeholder {
+  color: #52525b !important;
+}
+
+/* Active Button States in Dark Mode */
+.dark-theme .bg-black\/80 {
+  background-color: #000000 !important;
+  border-color: #444444 !important;
+  color: #ffffff !important;
+}
