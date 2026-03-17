@@ -9,6 +9,8 @@ import { Component, Input, ViewChild, ElementRef, Output, EventEmitter, OnChange
 })
 export class BoxDialogComponent implements OnChanges {
     @Input() title: string = 'Add';
+    /** Modal size: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl (Tailwind max-w-*). Default: xl */
+    @Input() size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' = 'xl';
     @Input() open: boolean = false;
     @ViewChild('dialog') dialog!: ElementRef<HTMLDialogElement>;
     @Output() close = new EventEmitter<void>();

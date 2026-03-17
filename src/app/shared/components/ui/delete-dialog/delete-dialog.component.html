@@ -1,7 +1,7 @@
 <!-- Overlay -->
-<div *ngIf="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+<div *ngIf="open" @overlayAnim class="fixed inset-0 z-50 flex items-start justify-center bg-black/80 pt-10 sm:pt-14">
   <!-- Dialog -->
-  <div class="bg-background duration-300 rounded-xl shadow-lg max-w-sm w-full">
+  <div @dialogAnim class="bg-background rounded-xl shadow-lg max-w-sm w-full">
     <div class="border-b pt-3 flex-col pb-3 items-center justify-center gap-3 flex border-gray-300">
       <div class="bg-red-100 rounded-[15px] p-2 border border-red-200">
         <lucide-angular class="text-red-500 w-7 h-7" [img]="Trash2"></lucide-angular>
